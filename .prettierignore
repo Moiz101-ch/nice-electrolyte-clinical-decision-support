@@ -1,0 +1,8 @@
+.next/
+.venv/
+coverage/
+node_modules/
+playwright-report/
+test-results/
+project-input/
+package-lock.json
