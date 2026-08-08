@@ -8,14 +8,27 @@
     "dev": "cross-env NEXT_TELEMETRY_DISABLED=1 next dev",
     "build": "cross-env NEXT_TELEMETRY_DISABLED=1 next build",
     "start": "cross-env NEXT_TELEMETRY_DISABLED=1 next start",
+    "cf:build": "cross-env NEXT_TELEMETRY_DISABLED=1 opennextjs-cloudflare build",
+    "cf:typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
+    "preview": "npm run cf:build && opennextjs-cloudflare preview",
+    "deploy": "npm run cf:build && opennextjs-cloudflare deploy",
+    "upload": "npm run cf:build && opennextjs-cloudflare upload",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
+    "data:build": "node --experimental-strip-types scripts/build-runtime-data.ts",
+    "data:check": "node --experimental-strip-types scripts/build-runtime-data.ts --check && node --experimental-strip-types scripts/sync-synthetic-case-expectations.ts --check",
+    "data:sync-cases": "node --experimental-strip-types scripts/sync-synthetic-case-expectations.ts",
+    "extraction:demo": "node --experimental-strip-types scripts/show-extraction-examples.ts",
+    "hyperkalaemia:demo": "node --experimental-strip-types scripts/show-hyperkalaemia-results.ts",
+    "remaining-rules:demo": "node --experimental-strip-types scripts/show-remaining-rule-results.ts",
+    "rule-engine:demo": "node --experimental-strip-types scripts/show-rule-engine-example.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "test:e2e": "playwright test"
+    "pretest:e2e": "npm run build",
+    "test:e2e": "node scripts/run-e2e.mjs"
   },
   "repository": {
     "type": "git",
@@ -35,6 +48,8 @@
   },
   "homepage": "https://github.com/Moiz101-ch/nice-electrolyte-clinical-decision-support#readme",
   "dependencies": {
+    "@fontsource-variable/inter": "^5.3.0",
+    "@radix-ui/react-dialog": "^1.1.23",
     "@radix-ui/react-slot": "^1.3.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -47,6 +62,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.12.1",
+    "@opennextjs/cloudflare": "^1.20.2",
     "@playwright/test": "^1.62.1",
     "@tailwindcss/postcss": "^4.3.3",
     "@testing-library/jest-dom": "^7.0.0",
@@ -68,6 +84,7 @@
     "prettier-plugin-tailwindcss": "^0.8.1",
     "tailwindcss": "^4.3.3",
     "typescript": "~6.0.3",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.10",
+    "wrangler": "^4.120.0"
   }
 }

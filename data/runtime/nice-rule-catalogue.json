@@ -1,0 +1,602 @@
+{
+  "catalogueVersion": "1.1.0",
+  "checkedOn": "2026-08-09",
+  "managementSourcePolicy": "NICE-only",
+  "rules": [
+    {
+      "ruleId": "NICE-GLOBAL-ASSESS-001",
+      "electrolyte": "All",
+      "condition": "All abnormalities",
+      "context": "Adults receiving IV fluid therapy in hospital",
+      "triggerSummary": "An adult receiving IV fluids in hospital requires fluid and electrolyte assessment or review.",
+      "requiredInputs": [
+        "History",
+        "current medicines",
+        "fluid status",
+        "NEWS/vital signs",
+        "fluid balance",
+        "weight",
+        "urea, creatinine and electrolytes."
+      ],
+      "outputPriority": "Clinical review",
+      "outputStatus": "Specific NICE assessment guidance",
+      "managementOutput": "Assess and manage fluid and electrolyte needs at every ward review. Keep a 24-hour fluid and electrolyte prescription and monitoring plan, reviewed daily by an expert initially.",
+      "limitations": "Applies only within the adult hospital IV-fluid scope of CG174 and does not provide a condition-specific treatment pathway.",
+      "niceSourceIds": [
+        "NICE-CG174"
+      ],
+      "niceSections": [
+        "1.1.1",
+        "1.1.6"
+      ],
+      "activeForAutomation": true,
+      "clinicianReviewStatus": "Pending"
+    },
+    {
+      "ruleId": "NICE-NA-HYPO-IV-001",
+      "electrolyte": "Sodium",
+      "condition": "Hyponatraemia",
+      "context": "During or within 24 hours of IV-fluid therapy",
+      "triggerSummary": "Sodium <130 mmol/L, no other likely cause, and temporally related to IV-fluid therapy.",
+      "requiredInputs": [
+        "Sodium",
+        "baseline sodium",
+        "IV-fluid type/volume",
+        "timing",
+        "fluid status",
+        "renal function",
+        "alternative causes."
+      ],
+      "outputPriority": "Urgent review",
+      "outputStatus": "NICE detection, reassessment and escalation",
+      "managementOutput": "Reassess the IV-fluid management plan and adjust the prescription for the sodium deficit or excess. Seek expert help for a complex imbalance and report a clear IV-fluid mismanagement incident through the standard critical-incident process.",
+      "limitations": "No definitive sodium-correction regimen is provided by CG174.",
+      "niceSourceIds": [
+        "NICE-CG174"
+      ],
+      "niceSections": [
+        "1.2.4",
+        "1.2.6",
+        "1.5.1",
+        "1.5.2",
+        "Table 1"
+      ],
+      "activeForAutomation": true,
+      "clinicianReviewStatus": "Pending"
+    },
+    {
+      "ruleId": "NICE-NA-HYPER-IV-001",
+      "electrolyte": "Sodium",
+      "condition": "Hypernatraemia",
+      "context": "During or within 24 hours of IV-fluid therapy",
+      "triggerSummary": "Sodium >=155 mmol/L, baseline normal/low, IV regimen included 0.9% sodium chloride, and no other likely cause.",
+      "requiredInputs": [
+        "Sodium",
+        "baseline sodium",
+        "IV-fluid composition",
+        "timing",
+        "fluid status",
+        "renal function",
+        "alternative causes."
+      ],
+      "outputPriority": "Urgent review",
+      "outputStatus": "NICE detection, reassessment and escalation",
+      "managementOutput": "Reassess the IV-fluid management plan and adjust the prescription for the sodium deficit or excess. Seek expert help for the imbalance and report a clear IV-fluid mismanagement incident through the standard critical-incident process.",
+      "limitations": "No definitive sodium-correction regimen is provided by CG174.",
+      "niceSourceIds": [
+        "NICE-CG174"
+      ],
+      "niceSections": [
+        "1.2.4",
+        "1.2.6",
+        "1.5.1",
+        "1.5.2",
+        "Table 1"
+      ],
+      "activeForAutomation": true,
+      "clinicianReviewStatus": "Pending"
+    },
+    {
+      "ruleId": "NICE-K-HYPO-IV-001",
+      "electrolyte": "Potassium",
+      "condition": "Hypokalaemia",
+      "context": "During or within 24 hours of IV-fluid therapy",
+      "triggerSummary": "Potassium <3.0 mmol/L, likely related to IV fluids without adequate potassium provision, and no other obvious cause.",
+      "requiredInputs": [
+        "Potassium",
+        "baseline potassium",
+        "IV-fluid prescription",
+        "timing",
+        "renal function",
+        "medicines",
+        "other potassium losses."
+      ],
+      "outputPriority": "Urgent review",
+      "outputStatus": "NICE detection and IV-plan reassessment",
+      "managementOutput": "Reassess and adjust the IV-fluid and electrolyte prescription, then continue monitoring. Do not add potassium to IV-fluid bags. Report a clear IV-fluid mismanagement incident through the standard critical-incident process.",
+      "limitations": "No replacement dose is generated.",
+      "niceSourceIds": [
+        "NICE-CG174"
+      ],
+      "niceSections": [
+        "1.2.4",
+        "1.2.6",
+        "1.4.1",
+        "1.4.4",
+        "1.5.1",
+        "Table 1"
+      ],
+      "activeForAutomation": true,
+      "clinicianReviewStatus": "Pending"
+    },
+    {
+      "ruleId": "NICE-K-HYPER-IV-001",
+      "electrolyte": "Potassium",
+      "condition": "Hyperkalaemia",
+      "context": "During or within 24 hours of IV-fluid therapy",
+      "triggerSummary": "Potassium >5.5 mmol/L with no other obvious cause and temporal relation to IV-fluid therapy.",
+      "requiredInputs": [
+        "Potassium",
+        "baseline potassium",
+        "IV-fluid prescription",
+        "timing",
+        "renal function",
+        "medicines",
+        "alternative causes."
+      ],
+      "outputPriority": "Urgent review",
+      "outputStatus": "NICE detection and IV-plan reassessment",
+      "managementOutput": "Reassess the IV-fluid management plan and adjust the prescription for the electrolyte excess. Review contributing factors, continue monitoring, and report a clear IV-fluid mismanagement incident through the standard critical-incident process.",
+      "limitations": "Not a complete acute hyperkalaemia treatment pathway.",
+      "niceSourceIds": [
+        "NICE-CG174"
+      ],
+      "niceSections": [
+        "1.2.4",
+        "1.2.6",
+        "1.5.1",
+        "1.5.2",
+        "Table 1"
+      ],
+      "activeForAutomation": true,
+      "clinicianReviewStatus": "Pending"
+    },
+    {
+      "ruleId": "NICE-K-CKD-MONITOR-001",
+      "electrolyte": "Potassium",
+      "condition": "Hyperkalaemia risk",
+      "context": "Adult with CKD starting or increasing a renin-angiotensin system antagonist",
+      "triggerSummary": "An adult with CKD is starting a renin-angiotensin system antagonist or has a dose increase.",
+      "requiredInputs": [
+        "CKD status",
+        "eGFR",
+        "serum potassium",
+        "medicine and dose-change date."
+      ],
+      "outputPriority": "Scheduled monitoring",
+      "outputStatus": "Specific NICE monitoring guidance",
+      "managementOutput": "Measure serum potassium and eGFR before treatment and repeat both between 1 and 2 weeks after starting treatment and after every dose increase. More frequent potassium monitoring may be needed with other medicines that promote hyperkalaemia.",
+      "limitations": "This schedule applies to adults with CKD using a renin-angiotensin system antagonist; additional monitoring remains a clinical decision.",
+      "niceSourceIds": [
+        "NICE-NG203"
+      ],
+      "niceSections": [
+        "1.6.15",
+        "1.6.18"
+      ],
+      "activeForAutomation": true,
+      "clinicianReviewStatus": "Pending"
+    },
+    {
+      "ruleId": "NICE-K-CKD-PRETREAT-001",
+      "electrolyte": "Potassium",
+      "condition": "Hyperkalaemia risk",
+      "context": "Adult with CKD before a renin-angiotensin system antagonist",
+      "triggerSummary": "Pretreatment serum potassium >5.0 mmol/L.",
+      "requiredInputs": [
+        "CKD status",
+        "pretreatment potassium",
+        "planned medicine."
+      ],
+      "outputPriority": "Medication review",
+      "outputStatus": "Specific NICE medication guidance",
+      "managementOutput": "Do not routinely offer the renin-angiotensin system antagonist. If hyperkalaemia prevents its use, assess and treat other factors that promote hyperkalaemia and recheck serum potassium.",
+      "limitations": "Final prescribing decision remains with the responsible clinician.",
+      "niceSourceIds": [
+        "NICE-NG203"
+      ],
+      "niceSections": [
+        "1.6.16",
+        "1.6.17"
+      ],
+      "activeForAutomation": true,
+      "clinicianReviewStatus": "Pending"
+    },
+    {
+      "ruleId": "NICE-K-CKD-STOP-001",
+      "electrolyte": "Potassium",
+      "condition": "Hyperkalaemia",
+      "context": "Adult with CKD taking a renin-angiotensin system antagonist",
+      "triggerSummary": "Potassium >=6.0 mmol/L after other medicines known to promote hyperkalaemia have been discontinued.",
+      "requiredInputs": [
+        "CKD status",
+        "potassium",
+        "current RAAS antagonist",
+        "other hyperkalaemia-promoting medicines and their status."
+      ],
+      "outputPriority": "Urgent medication review",
+      "outputStatus": "Specific NICE medication guidance",
+      "managementOutput": "Stop the renin-angiotensin system antagonist when serum potassium is 6.0 mmol/L or above after other medicines known to promote hyperkalaemia have been discontinued.",
+      "limitations": "Must verify contributing medicines and the complete clinical context.",
+      "niceSourceIds": [
+        "NICE-NG203"
+      ],
+      "niceSections": [
+        "1.6.17",
+        "1.6.19"
+      ],
+      "activeForAutomation": true,
+      "clinicianReviewStatus": "Pending"
+    },
+    {
+      "ruleId": "NICE-K-SZC-ELIG-001",
+      "electrolyte": "Potassium",
+      "condition": "Persistent hyperkalaemia",
+      "context": "Adult with CKD stage 3b-5 or heart failure, not on dialysis",
+      "triggerSummary": "Confirmed potassium >=5.5 mmol/L; an optimised RAAS-inhibitor dosage is not being taken because of hyperkalaemia; patient is not on dialysis.",
+      "requiredInputs": [
+        "Confirmed potassium",
+        "CKD stage or heart failure",
+        "RAAS-inhibitor optimisation status",
+        "dialysis status."
+      ],
+      "outputPriority": "Specialist treatment consideration",
+      "outputStatus": "NICE medicine eligibility flag",
+      "managementOutput": "Sodium zirconium cyclosilicate is a NICE option when all stated eligibility conditions are confirmed.",
+      "limitations": "Does not select a dose or replace standard emergency care.",
+      "niceSourceIds": [
+        "NICE-TA1148"
+      ],
+      "niceSections": [
+        "1.1"
+      ],
+      "activeForAutomation": true,
+      "clinicianReviewStatus": "Pending"
+    },
+    {
+      "ruleId": "NICE-K-BINDER-OPTIONS-001",
+      "electrolyte": "Potassium",
+      "condition": "Persistent hyperkalaemia",
+      "context": "Adult with CKD stage 3b-5 or heart failure, not on dialysis",
+      "triggerSummary": "Confirmed potassium >=6.0 mmol/L; RAAS inhibitor is absent or reduced because of hyperkalaemia; patient is not on dialysis.",
+      "requiredInputs": [
+        "Confirmed potassium",
+        "CKD stage or heart failure",
+        "RAAS-inhibitor status",
+        "dialysis status."
+      ],
+      "outputPriority": "Specialist treatment consideration",
+      "outputStatus": "NICE medicine eligibility flag",
+      "managementOutput": "Patiromer and sodium zirconium cyclosilicate are NICE options when all stated eligibility conditions are confirmed.",
+      "limitations": "This is an eligibility result, not a medicine selection or dosing instruction. It does not replace standard emergency care.",
+      "niceSourceIds": [
+        "NICE-TA623",
+        "NICE-TA1148"
+      ],
+      "niceSections": [
+        "1.1"
+      ],
+      "activeForAutomation": true,
+      "clinicianReviewStatus": "Pending"
+    },
+    {
+      "ruleId": "NICE-K-ACUTE-BINDER-OPTIONS-001",
+      "electrolyte": "Potassium",
+      "condition": "Acute life-threatening hyperkalaemia",
+      "context": "Adult in emergency care receiving standard emergency care",
+      "triggerSummary": "Acute life-threatening hyperkalaemia and emergency-care setting are clinically confirmed, with standard care underway.",
+      "requiredInputs": [
+        "Acute life-threatening classification",
+        "emergency-care setting",
+        "confirmation that standard emergency care is underway."
+      ],
+      "outputPriority": "Emergency treatment",
+      "outputStatus": "NICE emergency-care medicine options",
+      "managementOutput": "Sodium zirconium cyclosilicate or patiromer may be used as a NICE option for acute life-threatening hyperkalaemia only alongside standard care in emergency care.",
+      "limitations": "This eligibility result does not define or replace standard emergency care, select a medicine, or provide a dose.",
+      "niceSourceIds": [
+        "NICE-TA1148",
+        "NICE-TA623"
+      ],
+      "niceSections": [
+        "1.1"
+      ],
+      "activeForAutomation": true,
+      "clinicianReviewStatus": "Pending"
+    },
+    {
+      "ruleId": "NICE-K-AKI-RRT-001",
+      "electrolyte": "Potassium",
+      "condition": "Hyperkalaemia",
+      "context": "Acute kidney injury with hyperkalaemia not responding to medical management",
+      "triggerSummary": "AKI, hyperkalaemia and failure to respond to medical management.",
+      "requiredInputs": [
+        "AKI status",
+        "potassium trend",
+        "treatments already given",
+        "clinical condition",
+        "ECG/complications",
+        "fluid status."
+      ],
+      "outputPriority": "Emergency specialist referral",
+      "outputStatus": "Specific NICE escalation guidance",
+      "managementOutput": "Refer immediately for renal replacement therapy and involve nephrology and/or critical care. Base the decision to start therapy on the whole clinical condition, not an isolated potassium value.",
+      "limitations": "The decision must be based on the whole clinical condition, not an isolated potassium value.",
+      "niceSourceIds": [
+        "NICE-NG148"
+      ],
+      "niceSections": [
+        "1.5.8 to 1.5.11"
+      ],
+      "activeForAutomation": true,
+      "clinicianReviewStatus": "Pending"
+    },
+    {
+      "ruleId": "NICE-CA-PHPT-SCREEN-001",
+      "electrolyte": "Adjusted calcium",
+      "condition": "Hypercalcaemia",
+      "context": "Possible primary hyperparathyroidism",
+      "triggerSummary": "Possible primary hyperparathyroidism with albumin-adjusted serum calcium >=2.60 mmol/L.",
+      "requiredInputs": [
+        "Albumin-adjusted calcium",
+        "symptoms",
+        "fracture/osteoporosis history",
+        "renal stones",
+        "suspected PHPT."
+      ],
+      "outputPriority": "Diagnostic assessment",
+      "outputStatus": "Specific NICE diagnostic guidance",
+      "managementOutput": "Repeat albumin-adjusted serum calcium at least once. If it is 2.60 mmol/L or above on at least 2 occasions, measure PTH using a random sample with a concurrent albumin-adjusted calcium measurement. Do not use ionised calcium for this diagnostic pathway.",
+      "limitations": "This is a diagnostic PHPT pathway, not acute general hypercalcaemia management. The engine does not infer a second calcium result or PTH result.",
+      "niceSourceIds": [
+        "NICE-NG132"
+      ],
+      "niceSections": [
+        "1.1.1",
+        "1.1.3 to 1.1.6",
+        "Terms used"
+      ],
+      "activeForAutomation": true,
+      "clinicianReviewStatus": "Pending"
+    },
+    {
+      "ruleId": "NICE-CA-PHPT-REFER-001",
+      "electrolyte": "Adjusted calcium",
+      "condition": "Hypercalcaemia",
+      "context": "Confirmed primary hyperparathyroidism",
+      "triggerSummary": "Symptoms of hypercalcaemia, end-organ disease, or adjusted calcium >=2.85 mmol/L.",
+      "requiredInputs": [
+        "Confirmed PHPT",
+        "adjusted calcium",
+        "symptoms",
+        "renal stones",
+        "fragility fracture or osteoporosis."
+      ],
+      "outputPriority": "Specialist surgical referral",
+      "outputStatus": "Specific NICE referral guidance",
+      "managementOutput": "Refer to a surgeon with expertise in parathyroid surgery when one or more stated NICE criteria are present.",
+      "limitations": "Applies only to confirmed primary hyperparathyroidism.",
+      "niceSourceIds": [
+        "NICE-NG132"
+      ],
+      "niceSections": [
+        "1.3.1"
+      ],
+      "activeForAutomation": true,
+      "clinicianReviewStatus": "Pending"
+    },
+    {
+      "ruleId": "NICE-CA-PHPT-CONSIDER-REFER-001",
+      "electrolyte": "Adjusted calcium",
+      "condition": "Hypercalcaemia",
+      "context": "Confirmed primary hyperparathyroidism without a mandatory referral criterion",
+      "triggerSummary": "Primary hyperparathyroidism is confirmed but no criterion in recommendation 1.3.1 is confirmed.",
+      "requiredInputs": [
+        "Confirmed PHPT",
+        "adjusted calcium",
+        "symptoms",
+        "renal stones",
+        "fragility fracture or osteoporosis",
+        "end-organ disease."
+      ],
+      "outputPriority": "Specialist referral consideration",
+      "outputStatus": "Specific NICE referral guidance",
+      "managementOutput": "Consider referral to a surgeon with expertise in parathyroid surgery even though none of the mandatory referral features in recommendation 1.3.1 is confirmed.",
+      "limitations": "Applies only to confirmed primary hyperparathyroidism and is a consider recommendation, not an automatic referral instruction.",
+      "niceSourceIds": [
+        "NICE-NG132"
+      ],
+      "niceSections": [
+        "1.3.2"
+      ],
+      "activeForAutomation": true,
+      "clinicianReviewStatus": "Pending"
+    },
+    {
+      "ruleId": "NICE-NA-ADRENAL-001",
+      "electrolyte": "Sodium",
+      "condition": "Hyponatraemia",
+      "context": "Primary adrenal insufficiency",
+      "triggerSummary": "Persistent hyponatraemia despite the maximum fludrocortisone dose.",
+      "requiredInputs": [
+        "Confirmed primary adrenal insufficiency",
+        "sodium trend",
+        "fludrocortisone dose/status",
+        "specialist involvement."
+      ],
+      "outputPriority": "Specialist endocrinology review",
+      "outputStatus": "Specific context-based NICE guidance",
+      "managementOutput": "Consider sodium chloride supplementation according to specialist endocrinology advice.",
+      "limitations": "Applies only to primary adrenal insufficiency.",
+      "niceSourceIds": [
+        "NICE-NG243"
+      ],
+      "niceSections": [
+        "1.3.5"
+      ],
+      "activeForAutomation": true,
+      "clinicianReviewStatus": "Pending"
+    },
+    {
+      "ruleId": "NICE-UNSUPPORTED-001",
+      "electrolyte": "Any",
+      "condition": "Unsupported NICE-only scenario",
+      "context": "No applicable NICE recommendation in the approved catalogue",
+      "triggerSummary": "The condition or clinical context does not match a NICE-supported rule.",
+      "requiredInputs": [
+        "Condition",
+        "context",
+        "existing local protocol",
+        "specialist availability."
+      ],
+      "outputPriority": "Clinical review required",
+      "outputStatus": "No definitive NICE-only management output",
+      "managementOutput": "Do not generate treatment instructions. Display that an approved local protocol or specialist review is required.",
+      "limitations": "This is a safety rule, not a treatment recommendation.",
+      "niceSourceIds": [],
+      "niceSections": [],
+      "activeForAutomation": true,
+      "clinicianReviewStatus": "Pending"
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "NICE-CG174",
+      "guidanceCode": "CG174",
+      "title": "Intravenous fluid therapy in adults in hospital",
+      "sourceType": "Clinical guideline",
+      "publishedDate": "2013-12-10",
+      "lastUpdated": "2017-05-05",
+      "scope": "Adults aged 16+ receiving IV fluid therapy in hospital; excludes several special populations.",
+      "relevantSections": [
+        "1.1.1",
+        "1.2.2",
+        "1.2.4",
+        "1.5.1",
+        "1.5.2 and Table 1"
+      ],
+      "url": "https://www.nice.org.uk/guidance/cg174/chapter/Recommendations",
+      "useInProject": "Assessment, monitoring, IV-fluid-related electrolyte incidents and expert escalation.",
+      "checkedOn": "2026-08-09"
+    },
+    {
+      "sourceId": "NICE-NG203",
+      "guidanceCode": "NG203",
+      "title": "Chronic kidney disease: assessment and management",
+      "sourceType": "NICE guideline",
+      "publishedDate": "2021-08-25",
+      "lastUpdated": "2021-11-24",
+      "scope": "CKD assessment and management, including potassium monitoring with renin-angiotensin system antagonists.",
+      "relevantSections": [
+        "1.6.15 to 1.6.20"
+      ],
+      "url": "https://www.nice.org.uk/guidance/ng203/chapter/Recommendations",
+      "useInProject": "Hyperkalaemia monitoring and RAAS-antagonist decisions in adults with CKD.",
+      "checkedOn": "2026-08-09"
+    },
+    {
+      "sourceId": "NICE-TA1148",
+      "guidanceCode": "TA1148",
+      "title": "Sodium zirconium cyclosilicate for treating hyperkalaemia",
+      "sourceType": "Technology appraisal",
+      "publishedDate": "2026-04-29",
+      "lastUpdated": "",
+      "scope": "Adults with acute life-threatening or persistent hyperkalaemia in specified CKD or heart-failure contexts.",
+      "relevantSections": [
+        "1.1 and 1.2"
+      ],
+      "url": "https://www.nice.org.uk/guidance/ta1148/chapter/1-Recommendations",
+      "useInProject": "Eligibility flag for sodium zirconium cyclosilicate; not a complete emergency pathway.",
+      "checkedOn": "2026-08-09"
+    },
+    {
+      "sourceId": "NICE-TA623",
+      "guidanceCode": "TA623",
+      "title": "Patiromer for treating hyperkalaemia",
+      "sourceType": "Technology appraisal",
+      "publishedDate": "2020-02-13",
+      "lastUpdated": "",
+      "scope": "Adults with acute life-threatening or persistent hyperkalaemia in specified CKD or heart-failure contexts.",
+      "relevantSections": [
+        "1.1 to 1.3"
+      ],
+      "url": "https://www.nice.org.uk/guidance/ta623/chapter/1-Recommendations",
+      "useInProject": "Eligibility flag for patiromer; not a complete emergency pathway.",
+      "checkedOn": "2026-08-09"
+    },
+    {
+      "sourceId": "NICE-NG148",
+      "guidanceCode": "NG148",
+      "title": "Acute kidney injury: prevention, detection and management",
+      "sourceType": "NICE guideline",
+      "publishedDate": "2019-12-18",
+      "lastUpdated": "2024-10-16",
+      "scope": "Children, young people and adults with or at risk of acute kidney injury.",
+      "relevantSections": [
+        "1.5.8 to 1.5.11"
+      ],
+      "url": "https://www.nice.org.uk/guidance/ng148/chapter/Recommendations",
+      "useInProject": "Specialist referral when hyperkalaemia is not responding to medical management; avoid decisions from an isolated value.",
+      "checkedOn": "2026-08-09"
+    },
+    {
+      "sourceId": "NICE-NG132",
+      "guidanceCode": "NG132",
+      "title": "Hyperparathyroidism (primary): diagnosis, assessment and initial management",
+      "sourceType": "NICE guideline",
+      "publishedDate": "2019-05-23",
+      "lastUpdated": "",
+      "scope": "Primary hyperparathyroidism, including hypercalcaemia assessment and referral.",
+      "relevantSections": [
+        "1.1.1",
+        "1.3.1",
+        "1.3.2 and Terms used"
+      ],
+      "url": "https://www.nice.org.uk/guidance/ng132/chapter/Recommendations",
+      "useInProject": "Hypercalcaemia in suspected or confirmed primary hyperparathyroidism.",
+      "checkedOn": "2026-08-09"
+    },
+    {
+      "sourceId": "NICE-NG243",
+      "guidanceCode": "NG243",
+      "title": "Adrenal insufficiency: identification and management",
+      "sourceType": "NICE guideline",
+      "publishedDate": "2024-08-28",
+      "lastUpdated": "",
+      "scope": "Primary, secondary and tertiary adrenal insufficiency.",
+      "relevantSections": [
+        "1.2.1",
+        "1.3.5",
+        "1.3.6 and 1.6.1"
+      ],
+      "url": "https://www.nice.org.uk/guidance/NG243/chapter/recommendations",
+      "useInProject": "Context-specific hyponatraemia management in primary adrenal insufficiency.",
+      "checkedOn": "2026-08-09"
+    },
+    {
+      "sourceId": "NICE-NG235",
+      "guidanceCode": "NG235",
+      "title": "Intrapartum care",
+      "sourceType": "NICE guideline",
+      "publishedDate": "2023-09-29",
+      "lastUpdated": "2026-06-09",
+      "scope": "Intrapartum care, including peripartum fluid balance and hyponatraemia.",
+      "relevantSections": [
+        "1.8.28 to 1.8.31"
+      ],
+      "url": "https://www.nice.org.uk/guidance/ng235/chapter/Recommendations",
+      "useInProject": "Pregnancy-specific hyponatraemia escalation; general adult MVP keeps pregnancy out of scope.",
+      "checkedOn": "2026-08-09"
+    }
+  ]
+}

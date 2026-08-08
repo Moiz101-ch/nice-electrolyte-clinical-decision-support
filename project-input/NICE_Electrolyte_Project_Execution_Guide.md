@@ -1,7 +1,7 @@
 # NICE-Only Electrolyte Decision-Support Project
 
-Version: 1.0  
-Evidence checked: 2026-08-07
+Version: 1.1
+Evidence checked: 2026-08-09
 
 ## 1. Project objective
 

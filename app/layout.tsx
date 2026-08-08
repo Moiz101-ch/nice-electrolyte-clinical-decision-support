@@ -1,15 +1,22 @@
 import type { Metadata, Viewport } from "next";
 
+import "@fontsource-variable/inter";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "NICE Electrolyte CDS",
+  title: {
+    default: "NICE Electrolyte CDS",
+    template: "%s | NICE Electrolyte CDS",
+  },
   description:
     "Educational clinical decision-support prototype for adult electrolyte abnormalities using deterministic NICE-based rules.",
+  other: {
+    "darkreader-lock": "true",
+  },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f7f9fc",
+  themeColor: "#f5f7fa",
 };
 
 export default function RootLayout({
@@ -18,8 +25,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body suppressHydrationWarning>{children}</body>
     </html>
   );
 }

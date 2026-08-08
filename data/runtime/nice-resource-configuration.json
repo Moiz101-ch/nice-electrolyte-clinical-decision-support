@@ -1,0 +1,210 @@
+[
+  {
+    "condition": "Hyponatraemia",
+    "primaryManagementSource": "NICE only",
+    "primarySourcePolicy": "Display the exact NICE guidance and recommendation section linked to the triggered rule.",
+    "secondarySources": [
+      "Europe PMC",
+      "PubMed"
+    ],
+    "secondarySourceLabel": "Additional evidence and learning resources",
+    "secondarySourceEffect": "Must not alter the NICE-derived management result.",
+    "preferredPublicationTypes": [
+      "Guideline",
+      "systematic review",
+      "meta-analysis",
+      "clinical review"
+    ],
+    "excludedPublicationTypes": [
+      "Case report",
+      "letter",
+      "editorial",
+      "comment"
+    ],
+    "defaultQuery": "Hyponatraemia adult guideline systematic review clinical review",
+    "resultLimit": 5,
+    "cacheDays": 7
+  },
+  {
+    "condition": "Hypernatraemia",
+    "primaryManagementSource": "NICE only",
+    "primarySourcePolicy": "Display the exact NICE guidance and recommendation section linked to the triggered rule.",
+    "secondarySources": [
+      "Europe PMC",
+      "PubMed"
+    ],
+    "secondarySourceLabel": "Additional evidence and learning resources",
+    "secondarySourceEffect": "Must not alter the NICE-derived management result.",
+    "preferredPublicationTypes": [
+      "Guideline",
+      "systematic review",
+      "meta-analysis",
+      "clinical review"
+    ],
+    "excludedPublicationTypes": [
+      "Case report",
+      "letter",
+      "editorial",
+      "comment"
+    ],
+    "defaultQuery": "Hypernatraemia adult guideline systematic review clinical review",
+    "resultLimit": 5,
+    "cacheDays": 7
+  },
+  {
+    "condition": "Hypokalaemia",
+    "primaryManagementSource": "NICE only",
+    "primarySourcePolicy": "Display the exact NICE guidance and recommendation section linked to the triggered rule.",
+    "secondarySources": [
+      "Europe PMC",
+      "PubMed"
+    ],
+    "secondarySourceLabel": "Additional evidence and learning resources",
+    "secondarySourceEffect": "Must not alter the NICE-derived management result.",
+    "preferredPublicationTypes": [
+      "Guideline",
+      "systematic review",
+      "meta-analysis",
+      "clinical review"
+    ],
+    "excludedPublicationTypes": [
+      "Case report",
+      "letter",
+      "editorial",
+      "comment"
+    ],
+    "defaultQuery": "Hypokalaemia adult guideline systematic review clinical review",
+    "resultLimit": 5,
+    "cacheDays": 7
+  },
+  {
+    "condition": "Hyperkalaemia",
+    "primaryManagementSource": "NICE only",
+    "primarySourcePolicy": "Display the exact NICE guidance and recommendation section linked to the triggered rule.",
+    "secondarySources": [
+      "Europe PMC",
+      "PubMed"
+    ],
+    "secondarySourceLabel": "Additional evidence and learning resources",
+    "secondarySourceEffect": "Must not alter the NICE-derived management result.",
+    "preferredPublicationTypes": [
+      "Guideline",
+      "systematic review",
+      "meta-analysis",
+      "clinical review"
+    ],
+    "excludedPublicationTypes": [
+      "Case report",
+      "letter",
+      "editorial",
+      "comment"
+    ],
+    "defaultQuery": "Hyperkalaemia adult guideline systematic review clinical review",
+    "resultLimit": 5,
+    "cacheDays": 7
+  },
+  {
+    "condition": "Hypocalcaemia",
+    "primaryManagementSource": "NICE only",
+    "primarySourcePolicy": "Display the exact NICE guidance and recommendation section linked to the triggered rule.",
+    "secondarySources": [
+      "Europe PMC",
+      "PubMed"
+    ],
+    "secondarySourceLabel": "Additional evidence and learning resources",
+    "secondarySourceEffect": "Must not alter the NICE-derived management result.",
+    "preferredPublicationTypes": [
+      "Guideline",
+      "systematic review",
+      "meta-analysis",
+      "clinical review"
+    ],
+    "excludedPublicationTypes": [
+      "Case report",
+      "letter",
+      "editorial",
+      "comment"
+    ],
+    "defaultQuery": "Hypocalcaemia adult guideline systematic review clinical review",
+    "resultLimit": 5,
+    "cacheDays": 7
+  },
+  {
+    "condition": "Hypercalcaemia",
+    "primaryManagementSource": "NICE only",
+    "primarySourcePolicy": "Display the exact NICE guidance and recommendation section linked to the triggered rule.",
+    "secondarySources": [
+      "Europe PMC",
+      "PubMed"
+    ],
+    "secondarySourceLabel": "Additional evidence and learning resources",
+    "secondarySourceEffect": "Must not alter the NICE-derived management result.",
+    "preferredPublicationTypes": [
+      "Guideline",
+      "systematic review",
+      "meta-analysis",
+      "clinical review"
+    ],
+    "excludedPublicationTypes": [
+      "Case report",
+      "letter",
+      "editorial",
+      "comment"
+    ],
+    "defaultQuery": "Hypercalcaemia adult guideline systematic review clinical review",
+    "resultLimit": 5,
+    "cacheDays": 7
+  },
+  {
+    "condition": "Hypomagnesaemia",
+    "primaryManagementSource": "NICE only",
+    "primarySourcePolicy": "Display the exact NICE guidance and recommendation section linked to the triggered rule.",
+    "secondarySources": [
+      "Europe PMC",
+      "PubMed"
+    ],
+    "secondarySourceLabel": "Additional evidence and learning resources",
+    "secondarySourceEffect": "Must not alter the NICE-derived management result.",
+    "preferredPublicationTypes": [
+      "Guideline",
+      "systematic review",
+      "meta-analysis",
+      "clinical review"
+    ],
+    "excludedPublicationTypes": [
+      "Case report",
+      "letter",
+      "editorial",
+      "comment"
+    ],
+    "defaultQuery": "Hypomagnesaemia adult guideline systematic review clinical review",
+    "resultLimit": 5,
+    "cacheDays": 7
+  },
+  {
+    "condition": "Hypermagnesaemia",
+    "primaryManagementSource": "NICE only",
+    "primarySourcePolicy": "Display the exact NICE guidance and recommendation section linked to the triggered rule.",
+    "secondarySources": [
+      "Europe PMC",
+      "PubMed"
+    ],
+    "secondarySourceLabel": "Additional evidence and learning resources",
+    "secondarySourceEffect": "Must not alter the NICE-derived management result.",
+    "preferredPublicationTypes": [
+      "Guideline",
+      "systematic review",
+      "meta-analysis",
+      "clinical review"
+    ],
+    "excludedPublicationTypes": [
+      "Case report",
+      "letter",
+      "editorial",
+      "comment"
+    ],
+    "defaultQuery": "Hypermagnesaemia adult guideline systematic review clinical review",
+    "resultLimit": 5,
+    "cacheDays": 7
+  }
+]

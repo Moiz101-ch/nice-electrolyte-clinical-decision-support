@@ -6,7 +6,9 @@ const eslintConfig = [
   {
     ignores: [
       ".next/**",
+      ".open-next/**",
       ".venv/**",
+      ".wrangler/**",
       "coverage/**",
       "node_modules/**",
       "playwright-report/**",

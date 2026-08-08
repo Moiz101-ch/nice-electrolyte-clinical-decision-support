@@ -46,8 +46,20 @@ jobs:
       - name: Type check
         run: npm run typecheck
 
+      - name: Validate generated clinical data
+        run: npm run data:check
+
       - name: Unit tests
         run: npm run test
 
       - name: Production build
         run: npm run build
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Browser and accessibility tests
+        run: npx playwright test
+
+      - name: Cloudflare Worker build
+        run: npm run cf:build

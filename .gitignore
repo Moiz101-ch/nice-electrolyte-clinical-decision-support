@@ -239,3 +239,6 @@ playwright-report/
 .vercel/
 .wrangler/
 .open-next/
+cloudflare-env.d.ts
+.dev.vars*
+!.dev.vars.example
