@@ -1,4 +1,4 @@
-import { Plus, ShieldCheck } from "lucide-react";
+import { FileClock, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
@@ -28,8 +28,8 @@ export function SiteHeader() {
           </Badge>
           <Button asChild className="hidden sm:inline-flex">
             <Link href="/assessment/new">
-              <Plus aria-hidden="true" />
-              New assessment
+              <FileClock aria-hidden="true" />
+              Pathway status
             </Link>
           </Button>
         </div>

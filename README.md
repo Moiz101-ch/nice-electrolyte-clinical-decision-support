@@ -1,80 +1,51 @@
 # NICE Electrolyte Clinical Decision Support
 
-Educational and technical prototype for adult electrolyte abnormalities using deterministic
-NICE-based management rules, structured clinical assessment, optional browser-only extraction
-support, and separated evidence-resource retrieval.
+Source-governed prototype for deterministic adult electrolyte pathways. The project is migrating
+from a retired synthetic-data/NICE catalogue to pathway-specific implementations transcribed from
+supplied NHS and Trust documents.
 
-This project is not approved for real clinical use. Do not enter real patient-identifiable
-information.
+No clinical pathway is currently active. The application must not be used for diagnosis, treatment
+or management decisions, and no patient-identifiable information should be entered.
 
-## Current Status
+## Current Architecture
 
-The repository contains the project input package, Next.js/TypeScript scaffolding, test
-configuration, repository hygiene files, CI configuration, a Python virtual-environment
-dependency manifest for data-ingestion support scripts, and a Cloudflare Workers deployment
-foundation using OpenNext. A responsive application shell, Home page, and accessible clinical
-design system provide the shared interface foundation for upcoming feature work.
+- Original clinical attachments are preserved unchanged under `clinical-sources/`.
+- `src/clinical/sources/` provides the typed, SHA-256-verified source registry.
+- `src/clinical/pathways/` provides strict declarative pathway schemas and governance validation.
+- `src/clinical/engine/` provides deterministic, fail-closed pathway evaluation.
+- `/assessment/new` is temporarily locked and accepts no clinical input.
+- The previous catalogue, synthetic cases, generic assessment, flat rule engine and extraction
+  experiment are isolated under `archive/legacy-nice-prototype/`.
 
-The new-assessment route now provides a schema-validated, adaptive structured workflow. It preserves
-data while moving backward, shows inline errors, supports editable confirmation, and passes confirmed
-browser-only data to the deterministic rule engine. Its complete result view shows priority,
-confirmed inputs, locked NICE output, deterministic rationale, missing information, limitations, and
-exact NICE source traceability. Supported, unsupported, and safely blocked outcomes have distinct
-safety presentations. See [`docs/structured-assessment.md`](docs/structured-assessment.md) and
-[`docs/results-interface.md`](docs/results-interface.md).
+See the [source registry](docs/clinical-source-registry.md),
+[pathway engine foundation](docs/pathway-engine-foundation.md),
+[legacy retirement record](docs/legacy-architecture-retirement.md), and
+[repository/source audit](docs/subtask-0-repository-source-audit.md).
 
-Deterministic note extraction now creates an in-memory, reviewable draft from explicit text. It does
-not infer missing fields, select NICE rules, or generate clinical guidance. Details and supported
-fields are documented in [`docs/deterministic-extraction.md`](docs/deterministic-extraction.md).
+## Source Policy
 
-The deterministic rule engine validates confirmed inputs, evaluates registered rules by clinical
-context and explicit order, builds catalogue-traceable results, and fails safely. All 13
-condition-specific catalogue pathways now have deterministic evaluators, covering IV-fluid
-abnormalities, CKD/RAAS monitoring and prescribing, hyperkalaemia medicine eligibility, AKI
-escalation, PHPT and primary adrenal insufficiency. Unsupported scenarios still return no treatment
-instructions. See [`docs/rule-engine-foundation.md`](docs/rule-engine-foundation.md),
-[`docs/hyperkalaemia-rules.md`](docs/hyperkalaemia-rules.md), and
-[`docs/remaining-nice-rules.md`](docs/remaining-nice-rules.md). The current official-source mapping
-and exact boundaries are recorded in [`docs/nice-evidence-audit.md`](docs/nice-evidence-audit.md).
+Supplied operational NHS and Trust documents are the primary sources for interactive workflows.
+NICE material may be retained as a supporting reference only where it is mapped accurately. Every
+future output must expose the pathway version, source document, page, section and clinical-review
+status.
 
-## Source Inputs
+Synthetic cases may be introduced only as source-derived tests around reviewed boundaries. They
+must never define, train or infer clinical rules.
 
-Original supplied files are stored unchanged in `project-input/` for traceability. Validated,
-runtime-friendly copies are generated in `data/runtime/`; see
-[`docs/runtime-data.md`](docs/runtime-data.md) for the update workflow and validation rules.
+## Technology
 
-## Technology Foundation
+- Next.js 16, React 19 and strict TypeScript
+- Zod runtime validation
+- Tailwind CSS, Radix UI and Lucide icons
+- Vitest, Testing Library, Playwright and axe-core
+- OpenNext, Wrangler and Cloudflare Workers deployment support
 
-- Next.js, React, and TypeScript for the application.
-- Tailwind CSS for styling.
-- Self-hosted Inter Variable typography and semantic clinical design tokens.
-- Radix primitives and Lucide icons for accessible interactions and navigation.
-- Zod for validation in later schema subtasks.
-- Vitest and Testing Library for unit/component tests.
-- Playwright and axe-core packages for browser/accessibility testing.
-- Python 3.12 virtual environment for support scripts.
-- GitHub Actions for automated checks.
-- OpenNext and Wrangler for credential-free local Cloudflare Worker previews and later deployment.
-- Next.js telemetry is disabled in repository scripts and CI.
+Python is not required by the active project.
 
 ## Local Setup
 
-Install JavaScript dependencies:
-
 ```bash
 npm install
-```
-
-Create and populate the Python virtual environment:
-
-```bash
-python -m venv .venv
-.venv\Scripts\python -m pip install -r requirements.txt
-```
-
-Run the local development server:
-
-```bash
 npm run dev
 ```
 
@@ -85,12 +56,7 @@ npm run format
 npm run format:check
 npm run lint
 npm run typecheck
-npm run data:build
-npm run data:check
-npm run extraction:demo
-npm run hyperkalaemia:demo
-npm run remaining-rules:demo
-npm run rule-engine:demo
+npm run sources:check
 npm run test
 npm run test:coverage
 npm run test:e2e
@@ -99,14 +65,13 @@ npm run cf:build
 npm run preview
 ```
 
-Cloudflare deployment, environment-variable, free-tier, and rollback instructions are in
+Cloudflare deployment, environment-variable and rollback instructions are in
 [`docs/cloudflare-deployment.md`](docs/cloudflare-deployment.md).
 
-## Safety Notes
+## Safety
 
-- NICE guidance is the only permitted source for patient-specific management recommendations.
-- Additional articles may be shown only as educational resources.
-- Unsupported NICE-only scenarios must not generate treatment instructions, doses, or correction
-  rates.
-- Browser AI, if later approved, must be optional and must not determine rules or management.
-- No real patient data should be stored or sent to external services.
+- No pathway may become active merely because its software implementation is complete.
+- Clinical review and project approval are explicit, separate governance states.
+- Missing, ambiguous or unsupported branches must fail closed without treatment instructions.
+- Clinical decision logic must not be placed in React components or inferred by AI.
+- Archived catalogue files and synthetic cases are historical evidence, not runtime inputs.

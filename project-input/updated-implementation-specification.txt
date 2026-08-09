@@ -1,0 +1,2235 @@
+You are the principal software engineer, software architect, clinical
+informatics engineer, senior full-stack developer, product designer,
+security engineer, QA engineer and DevOps engineer responsible for
+professionally updating an existing healthcare clinical decision-support
+web application.
+
+The project requirements have substantially changed.
+
+I am attaching the NEW clinical source documents and diagrams directly to
+this Codex conversation.
+
+You must thoroughly inspect:
+
+1. The complete existing repository.
+2. Every newly attached clinical source document.
+3. Every attached clinical diagram/image.
+4. The current UI and assessment workflow.
+5. Existing dummy/synthetic data.
+6. Existing clinical rule catalogues.
+7. Existing tests.
+8. Existing deployment configuration.
+9. Existing AI/ML/transformer-related code.
+10. Existing source/guideline integration.
+
+Then update the application according to the specification below.
+
+DO NOT rely on any old project assumptions when they conflict with this
+prompt or the newly attached clinical source material.
+
+======================================================================
+1. MANDATORY WORKING METHOD — ONE SUBTASK AT A TIME
+======================================================================
+
+This is NON-NEGOTIABLE.
+
+You must implement the project exactly ONE SUBTASK AT A TIME.
+
+For each subtask:
+
+1. State the subtask number and title.
+2. Explain the objective.
+3. Explain why it is necessary.
+4. List the files you intend to create, modify, deprecate or remove.
+5. State the clinical source documents/pages relevant to the subtask.
+6. Implement ONLY that subtask.
+7. Run all relevant tests and quality checks.
+8. Run the application when applicable.
+9. Show me the actual implemented result.
+10. Give me exact steps to inspect/test the result.
+11. Report test/build/type/lint results.
+12. Report remaining clinical and technical risks.
+13. STOP COMPLETELY.
+14. Wait for my explicit approval.
+
+Do NOT move automatically to the next subtask.
+
+Do NOT interpret silence as approval.
+
+I will explicitly respond with something like:
+
+"Approved. Continue with the next subtask."
+
+If I request changes:
+
+- remain on the CURRENT subtask
+- implement only the requested corrections
+- show the revised result
+- stop again
+- wait for approval
+
+Never combine multiple major subtasks simply to work faster.
+
+The goal is controlled, professional, reviewable implementation.
+
+======================================================================
+2. UPDATED PROJECT DIRECTION
+======================================================================
+
+The previous implementation approach is obsolete where it relied on:
+
+- a large dummy/synthetic clinical dataset as the basis for clinical logic
+- a generic eight-electrolyte MVP
+- generic patient assessment forms
+- a generic NICE-only rule catalogue
+- identical forms across different electrolyte abnormalities
+- browser AI or transformers as an early core requirement
+- generic clinical-context selectors
+- mock management outputs
+
+The clinical management application must now become a:
+
+FAST, CLINICIAN-FACING, DETERMINISTIC INTERACTIVE CLINICAL PATHWAY SYSTEM
+
+The system must convert the attached UK NHS/Trust clinical pathways into
+short, structured, context-aware interactive workflows.
+
+The goal is that a clinician should NOT need to repeatedly open a long PDF
+and manually follow a flowchart.
+
+Instead:
+
+Clinician enters relevant information
+        ↓
+Application asks the next clinically relevant question
+        ↓
+Deterministic pathway logic selects the next branch
+        ↓
+Application displays the appropriate clinical actions
+        ↓
+Monitoring / escalation / warnings are shown
+        ↓
+Exact source pathway remains available for verification
+
+======================================================================
+3. PRIMARY CLINICAL SCOPE
+======================================================================
+
+The INITIAL clinical product must focus ONLY on:
+
+1. HYPONATRAEMIA
+2. HYPERKALAEMIA
+3. HYPOCALCAEMIA
+
+These are the first three clinical management pathways.
+
+Do NOT attempt to implement every electrolyte disorder simultaneously.
+
+Deferred for later consideration:
+
+- Hypernatraemia
+- Hypokalaemia
+- Hypercalcaemia
+- full standalone Hypomagnesaemia pathway
+- other electrolyte abnormalities
+
+After the first three clinical pathways are implemented, tested and
+clinically reviewed, the next major feature should be:
+
+4. DKA MANAGEMENT PATHWAY / CALCULATOR
+
+======================================================================
+4. ATTACHED CLINICAL SOURCES
+======================================================================
+
+I will attach the relevant clinical source material directly to this Codex
+conversation.
+
+Expected sources include:
+
+1. Emergency Management of Hyponatraemia pathway
+
+2. Acute Hyperkalaemia management protocol
+
+3. Diagnosis and Management of Hypocalcaemia pathway
+
+4. Hypomagnesaemia NHS guidance
+
+5. Adult DKA management pathway
+
+6. Hyponatraemia classification diagram(s), including:
+   - serum osmolality
+   - ECV/fluid status
+   - urine findings
+   - common causes
+
+You must inspect every supplied file before implementing corresponding
+clinical logic.
+
+Do not ask me to manually organise them.
+
+You are responsible for creating a professional source structure.
+
+For example:
+
+clinical-sources/
+├── hyponatraemia/
+├── hyperkalaemia/
+├── hypocalcaemia/
+├── hypomagnesaemia/
+├── dka/
+└── supporting/
+
+Copy/place the ORIGINAL attached files into the appropriate directories.
+
+Do not modify the original clinical source documents.
+
+Runtime clinical pathway data must live separately from the original source
+files.
+
+======================================================================
+5. SOURCE-OF-TRUTH POLICY
+======================================================================
+
+Do not label all clinical management content as:
+
+"NICE MANAGEMENT GUIDANCE"
+
+unless a particular recommendation is actually directly mapped to NICE.
+
+The newly supplied operational NHS/Trust clinical pathways are the primary
+sources for the INTERACTIVE clinical workflow.
+
+Use a more accurate label such as:
+
+CLINICAL MANAGEMENT PATHWAY
+
+Every clinical result must maintain clear source traceability.
+
+Store/display where available:
+
+- source organisation
+- source document title
+- author/owner
+- document version
+- issue/publication date
+- review date
+- page number
+- relevant pathway section/node
+- application pathway version
+- clinical-review status
+
+NICE links may remain available as supporting references where appropriate,
+but do not incorrectly describe Trust guidance as NICE guidance.
+
+If multiple supplied sources conflict:
+
+DO NOT silently reconcile them.
+
+Instead:
+
+1. Record the conflict.
+2. Prevent the affected rule from being marked clinically approved.
+3. Present the conflict for clinical review.
+4. Require explicit resolution by the clinical collaborators.
+
+======================================================================
+6. CLINICAL REVIEW AND GOVERNANCE
+======================================================================
+
+Software implementation does NOT mean clinical validation.
+
+Support explicit pathway statuses:
+
+- Draft
+- Awaiting clinical review
+- Changes requested
+- Clinically reviewed
+- Approved for project use
+- Superseded
+
+The intended governance flow is:
+
+Clinical source
+    ↓
+Structured pathway implementation
+    ↓
+Automated technical verification
+    ↓
+Project-owner review
+    ↓
+Doctor / consultant review
+    ↓
+Corrections if required
+    ↓
+Approved pathway version
+
+Do not claim:
+
+- regulatory approval
+- medical-device certification
+- NHS approval
+- clinical validation
+
+unless separately documented and explicitly authorised.
+
+======================================================================
+7. REMOVE THE OLD DUMMY-DATA DEPENDENCY
+======================================================================
+
+The previously generated large synthetic/dummy patient dataset must NOT
+define the clinical management system.
+
+Do not train or infer clinical rules from it.
+
+The source documents define the rules.
+
+Synthetic cases may still be generated later, but ONLY for:
+
+- unit testing
+- threshold testing
+- regression testing
+- integration testing
+- end-to-end demonstrations
+- developer fixtures
+
+Example test cases:
+
+K = 5.49
+K = 5.50
+K = 5.90
+K = 6.00
+K = 6.40
+K = 6.50
+
+The purpose is to test pathway boundaries.
+
+Synthetic cases must NEVER become the authority for a clinical rule.
+
+======================================================================
+8. MACHINE LEARNING / TRANSFORMER / LLM DECISION
+======================================================================
+
+Do NOT train a traditional machine-learning model for the main clinical
+decision-support functionality.
+
+Do NOT use an LLM to determine:
+
+- diagnosis
+- electrolyte severity
+- treatment
+- medication dose
+- correction rate
+- emergency status
+- monitoring interval
+- referral/escalation
+- pathway branch
+- clinical rule selection
+
+The supplied pathways are deterministic.
+
+Therefore the core architecture should be:
+
+Validated structured clinician input
+        ↓
+Typed deterministic pathway engine
+        ↓
+Clinical branch
+        ↓
+Source-derived management result
+
+Use TypeScript for deterministic pathway evaluation.
+
+AI / transformer-based clinical-note extraction is now OPTIONAL and
+LOW-PRIORITY.
+
+Do not implement it before:
+
+- Hyponatraemia is complete and reviewed
+- Hyperkalaemia is complete and reviewed
+- Hypocalcaemia is complete and reviewed
+
+If AI extraction is added later:
+
+- it may extract candidate structured values
+- every extracted value must be confirmed by the clinician
+- AI must never determine the management result
+
+======================================================================
+9. PATHWAY-ORIENTED CLINICAL DATA MODEL
+======================================================================
+
+Replace the old generic rule catalogue with a typed, version-controlled,
+declarative clinical pathway format.
+
+A pathway should support concepts such as:
+
+- pathway ID
+- pathway name
+- pathway version
+- pathway status
+- source metadata
+- nodes
+- question nodes
+- numeric input nodes
+- multi-select nodes
+- decision nodes
+- branches
+- actions
+- warnings
+- monitoring
+- escalation
+- stop states
+- source references
+- clinical review metadata
+
+Example conceptual structure:
+
+{
+  "pathwayId": "acute-hyperkalaemia",
+  "version": "1.0.0",
+  "status": "awaiting-clinical-review",
+  "source": {
+    "organisation": "...",
+    "title": "...",
+    "documentVersion": "...",
+    "reviewDate": "...",
+    "page": 2
+  },
+  "nodes": [...]
+}
+
+Example branch representation:
+
+{
+  "id": "potassium-severity",
+  "type": "numeric-branch",
+  "input": "potassium",
+  "unit": "mmol/L",
+  "branches": [
+    {
+      "gte": 5.5,
+      "lte": 5.9,
+      "next": "mild"
+    },
+    {
+      "gte": 6.0,
+      "lte": 6.4,
+      "next": "moderate"
+    },
+    {
+      "gte": 6.5,
+      "next": "severe"
+    }
+  ]
+}
+
+Do NOT store arbitrary executable JavaScript as rule strings.
+
+Use a typed declarative schema validated at runtime.
+
+Do not duplicate clinical thresholds throughout the codebase.
+
+======================================================================
+10. ASSESSMENT UI — COMPLETE REDESIGN
+======================================================================
+
+REMOVE the concept of one large generic assessment form for every
+electrolyte abnormality.
+
+The new principle is:
+
+ASK ONLY WHAT THE ACTIVE CLINICAL PATHWAY REQUIRES.
+
+The interface should feel like following an intelligent interactive
+clinical flowchart.
+
+Use:
+
+- progressive disclosure
+- one important decision at a time
+- grouped inputs where efficient
+- large choice cards for major clinical decisions
+- minimal typing
+- validated numeric input
+- explicit clinical units
+- tooltips/help only where needed
+- automatic classification when values allow it
+- clear Back and Continue controls
+- preserved state while navigating backwards
+
+Do NOT ask demographic fields such as:
+
+- sex
+- pregnancy status
+- age
+
+unless the active source pathway specifically requires them.
+
+======================================================================
+11. HYPONATRAEMIA — FIRST FULL MODULE
+======================================================================
+
+Hyponatraemia must be the FIRST complete clinical pathway.
+
+Combine:
+
+A. Emergency Management of Hyponatraemia pathway
+
+AND
+
+B. Hyponatraemia classification / urine-findings diagram(s)
+
+The emergency pathway provides immediate management.
+
+The classification material adds diagnostic interpretation based on:
+
+- serum osmolality
+- extracellular-volume/fluid status
+- urine osmolality
+- urine sodium
+- likely causes
+
+--------------------------------------------------
+11.1 Initial investigations
+--------------------------------------------------
+
+Present relevant investigations from the source, including where supplied:
+
+- urine osmolality
+- urinary sodium
+- random blood glucose
+- U&Es
+- TSH
+- cortisol
+
+Do not invent additional investigations.
+
+--------------------------------------------------
+11.2 Sodium input and automatic severity
+--------------------------------------------------
+
+Ask for sodium once.
+
+The system must automatically classify severity according to the source.
+
+Use:
+
+Mild:
+Na 130–135 mmol/L
+
+Moderate:
+Na 125–129 mmol/L
+
+Severe:
+Na <125 mmol/L
+
+Do not ask the clinician to manually choose mild/moderate/severe when it can
+be calculated.
+
+--------------------------------------------------
+11.3 Fluid status
+--------------------------------------------------
+
+Make this a prominent dedicated step:
+
+ESTABLISH FLUID STATUS
+
+Options:
+
+- Hypovolaemic
+- Euvolaemic
+- Hypervolaemic
+
+Present them as clear clinician-friendly cards.
+
+The next assessment step must depend on this answer.
+
+--------------------------------------------------
+11.4 Cerebral oedema / symptom branch
+--------------------------------------------------
+
+Where required by the source, ask about the relevant neurological /
+cerebral-oedema-associated symptoms.
+
+Present the source symptoms efficiently, preferably as one grouped clinical
+selector rather than many individual pages.
+
+--------------------------------------------------
+11.5 Critical sodium correction warning
+--------------------------------------------------
+
+The correction safety limit from the source is a CRITICAL requirement.
+
+The relevant source states a correction limit that must be prominently
+displayed.
+
+Do NOT bury this inside normal paragraph text.
+
+Create a visually prominent safety card.
+
+The relevant clinical result should clearly separate:
+
+- treatment target
+- maximum correction safety limit
+- monitoring schedule
+
+Use the exact source values.
+
+Do not alter them.
+
+--------------------------------------------------
+11.6 Urine result availability
+--------------------------------------------------
+
+Ask:
+
+"Are urine results available?"
+
+Possible answers:
+
+- Yes
+- No
+
+If NO:
+
+continue using the emergency pathway where clinically possible.
+
+If YES:
+
+reveal the required structured fields.
+
+Possible fields according to supplied classification material include:
+
+- serum osmolality
+- urine osmolality
+- urine sodium
+
+Do not demand unavailable urine values before immediate management can
+continue when the source does not require them.
+
+--------------------------------------------------
+11.7 Hyponatraemia diagnostic classification
+--------------------------------------------------
+
+Implement the serum-osmolality classification from the supplied diagram.
+
+Represent:
+
+- hypotonic
+- isotonic
+- hypertonic
+
+where supported by the source.
+
+For hypotonic hyponatraemia use:
+
+fluid status
++
+urine findings
+
+to derive the source-supported cause categories.
+
+Examples represented by the supplied source include:
+
+Hypovolaemic:
+- lower urine sodium → non-renal salt loss
+- higher urine sodium → renal salt loss
+
+Euvolaemic:
+- low urine osmolality → primary polydipsia / relevant low-solute state
+- higher urine osmolality together with relevant urine sodium → SIADH pattern
+
+Hypervolaemic:
+- source-supported volume-overload causes
+
+Use the EXACT thresholds from the supplied diagram.
+
+Do not infer thresholds from memory.
+
+--------------------------------------------------
+11.8 Causes
+--------------------------------------------------
+
+Display likely cause categories only where supported by the source.
+
+Relevant source examples may include:
+
+- vomiting
+- diarrhoea
+- diuretics
+- primary adrenal insufficiency
+- primary polydipsia
+- malnutrition / low-solute intake
+- SIADH pattern
+- heart failure
+- cirrhosis
+- nephrotic syndrome
+- hyperglycaemia
+- pseudohyponatraemia contexts
+
+Do not present them as definitive diagnoses unless the source supports that
+conclusion.
+
+--------------------------------------------------
+11.9 Medication-related cause handling
+--------------------------------------------------
+
+Medication-related causes such as diuretics must be represented where
+supported.
+
+Do NOT reintroduce the old generic "clinical context" selector.
+
+Ask specific questions when required.
+
+--------------------------------------------------
+11.10 SIADH
+--------------------------------------------------
+
+If the attached material references a separate SIADH pathway but no such
+actual pathway has been supplied:
+
+DO NOT invent an SIADH management pathway.
+
+The system may identify a source-supported SIADH-compatible pattern.
+
+Then terminate or redirect with a clear message such as:
+
+"Pattern compatible with the supplied SIADH classification criteria.
+Dedicated SIADH management pathway requires an approved source."
+
+======================================================================
+12. HYPERKALAEMIA — SECOND MODULE
+======================================================================
+
+Implement hyperkalaemia from the attached clinician-facing management
+flowchart/protocol.
+
+The main interactive workflow should primarily follow the clinician
+decision pathway.
+
+Do NOT reproduce page 1 as the main assessment workflow if page 1 is
+primarily an administration/prescribing chart.
+
+--------------------------------------------------
+12.1 Initial assessment
+--------------------------------------------------
+
+Implement only the source-supported initial requirements.
+
+These may include:
+
+- potassium
+- ECG
+- cardiac rhythm monitoring requirement
+- calcium
+- bicarbonate
+- pseudohyperkalaemia consideration
+- chronic potassium context
+- renal/dialysis context where relevant
+
+--------------------------------------------------
+12.2 Automatic potassium classification
+--------------------------------------------------
+
+Ask for potassium once.
+
+Derive severity automatically.
+
+Use the source thresholds:
+
+Mild:
+K 5.5–5.9 mmol/L
+
+Moderate:
+K 6.0–6.4 mmol/L
+
+Severe:
+K ≥6.5 mmol/L
+
+Do not duplicate these thresholds in React components.
+
+--------------------------------------------------
+12.3 ECG decision
+--------------------------------------------------
+
+Create a major decision step:
+
+"Are hyperkalaemia-related ECG changes present?"
+
+Source-supported options include:
+
+- Peaked T waves
+- Broad QRS
+- Flat/absent P waves
+- Bradycardia
+- Ventricular tachycardia
+- Sine wave
+- No relevant ECG changes
+
+The UI should ultimately display small illustrative ECG examples where
+appropriate.
+
+However:
+
+DO NOT copy third-party ECG images without checking:
+
+- licence
+- copyright
+- reuse permission
+- required attribution
+
+If no approved ECG assets are currently available:
+
+- implement professional placeholders
+- retain the labels
+- document the image requirement
+- wait for approved clinical/visual assets
+
+--------------------------------------------------
+12.4 Timed management result
+--------------------------------------------------
+
+Hyperkalaemia management should be displayed as a practical timeline.
+
+Recommended structure:
+
+FIRST 15–30 MINUTES
+
+30–60 MINUTES
+
+ONGOING MONITORING
+
+CAUSE / RECURRENCE PREVENTION
+
+Use only the management actions from the supplied source.
+
+The pathway may include source-derived concepts such as:
+
+- heart protection
+- shifting potassium intracellularly
+- potassium removal
+- adjunctive treatments
+- renal-team involvement
+- monitoring
+- recurrence prevention
+
+Do not invent doses.
+
+Do not alter source doses.
+
+Do not merge recommendations from unrelated guidelines.
+
+======================================================================
+13. HYPOCALCAEMIA — THIRD MODULE
+======================================================================
+
+Use the supplied Diagnosis and Management of Hypocalcaemia pathway.
+
+--------------------------------------------------
+13.1 Input workflow
+--------------------------------------------------
+
+Gather only relevant source-supported information.
+
+Possible fields include:
+
+- adjusted calcium
+- confirmation of albumin adjustment
+- symptoms
+- ECG changes
+- magnesium
+- renal function
+- phosphate
+- alkaline phosphatase
+- PTH
+- vitamin D
+- thyroid/parathyroid surgery history
+- relevant acute context
+
+Use progressive disclosure.
+
+--------------------------------------------------
+13.2 Automatic severity classification
+--------------------------------------------------
+
+Use the source thresholds.
+
+The source defines hypocalcaemia and distinguishes mild from
+moderate/severe.
+
+Calculate the classification automatically.
+
+Also represent the source's warning that clinical symptoms and rate of fall
+matter.
+
+--------------------------------------------------
+13.3 Symptoms
+--------------------------------------------------
+
+Use a grouped symptom selector.
+
+Source-supported symptoms may include:
+
+- weakness
+- muscle cramps
+- paraesthesia
+- tetany
+- carpopedal spasm
+- confusion
+- seizures
+- behavioural/psychiatric symptoms
+- Chvostek sign
+- Trousseau sign
+- papilloedema
+- heart failure
+
+Use the exact supplied source rather than general medical memory.
+
+--------------------------------------------------
+13.4 ECG
+--------------------------------------------------
+
+Represent ECG assessment where supported by the pathway.
+
+Use approved visual examples only.
+
+If no approved visual asset exists:
+
+use labelled placeholders.
+
+--------------------------------------------------
+13.5 Cause investigation
+--------------------------------------------------
+
+Represent source-supported causes such as:
+
+- thyroid/parathyroid surgery
+- vitamin D deficiency
+- chronic kidney disease
+- acute pancreatitis
+- rhabdomyolysis
+- hypomagnesaemia
+- medication-related causes
+
+Do not call a possible cause a confirmed diagnosis unless supported.
+
+--------------------------------------------------
+13.6 Emergency branch
+--------------------------------------------------
+
+The source identifies severe symptomatic hypocalcaemia as a medical
+emergency.
+
+This must have a clearly differentiated UI.
+
+Use only the supplied management pathway.
+
+--------------------------------------------------
+13.7 Important guardrails
+--------------------------------------------------
+
+Convert important source warnings into explicit logic/alerts where
+appropriate.
+
+Relevant source contexts may include:
+
+- renal failure
+- dialysis
+- rhabdomyolysis
+- parathyroidectomy
+- digoxin therapy
+- cardiac dysrhythmias
+
+Do not hide high-value clinical guardrails in footnotes.
+
+======================================================================
+14. HYPOMAGNESAEMIA — SUPPORTING MODULE
+======================================================================
+
+The attached hypomagnesaemia guidance should be preserved and indexed.
+
+It is NOT currently a primary MVP pathway.
+
+For now:
+
+- preserve the source
+- store its metadata
+- expose it as supporting guidance where relevant
+- cross-link to it from hypocalcaemia where the hypocalcaemia source
+  requires magnesium assessment/management
+
+Do not delay the first three modules to build the entire standalone
+hypomagnesaemia pathway.
+
+======================================================================
+15. DKA MANAGEMENT PATHWAY / CALCULATOR — ACTUAL FEATURE
+======================================================================
+
+The application must ultimately contain a dedicated section:
+
+CLINICAL CALCULATORS & PATHWAYS
+
+The FIRST calculator/pathway to be implemented is:
+
+DKA MANAGEMENT PATHWAY / CALCULATOR
+
+This is an ACTUAL application feature.
+
+It is not merely a UX reference.
+
+The DKA tool should transform the attached adult DKA pathway into a guided,
+interactive clinical calculator/pathway.
+
+It must be implemented only AFTER:
+
+- Hyponatraemia has been implemented and clinically reviewed
+- Hyperkalaemia has been implemented and clinically reviewed
+- Hypocalcaemia has been implemented and clinically reviewed
+
+--------------------------------------------------
+15.1 DKA architecture
+--------------------------------------------------
+
+The DKA calculator must:
+
+- ask only for information required at the current step
+- calculate derived values automatically where the source provides formulas
+- perform deterministic threshold comparison
+- automatically move to the relevant next pathway step
+- display relevant safety warnings
+- display monitoring requirements
+- display treatment-response targets
+- preserve full source traceability
+- expose the calculation used
+- expose the inputs used
+- never use an LLM for clinical calculations
+
+--------------------------------------------------
+15.2 DKA source structure
+--------------------------------------------------
+
+Use the supplied multi-step pathway.
+
+It contains areas such as:
+
+- initial assessment
+- DKA diagnostic confirmation
+- blood glucose
+- blood ketones
+- pH/bicarbonate
+- fluid resuscitation
+- systolic blood pressure
+- weight
+- weight-based fixed-rate IV insulin
+- further assessment
+- fluid replacement
+- potassium-dependent management
+- hourly monitoring
+- response assessment
+- resolution criteria
+- conversion to subcutaneous insulin
+
+Convert the paper workflow into an efficient interactive application.
+
+--------------------------------------------------
+15.3 Calculations
+--------------------------------------------------
+
+Any actual numerical calculations must come directly from the source.
+
+For example, where the source provides a weight-based insulin calculation,
+implement it programmatically.
+
+The result should clearly show:
+
+- entered weight
+- calculation/formula
+- calculated result
+- any source-defined maximum/limit
+- pathway action resulting from the calculation
+
+Do not invent formulas.
+
+--------------------------------------------------
+15.4 DKA source currentness
+--------------------------------------------------
+
+The attached DKA pathway contains an older review date.
+
+Therefore create a source-currentness gate.
+
+Before the DKA calculator is made an active public clinical pathway:
+
+- display source issue/review information
+- mark the module as requiring clinical review
+- require explicit project clinical approval
+- do not call the document "current" until the doctors confirm it
+
+======================================================================
+16. MDCALC — PRODUCT/UX REFERENCE
+======================================================================
+
+Review this direct calculator reference:
+
+https://www.mdcalc.com/calc/43/creatinine-clearance-cockcroft-gault-equation#next-steps
+
+Use MDCalc ONLY as a product/interaction reference.
+
+Study professional clinical-calculator concepts such as:
+
+- very small number of structured inputs
+- immediate calculation
+- clear result
+- transparent interpretation
+- visible formula context
+- evidence/source information
+- concise next-step information
+- efficient mobile use
+- low cognitive load
+
+DO NOT:
+
+- copy MDCalc code
+- copy proprietary text
+- copy its exact visual design
+- scrape its content
+- depend on the MDCalc website at runtime
+
+IMPORTANT:
+
+The Cockcroft-Gault calculator linked above is NOT currently a required
+calculator feature.
+
+The required clinical calculator to implement later is the DKA Management
+Pathway/Calculator from the attached DKA document.
+
+======================================================================
+17. HOMEPAGE REDESIGN
+======================================================================
+
+Update the home page to reflect the new project scope.
+
+Do NOT show eight electrolyte abnormalities as equally implemented.
+
+Create a professional primary section:
+
+ACUTE ELECTROLYTE MANAGEMENT
+
+Primary pathway cards:
+
+┌──────────────────────┐
+│ Hyponatraemia        │
+│ Sodium ↓             │
+│ Start pathway →      │
+└──────────────────────┘
+
+┌──────────────────────┐
+│ Hyperkalaemia        │
+│ Potassium ↑          │
+│ Start pathway →      │
+└──────────────────────┘
+
+┌──────────────────────┐
+│ Hypocalcaemia        │
+│ Calcium ↓            │
+│ Start pathway →      │
+└──────────────────────┘
+
+Show pathway review/status information subtly where appropriate.
+
+Below this include:
+
+CLINICAL CALCULATORS & PATHWAYS
+
+Eventually containing:
+
+- DKA Management Pathway / Calculator
+
+Relevant supporting navigation:
+
+- Home
+- New Assessment
+- Clinical Pathways
+- Source Guidelines
+- Calculators
+- About & Safety
+
+Do not prioritise:
+
+- account creation
+- persistent assessment history
+- My Assessments
+- patient database functionality
+
+unless explicitly requested later.
+
+======================================================================
+18. RESULTS PAGE
+======================================================================
+
+The result page must be operational, not merely descriptive.
+
+It should rapidly answer:
+
+1. What classification/severity applies?
+2. Which branch am I currently on?
+3. What should happen now?
+4. What should happen next?
+5. What must be monitored?
+6. When should escalation occur?
+7. What major safety warning applies?
+8. Why was this pathway selected?
+9. What source supports this?
+10. Has this pathway been clinically reviewed?
+
+Example layout:
+
+SEVERE HYPERKALAEMIA
+K+ 6.8 mmol/L
+
+Emergency treatment indicated
+
+IMMEDIATE
+[source-derived actions]
+
+NEXT 30–60 MINUTES
+[source-derived actions]
+
+ONGOING MONITORING
+[source-derived monitoring]
+
+CAUSE / RECURRENCE PREVENTION
+[source-derived information]
+
+WHY THIS PATHWAY WAS SELECTED
+• Potassium ≥ 6.5 mmol/L
+• ECG changes: [confirmed findings]
+
+SOURCE
+Organisation:
+Document:
+Version:
+Page:
+Review date:
+
+Clinical pathway version:
+Clinical review status:
+
+[Open source guideline]
+
+"Why this pathway was selected" must be deterministic.
+
+Do NOT use an LLM to generate the explanation.
+
+======================================================================
+19. SOURCE GUIDELINE VIEW
+======================================================================
+
+Users should not normally need to leave the pathway to understand the next
+clinical step.
+
+However every pathway should provide:
+
+[Open source guideline]
+
+Source pages should show useful metadata such as:
+
+- organisation
+- title
+- author/owner
+- issue/version
+- review date
+- relevant pathway/page
+- implementation version
+- review status
+
+Do not reproduce entire copyrighted documents inside normal application UI.
+
+Use the original source file/link for verification.
+
+======================================================================
+20. USER-INTERFACE DESIGN PRINCIPLES
+======================================================================
+
+The application must look like a professional modern clinical tool.
+
+Do NOT make it look like:
+
+- a generic student dashboard
+- a huge database form
+- an AI chatbot
+- a colourful marketing landing page
+
+Prioritise:
+
+- speed
+- clinical clarity
+- low cognitive load
+- strong hierarchy
+- minimal typing
+- minimal unnecessary scrolling
+- touch usability
+- desktop usability
+- tablet usability
+- highly visible safety information
+- obvious next action
+- predictable navigation
+- progressive disclosure
+
+Use:
+
+- restrained professional colours
+- neutral backgrounds
+- clear white/elevated surfaces
+- consistent card system
+- semantic status colours
+- readable typography
+- subtle borders
+- restrained shadows
+- clinical icons only where useful
+- smooth minimal transitions
+
+Avoid:
+
+- excessive gradients
+- neon colours
+- excessive animation
+- decorative graphs
+- unnecessary dashboards
+- red for non-emergency information
+
+======================================================================
+21. IMPORTANT SAFETY UI
+======================================================================
+
+Major source-derived clinical warnings must receive prominent UI treatment.
+
+Examples include:
+
+- sodium correction safety limits
+- medical emergency branches
+- renal/dialysis warnings
+- rhabdomyolysis warnings
+- ECG-related escalation
+- clinically important monitoring intervals
+- source expiry/review warnings
+
+Do not place critical safety information only inside:
+
+- tooltips
+- accordions
+- small captions
+- footnotes
+
+Emergency styling must include:
+
+- text
+- iconography
+- semantic structure
+
+Do not communicate severity by colour alone.
+
+======================================================================
+22. SOFTWARE ARCHITECTURE
+======================================================================
+
+Use a professional modular architecture.
+
+A structure similar to this is reasonable:
+
+src/
+├── clinical/
+│   ├── engine/
+│   ├── pathways/
+│   │   ├── hyponatraemia/
+│   │   ├── hyperkalaemia/
+│   │   ├── hypocalcaemia/
+│   │   └── dka/
+│   ├── schemas/
+│   ├── sources/
+│   ├── review/
+│   └── validation/
+│
+├── components/
+│   ├── pathway/
+│   ├── assessment/
+│   ├── results/
+│   ├── warnings/
+│   ├── evidence/
+│   └── ui/
+│
+├── features/
+│   ├── hyponatraemia/
+│   ├── hyperkalaemia/
+│   ├── hypocalcaemia/
+│   └── calculators/
+│
+└── shared/
+
+clinical-sources/
+├── hyponatraemia/
+├── hyperkalaemia/
+├── hypocalcaemia/
+├── hypomagnesaemia/
+├── dka/
+└── supporting/
+
+tests/
+├── clinical/
+├── boundaries/
+├── components/
+├── integration/
+├── accessibility/
+└── e2e/
+
+Do not reorganise an existing good architecture simply to match this example.
+
+Preserve reusable existing code where it remains appropriate.
+
+======================================================================
+23. PROFESSIONAL INFORMATION-TECHNOLOGY PRACTICES
+======================================================================
+
+Follow recognised professional software-engineering practices.
+
+Required:
+
+- strict TypeScript
+- clear separation of concerns
+- runtime schema validation
+- deterministic clinical logic
+- immutable clinical source documents
+- versioned pathway definitions
+- reusable components
+- testability
+- auditability
+- source traceability
+- maintainable naming
+- documented architecture decisions
+- minimal duplication
+- no magic medical numbers scattered throughout source code
+- no clinical decision logic inside React presentation components
+- secure dependency management
+- CI
+- reproducible builds
+- professional Git commits
+
+Avoid:
+
+- overengineering
+- premature abstraction
+- unnecessary dependencies
+- large uncontrolled changes
+- rewriting working infrastructure without reason
+
+======================================================================
+24. VALIDATION AND TYPES
+======================================================================
+
+Use strict TypeScript.
+
+Use Zod or an equivalent strong runtime schema system.
+
+Validate:
+
+- pathway JSON/data
+- clinical source metadata
+- numeric input
+- units
+- branch definitions
+- source references
+- pathway versions
+- status values
+- calculator input
+- calculator output
+- API boundaries
+- environment variables where relevant
+
+Avoid:
+
+- `any`
+- unchecked casts
+- unvalidated JSON
+- arbitrary executable expressions stored as strings
+
+======================================================================
+25. TESTING
+======================================================================
+
+Derive tests directly from the attached clinical sources.
+
+Required test types:
+
+- pathway schema validation
+- threshold tests
+- exact boundary tests
+- branch-selection tests
+- missing-input tests
+- unavailable-test-result branches
+- safety-warning tests
+- escalation tests
+- unsupported-path tests
+- source-traceability tests
+- deterministic explanation tests
+- UI interaction tests
+- accessibility tests
+- end-to-end pathway tests
+
+For numerical boundaries test immediately around each threshold.
+
+Example for potassium:
+
+5.49
+5.50
+5.90
+5.99
+6.00
+6.40
+6.49
+6.50
+
+Use precision appropriate to the application and source.
+
+For sodium test the boundaries around:
+
+125
+130
+135
+
+according to the exact pathway semantics.
+
+Do NOT copy old dummy-test expectations unless verified against the new
+source documents.
+
+======================================================================
+26. SECURITY
+======================================================================
+
+Use secure-by-default engineering.
+
+Requirements include:
+
+- strict input validation
+- safe output rendering
+- no execution of pathway data
+- no model-generated code execution
+- safe external links
+- request-size limits
+- secure response headers
+- CSP where practical
+- dependency vulnerability checks
+- no secrets in client code
+- no open proxies
+- no unnecessary third-party scripts
+- source files treated as immutable content
+
+======================================================================
+27. PRIVACY
+======================================================================
+
+The public app must not require real patient identifiers.
+
+Do not require:
+
+- patient name
+- NHS number
+- full DOB
+- address
+- identifying free text
+
+unless secure clinical persistence is explicitly introduced in the future.
+
+For the current public application:
+
+- discourage entering patient-identifiable information
+- do not store clinical assessment values by default
+- do not log clinical assessment content
+- do not send clinical values to analytics
+- avoid third-party tracking
+- clearly explain that the current tool is for clinical decision-support
+  pathway assistance and remains subject to clinical review
+
+======================================================================
+28. ACCESSIBILITY
+======================================================================
+
+Target WCAG 2.1 AA principles.
+
+Implement:
+
+- semantic HTML
+- full keyboard navigation
+- visible focus
+- correct form labels
+- accessible validation
+- screen-reader announcements
+- no colour-only communication
+- sufficient contrast
+- logical heading hierarchy
+- accessible dialogs
+- accessible progress indicators
+- large touch targets
+- reduced-motion support
+
+Run automated accessibility tests.
+
+Document relevant manual checks.
+
+======================================================================
+29. PERFORMANCE
+======================================================================
+
+Optimise for clinicians who may need the application quickly.
+
+Prioritise:
+
+- fast initial page load
+- small client bundle
+- minimal unnecessary JavaScript
+- static pathway loading where suitable
+- efficient rendering
+- minimal API requirements
+- no AI-model downloads in the MVP
+- fast pathway transitions
+- no waiting for irrelevant secondary content
+
+The clinical pathway engine should work locally in the application without
+requiring an external inference service.
+
+======================================================================
+30. FREE-RESOURCE REQUIREMENT
+======================================================================
+
+The project should continue to use free resources wherever practical.
+
+Do not introduce:
+
+- paid LLM APIs
+- paid hosting requirements
+- paid database requirements
+- paid analytics
+- paid clinical APIs
+- paid search APIs
+
+without explicit approval.
+
+Preserve the current free public-hosting architecture if it is working
+professionally.
+
+If Cloudflare Workers/OpenNext already exists and is suitable, retain it.
+
+Do not add a database merely because one is available.
+
+The deterministic pathway engine does not require a database for the initial
+version.
+
+======================================================================
+31. OBSOLETE COMPONENT AUDIT
+======================================================================
+
+During the initial repository audit identify all old components associated
+with:
+
+- dummy synthetic patient data
+- generic eight-electrolyte clinical rules
+- NICE-only generic labels
+- generic assessment form
+- unused AI model architecture
+- generic unsupported-condition system
+- obsolete result pages
+- obsolete navigation
+- mock outputs
+
+Do NOT immediately delete them.
+
+Classify each as:
+
+RETAIN
+REFACTOR
+REPLACE
+ARCHIVE
+REMOVE
+
+Explain the reasoning.
+
+Check dependencies before removing anything.
+
+======================================================================
+32. CLINICAL REVIEW PACKAGES
+======================================================================
+
+After each primary clinical pathway is technically completed, produce a
+small review package for the clinical collaborators.
+
+It should contain:
+
+- implemented pathway map
+- inputs
+- thresholds
+- branching decisions
+- actions
+- warnings
+- monitoring
+- escalation
+- source pages
+- known ambiguities
+- test cases
+- screenshots/routes to review
+- clinical review status
+
+The project should STOP at these major review gates before proceeding.
+
+======================================================================
+33. IMPLEMENTATION SUBTASK SEQUENCE
+======================================================================
+
+Follow this sequence unless a repository constraint makes a small adjustment
+necessary.
+
+Any proposed change to the order must be explained before implementation.
+
+----------------------------------------------------------------------
+SUBTASK 0 — Repository and source audit
+----------------------------------------------------------------------
+
+- inspect repository
+- inspect every attached file
+- organise immutable clinical sources
+- identify obsolete architecture
+- identify reusable code
+- identify deployment/testing setup
+- propose migration strategy
+- propose pathway schema
+- show repository tree
+- STOP
+
+----------------------------------------------------------------------
+SUBTASK 1 — Clinical source registry
+----------------------------------------------------------------------
+
+- implement source metadata model
+- create source registry
+- map attached documents
+- include version/review metadata
+- test source registry
+- STOP
+
+----------------------------------------------------------------------
+SUBTASK 2 — Clinical pathway schema and engine foundation
+----------------------------------------------------------------------
+
+- create declarative pathway schema
+- validate with Zod
+- implement engine foundation
+- implement safe branch evaluation
+- no clinical pathway yet
+- STOP
+
+----------------------------------------------------------------------
+SUBTASK 3 — Deprecate obsolete dummy-data architecture
+----------------------------------------------------------------------
+
+- remove/replace obsolete clinical dependencies safely
+- retain/archive useful historical assets
+- verify application remains stable
+- STOP
+
+----------------------------------------------------------------------
+SUBTASK 4 — Homepage/navigation redesign
+----------------------------------------------------------------------
+
+- build Acute Electrolyte Management section
+- Hyponatraemia card
+- Hyperkalaemia card
+- Hypocalcaemia card
+- Clinical Calculators & Pathways section
+- responsive professional UI
+- show visual result
+- STOP
+
+----------------------------------------------------------------------
+SUBTASK 5 — Shared pathway UI framework
+----------------------------------------------------------------------
+
+Create reusable:
+
+- pathway progress
+- numeric clinical input
+- major decision cards
+- grouped symptom selection
+- safety alerts
+- monitoring timelines
+- source card
+- result sections
+- review-status badge
+- STOP
+
+----------------------------------------------------------------------
+SUBTASK 6 — Hyponatraemia numeric input + severity
+----------------------------------------------------------------------
+
+- sodium input
+- unit validation
+- automatic mild/moderate/severe classification
+- boundary tests
+- UI preview
+- STOP
+
+----------------------------------------------------------------------
+SUBTASK 7 — Hyponatraemia fluid-status workflow
+----------------------------------------------------------------------
+
+- hypovolaemic
+- euvolaemic
+- hypervolaemic
+- adaptive next steps
+- symptoms/cerebral-oedema branch where appropriate
+- STOP
+
+----------------------------------------------------------------------
+SUBTASK 8 — Hyponatraemia emergency management
+----------------------------------------------------------------------
+
+- implement emergency flow
+- source-derived treatment actions
+- correction target
+- prominent correction-limit warning
+- monitoring
+- source traceability
+- STOP
+
+----------------------------------------------------------------------
+SUBTASK 9 — Hyponatraemia urine/osmolality classification
+----------------------------------------------------------------------
+
+- urine-results-available question
+- serum osmolality
+- urine osmolality
+- urine sodium
+- classification logic
+- causes
+- SIADH-compatible termination state
+- tests
+- STOP
+
+----------------------------------------------------------------------
+SUBTASK 10 — Complete Hyponatraemia result UX
+----------------------------------------------------------------------
+
+- complete operational result
+- current branch
+- immediate actions
+- next steps
+- monitoring
+- safety
+- causes
+- source
+- clinical-review status
+- STOP
+
+----------------------------------------------------------------------
+SUBTASK 11 — Hyponatraemia clinical-review package
+----------------------------------------------------------------------
+
+- consolidate pathway map
+- source mapping
+- threshold table
+- boundary tests
+- screenshots
+- ambiguities
+- review checklist
+
+STOP HERE.
+
+DO NOT start Hyperkalaemia until I explicitly approve after clinical review.
+
+----------------------------------------------------------------------
+SUBTASK 12 — Hyperkalaemia input/severity
+----------------------------------------------------------------------
+
+- potassium input
+- automatic classification
+- initial source-supported checks
+- boundary tests
+- STOP
+
+----------------------------------------------------------------------
+SUBTASK 13 — Hyperkalaemia ECG workflow
+----------------------------------------------------------------------
+
+- ECG changes selector
+- placeholders/approved visuals
+- source labels
+- adaptive branching
+- STOP
+
+----------------------------------------------------------------------
+SUBTASK 14 — Hyperkalaemia timed management
+----------------------------------------------------------------------
+
+- first 15–30 minutes
+- 30–60 minutes
+- ongoing monitoring
+- cause/recurrence prevention
+- relevant escalation
+- source traceability
+- STOP
+
+----------------------------------------------------------------------
+SUBTASK 15 — Hyperkalaemia clinical-review package
+----------------------------------------------------------------------
+
+- pathway map
+- thresholds
+- branch tests
+- source mapping
+- UI screenshots
+- review checklist
+
+STOP HERE FOR CLINICAL REVIEW.
+
+----------------------------------------------------------------------
+SUBTASK 16 — Hypocalcaemia assessment
+----------------------------------------------------------------------
+
+- adjusted calcium
+- symptoms
+- ECG
+- magnesium
+- renal function
+- diagnostic inputs
+- progressive disclosure
+- STOP
+
+----------------------------------------------------------------------
+SUBTASK 17 — Hypocalcaemia management branches
+----------------------------------------------------------------------
+
+- mild branch
+- severe symptomatic emergency branch
+- treatment logic
+- monitoring
+- STOP
+
+----------------------------------------------------------------------
+SUBTASK 18 — Hypocalcaemia causes and guardrails
+----------------------------------------------------------------------
+
+- surgery context
+- vitamin D
+- CKD
+- pancreatitis
+- rhabdomyolysis
+- magnesium
+- medicines
+- renal/dialysis safety
+- STOP
+
+----------------------------------------------------------------------
+SUBTASK 19 — Hypocalcaemia clinical-review package
+----------------------------------------------------------------------
+
+- complete pathway review
+- tests
+- source map
+- screenshots
+- clinical checklist
+
+STOP HERE FOR CLINICAL REVIEW.
+
+----------------------------------------------------------------------
+SUBTASK 20 — Hypomagnesaemia supporting linkage
+----------------------------------------------------------------------
+
+- source registry integration
+- relevant cross-link from hypocalcaemia
+- no complete standalone pathway unless approved
+- STOP
+
+----------------------------------------------------------------------
+SUBTASK 21 — DKA source-currentness gate
+----------------------------------------------------------------------
+
+- inspect DKA source metadata
+- expose outdated review information
+- create clinical-review gate
+- map all pathway steps
+- identify calculations
+- do NOT yet activate clinical calculator
+- STOP
+
+----------------------------------------------------------------------
+SUBTASK 22 — DKA calculator foundation
+----------------------------------------------------------------------
+
+- calculator route
+- step navigation
+- typed inputs
+- calculation engine
+- result transparency
+- source mapping
+- STOP
+
+----------------------------------------------------------------------
+SUBTASK 23 — DKA Steps 1–4
+----------------------------------------------------------------------
+
+- initial assessment
+- diagnosis confirmation
+- fluid resuscitation
+- fixed-rate insulin calculation
+- exact source-derived calculations
+- STOP
+
+----------------------------------------------------------------------
+SUBTASK 24 — DKA Steps 5–10
+----------------------------------------------------------------------
+
+- further assessment
+- fluids
+- potassium management
+- monitoring
+- response
+- resolution
+- conversion
+- STOP
+
+----------------------------------------------------------------------
+SUBTASK 25 — DKA clinical-review package
+----------------------------------------------------------------------
+
+- complete pathway
+- all calculations
+- boundary tests
+- source map
+- known currentness limitation
+- screenshots
+- STOP FOR CLINICAL REVIEW
+
+----------------------------------------------------------------------
+SUBTASK 26 — Security and privacy audit
+----------------------------------------------------------------------
+
+- security headers
+- CSP
+- dependency review
+- data-retention review
+- logging review
+- STOP
+
+----------------------------------------------------------------------
+SUBTASK 27 — Accessibility and responsive audit
+----------------------------------------------------------------------
+
+- automated accessibility
+- keyboard
+- screen reader semantics
+- mobile
+- tablet
+- desktop
+- STOP
+
+----------------------------------------------------------------------
+SUBTASK 28 — Performance hardening
+----------------------------------------------------------------------
+
+- bundle analysis
+- rendering optimisation
+- unnecessary dependency removal
+- production performance checks
+- STOP
+
+----------------------------------------------------------------------
+SUBTASK 29 — Complete end-to-end test suite
+----------------------------------------------------------------------
+
+- pathway tests
+- branch tests
+- boundary tests
+- E2E
+- source traceability
+- build verification
+- consolidated report
+- STOP
+
+----------------------------------------------------------------------
+SUBTASK 30 — Deployment verification
+----------------------------------------------------------------------
+
+- verify free public deployment
+- verify production build
+- verify public routes
+- smoke test
+- document rollback
+- STOP
+
+----------------------------------------------------------------------
+SUBTASK 31 — Final documentation and handover
+----------------------------------------------------------------------
+
+- README
+- architecture
+- clinical source registry
+- pathway update procedure
+- clinical review procedure
+- testing
+- deployment
+- security
+- privacy
+- limitations
+- handover
+- STOP
+
+======================================================================
+34. RESULT FORMAT AFTER EVERY SUBTASK
+======================================================================
+
+Use the following exact reporting structure:
+
+SUBTASK COMPLETED
+
+Subtask:
+[number + title]
+
+Objective:
+[what was implemented]
+
+Clinical sources used:
+- [file]
+- [page/section]
+- [source version where available]
+
+Files created:
+- ...
+
+Files modified:
+- ...
+
+Files deprecated/archived:
+- ...
+
+Dependencies added:
+- [dependency + reason]
+or
+- None
+
+Clinical/pathway logic implemented:
+- ...
+
+UI/UX implemented:
+- ...
+
+How I can review it:
+1. Run/open:
+2. Route:
+3. Enter/select:
+4. Expected behaviour:
+
+Representative example:
+Input:
+...
+
+Actual output:
+...
+
+Source traceability:
+...
+
+Validation:
+- Formatting: PASS/FAIL
+- Lint: PASS/FAIL
+- Type check: PASS/FAIL
+- Unit tests: PASS/FAIL
+- Integration tests: PASS/FAIL/N/A
+- Accessibility tests: PASS/FAIL/N/A
+- E2E tests: PASS/FAIL/N/A
+- Production build: PASS/FAIL/N/A
+
+Commands executed:
+- ...
+- ...
+
+Known clinical limitations:
+- ...
+
+Known technical limitations:
+- ...
+
+Clinical review required:
+Yes/No
+Details:
+...
+
+Recommended next subtask:
+[number + title only]
+
+APPROVAL REQUIRED
+
+Please review this subtask.
+
+I will NOT proceed to the next subtask until you explicitly approve it.
+
+======================================================================
+35. FIRST ACTION — SUBTASK 0 ONLY
+======================================================================
+
+Begin with:
+
+SUBTASK 0 — REPOSITORY AND SOURCE AUDIT
+
+Do ONLY the following:
+
+1. Inspect the complete repository.
+2. Inspect every newly attached clinical source document.
+3. Inspect the attached clinical diagrams.
+4. Create an organised `clinical-sources/` hierarchy.
+5. Copy/place the original attachments there without altering their
+   contents.
+6. Identify all current clinical-data files.
+7. Identify current synthetic/dummy dataset usage.
+8. Identify current rule-engine/rule-catalogue usage.
+9. Identify current NICE-only terminology.
+10. Identify the current generic assessment form.
+11. Identify existing result-page logic.
+12. Identify reusable UI components.
+13. Identify current tests.
+14. Identify deployment configuration.
+15. Identify AI/ML/transformer code.
+16. Identify current homepage/navigation structure.
+17. Identify anything that would conflict with the updated requirements.
+18. Classify affected files/components as:
+    - RETAIN
+    - REFACTOR
+    - REPLACE
+    - ARCHIVE
+    - REMOVE
+19. Propose the source registry.
+20. Propose the deterministic clinical pathway schema.
+21. Propose the repository migration strategy.
+22. Confirm/refine the subtask roadmap.
+23. Identify clinical ambiguities that require doctor review.
+24. Show the resulting source/repository tree.
+
+DO NOT:
+
+- implement Hyponatraemia
+- implement Hyperkalaemia
+- implement Hypocalcaemia
+- implement DKA
+- delete old architecture
+- redesign the homepage
+- implement AI
+- introduce paid services
+
+during Subtask 0.
+
+End your response with:
+
+"SUBTASK 0 COMPLETED — APPROVAL REQUIRED.
+
+Please review the repository audit, clinical-source organisation and
+migration plan.
+
+I will not begin implementation changes until you explicitly approve
+Subtask 0."

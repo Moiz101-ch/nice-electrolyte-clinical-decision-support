@@ -6,7 +6,6 @@ import {
   ClipboardCheck,
   ExternalLink,
   FileCheck2,
-  Plus,
   ShieldCheck,
   Stethoscope,
 } from "lucide-react";
@@ -24,7 +23,7 @@ const electrolytes = [
     abnormalityLow: "Hyponatraemia",
     badgeVariant: "info" as const,
     borderClass: "border-t-primary",
-    coverage: "3 draft rules",
+    coverage: "Source registered",
     iconClass: "bg-info-subtle text-primary",
     name: "Sodium",
     symbol: "Na+",
@@ -34,7 +33,7 @@ const electrolytes = [
     abnormalityLow: "Hypokalaemia",
     badgeVariant: "success" as const,
     borderClass: "border-t-success",
-    coverage: "8 draft rules",
+    coverage: "Source registered",
     iconClass: "bg-success-subtle text-success-strong",
     name: "Potassium",
     symbol: "K+",
@@ -44,7 +43,7 @@ const electrolytes = [
     abnormalityLow: "Hypocalcaemia",
     badgeVariant: "warning" as const,
     borderClass: "border-t-warning",
-    coverage: "2 draft rules",
+    coverage: "Source registered",
     iconClass: "bg-warning-subtle text-warning-strong",
     name: "Calcium",
     symbol: "Ca2+",
@@ -54,7 +53,7 @@ const electrolytes = [
     abnormalityLow: "Hypomagnesaemia",
     badgeVariant: "review" as const,
     borderClass: "border-t-review-strong",
-    coverage: "NICE gap",
+    coverage: "Supporting source",
     iconClass: "bg-review-subtle text-review-strong",
     name: "Magnesium",
     symbol: "Mg2+",
@@ -63,28 +62,27 @@ const electrolytes = [
 
 const workflowSteps = [
   {
-    description: "Choose an electrolyte and the structured pathway that matches the abnormality.",
+    description: "Select a source-supported module after its pathway becomes available.",
     icon: Stethoscope,
     title: "Select the pathway",
   },
   {
-    description: "Enter the result, trend, medicines, renal function, fluid status, and context.",
+    description: "Confirm only the structured inputs required by the reviewed source pathway.",
     icon: ClipboardCheck,
     title: "Confirm clinical context",
   },
   {
-    description:
-      "Review a deterministic output with its matched rule, limitations, and NICE source.",
+    description: "Review deterministic actions, limitations and page-level source references.",
     icon: FileCheck2,
     title: "Review the evidence",
   },
 ];
 
 const coverageAreas = [
-  "Sodium: IV-fluid incidents and an adrenal-insufficiency context",
-  "Potassium: IV fluids, CKD monitoring, medicine eligibility, and AKI escalation",
-  "Adjusted calcium: primary-hyperparathyroidism assessment and referral",
-  "Magnesium: no condition-specific NICE management rule in the current catalogue",
+  "Hyponatraemia: primary pathway source registered; implementation pending",
+  "Hyperkalaemia: primary pathway source registered; implementation pending",
+  "Hypocalcaemia: primary pathway source registered; implementation pending",
+  "Hypomagnesaemia: supporting source only; no standalone pathway is active",
 ];
 
 export default function Home() {
@@ -107,7 +105,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-white/70 sm:bg-white/55 lg:bg-white/35" />
           <div className="relative z-10 flex min-h-[19rem] items-center px-4 py-8 sm:min-h-[20rem] sm:px-6 lg:px-8">
             <div className="max-w-[39rem]">
-              <Badge variant="info">Adult clinical decision support</Badge>
+              <Badge variant="review">Pathway migration in progress</Badge>
               <h1
                 className="text-foreground mt-4 max-w-[36rem] text-3xl font-bold sm:text-4xl"
                 id="home-title"
@@ -115,19 +113,19 @@ export default function Home() {
                 Evidence-based electrolyte support
               </h1>
               <p className="text-muted-strong mt-3 max-w-[37rem] text-sm leading-6 sm:text-base sm:leading-7">
-                Structure an adult electrolyte assessment and review transparent, deterministic
-                outputs linked to the project&apos;s NICE-only evidence catalogue.
+                Supplied NHS and Trust documents are being converted into transparent,
+                source-traceable pathways. No clinical pathway is active yet.
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                 <Button asChild size="lg">
                   <Link href="/assessment/new">
-                    <Plus aria-hidden="true" />
-                    Start new assessment
+                    <FileCheck2 aria-hidden="true" />
+                    View pathway status
                   </Link>
                 </Button>
                 <Button asChild size="lg" variant="secondary">
                   <Link href="/#workflow">
-                    How it works
+                    Review migration status
                     <ArrowRight aria-hidden="true" />
                   </Link>
                 </Button>
@@ -138,13 +136,12 @@ export default function Home() {
 
         <section aria-labelledby="electrolytes-title" id="electrolytes">
           <div className="mb-5">
-            <p className="text-primary text-xs font-bold uppercase">New assessment</p>
+            <p className="text-primary text-xs font-bold uppercase">Registered scope</p>
             <h2 className="text-foreground mt-2 text-xl font-bold" id="electrolytes-title">
-              Choose an electrolyte category
+              Current source areas
             </h2>
             <p className="text-muted mt-2 max-w-2xl text-sm leading-6">
-              Review the supported abnormalities and current NICE catalogue coverage before entering
-              clinical information.
+              Source registration does not mean that a pathway is implemented, reviewed or approved.
             </p>
           </div>
 
@@ -190,12 +187,12 @@ export default function Home() {
         >
           <div className="grid gap-8 lg:grid-cols-[17rem_minmax(0,1fr)] lg:gap-12">
             <div>
-              <p className="text-primary text-xs font-bold uppercase">Structured workflow</p>
+              <p className="text-primary text-xs font-bold uppercase">Planned workflow</p>
               <h2 className="text-foreground mt-2 text-xl font-bold" id="workflow-title">
-                From result to traceable review
+                From registered source to traceable result
               </h2>
               <p className="text-muted mt-3 text-sm leading-6">
-                Every required field must be confirmed before rule evaluation begins.
+                This workflow remains unavailable until pathway-specific implementation and review.
               </p>
             </div>
             <ol className="grid gap-6 md:grid-cols-3">
@@ -221,34 +218,35 @@ export default function Home() {
               <div className="bg-success-subtle text-success-strong flex size-11 items-center justify-center rounded-md">
                 <ShieldCheck aria-hidden="true" className="size-5" strokeWidth={1.8} />
               </div>
-              <p className="text-success-strong mt-4 text-xs font-bold uppercase">NICE coverage</p>
+              <p className="text-success-strong mt-4 text-xs font-bold uppercase">
+                Migration status
+              </p>
               <h2 className="text-foreground mt-2 text-xl font-bold" id="coverage-title">
-                Coverage is explicit, including the gaps
+                Source coverage is explicit, including the gaps
               </h2>
               <p className="text-muted mt-3 max-w-3xl text-sm leading-6">
-                The draft catalogue contains context-specific NICE rules rather than pretending to
-                be a complete treatment handbook. Unsupported scenarios must route to current local
-                policy or specialist review.
+                The retired catalogue is no longer a runtime authority. The new implementation
+                starts from registered source documents and remains gated by clinical review.
               </p>
 
               <dl className="border-border mt-6 grid grid-cols-3 divide-x border-y py-4">
                 <div className="pr-3">
-                  <dt className="text-muted text-xs">Draft rules</dt>
-                  <dd className="text-foreground mt-1 text-xl font-bold">17</dd>
+                  <dt className="text-muted text-xs">Active pathways</dt>
+                  <dd className="text-foreground mt-1 text-xl font-bold">0</dd>
                 </div>
                 <div className="px-3">
                   <dt className="text-muted text-xs">Source records</dt>
-                  <dd className="text-foreground mt-1 text-xl font-bold">8</dd>
+                  <dd className="text-foreground mt-1 text-xl font-bold">7</dd>
                 </div>
                 <div className="pl-3">
-                  <dt className="text-muted text-xs">Covered categories</dt>
-                  <dd className="text-foreground mt-1 text-xl font-bold">3 of 4</dd>
+                  <dt className="text-muted text-xs">Target pathways</dt>
+                  <dd className="text-foreground mt-1 text-xl font-bold">3</dd>
                 </div>
               </dl>
             </div>
 
             <div className="border-border bg-surface rounded-lg border p-5">
-              <h3 className="text-foreground text-sm font-semibold">Current catalogue scope</h3>
+              <h3 className="text-foreground text-sm font-semibold">Current source scope</h3>
               <ul className="text-muted mt-4 space-y-3 text-sm leading-5">
                 {coverageAreas.map((area) => (
                   <li className="flex gap-2" key={area}>
@@ -275,8 +273,8 @@ export default function Home() {
             <BookOpen aria-hidden="true" className="text-primary size-6" strokeWidth={1.8} />
             <h2 className="text-foreground mt-4 text-base font-semibold">Evidence traceability</h2>
             <p className="text-muted mt-2 text-sm leading-6">
-              Supported outputs identify the matched rule, NICE source, relevant section, and known
-              limitation.
+              Future outputs must identify the pathway version, source document, page, section and
+              clinical-review status.
             </p>
             <Link
               className="text-primary hover:text-primary-hover mt-4 inline-flex min-h-10 items-center gap-2 text-sm font-semibold"
@@ -295,33 +293,29 @@ export default function Home() {
             />
             <div className="mt-4 flex items-center gap-2">
               <h2 className="text-foreground text-base font-semibold">Optional browser AI</h2>
-              <Badge variant="review">Off by default</Badge>
+              <Badge variant="review">Deferred</Badge>
             </div>
             <p className="text-muted mt-2 text-sm leading-6">
-              Browser-based extraction may help structure notes later. It never replaces the form,
-              and every extracted field must be reviewed and confirmed.
+              Note extraction is outside the current implementation phase and cannot influence a
+              pathway branch or management result.
             </p>
           </article>
 
           <article className="border-border bg-surface shadow-card rounded-lg border p-5">
             <ShieldCheck aria-hidden="true" className="text-success size-6" strokeWidth={1.8} />
-            <h2 className="text-foreground mt-4 text-base font-semibold">Safety-first output</h2>
+            <h2 className="text-foreground mt-4 text-base font-semibold">Fail-closed migration</h2>
             <p className="text-muted mt-2 text-sm leading-6">
-              No rule match means no invented treatment instruction. The application surfaces the
-              limitation and directs the clinician to an approved pathway.
+              With no reviewed pathway active, the application accepts no clinical inputs and
+              generates no treatment instruction.
             </p>
           </article>
         </section>
 
-        <Alert
-          id="safety-notice"
-          title="Educational prototype - clinical review required"
-          variant="warning"
-        >
+        <Alert id="safety-notice" title="Clinical pathways are not active" variant="warning">
           <p>
-            Catalogue rules are pending clinician validation and are not a substitute for
-            professional judgement, emergency pathways, local policy, or current NICE guidance. Do
-            not enter real patient-identifiable information.
+            Do not use this application for diagnosis or management decisions. Follow approved local
+            pathways, emergency procedures and current guidance. Do not enter real
+            patient-identifiable information.
           </p>
         </Alert>
       </div>

@@ -7,3 +7,4 @@ test-results/
 project-input/
 data/runtime/
 package-lock.json
+archive/

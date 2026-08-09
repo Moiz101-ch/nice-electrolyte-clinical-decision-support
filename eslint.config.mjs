@@ -5,6 +5,7 @@ import nextTypescript from "eslint-config-next/typescript";
 const eslintConfig = [
   {
     ignores: [
+      "archive/**",
       ".next/**",
       ".open-next/**",
       ".venv/**",

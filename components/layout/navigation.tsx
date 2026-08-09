@@ -33,13 +33,13 @@ const navigationSections: NavigationSection[] = [
     items: [{ activePath: "/", href: "/", icon: Home, label: "Home" }],
   },
   {
-    label: "Assessment",
+    label: "Pathways",
     items: [
       {
         activePath: "/assessment/new",
         href: "/assessment/new",
         icon: ClipboardPlus,
-        label: "New assessment",
+        label: "Pathway status",
       },
       { icon: History, label: "My assessments" },
     ],
@@ -47,7 +47,7 @@ const navigationSections: NavigationSection[] = [
   {
     label: "Evidence & resources",
     items: [
-      { href: "/#nice-coverage", icon: LibraryBig, label: "NICE evidence library" },
+      { href: "/#nice-coverage", icon: LibraryBig, label: "Source review status" },
       { icon: Layers3, label: "Additional resources" },
     ],
   },

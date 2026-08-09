@@ -1,0 +1,268 @@
+{
+  "registryVersion": "1.0.0",
+  "auditedOn": "2026-08-10",
+  "sources": [
+    {
+      "sourceId": "YSTHFT-HYPONATRAEMIA-EMERGENCY-V1",
+      "sourceKind": "clinical-pathway",
+      "clinicalScope": "hyponatraemia",
+      "organisation": "York and Scarborough Teaching Hospitals NHS Foundation Trust",
+      "title": "Emergency Management of Hyponatraemia",
+      "authors": [],
+      "owner": "Dr T Pawlak",
+      "documentVersion": "1.0",
+      "issueDate": { "value": "2025-02", "precision": "month" },
+      "reviewDate": { "value": "2028-02", "precision": "month" },
+      "pageCount": 1,
+      "mediaType": "application/pdf",
+      "originalFileName": "hyponatraemia-pathway.pdf",
+      "localPath": "clinical-sources/hyponatraemia/hyponatraemia-pathway.pdf",
+      "sha256": "C3021A2159D18F5629A5CA40995B7123E769C07B4F9728B41AAAA414AE46E646",
+      "fileSizeBytes": 72544,
+      "imageDimensions": null,
+      "provenanceStatus": "identified-source",
+      "reuseStatus": "internal-verification-only",
+      "clinicalReviewStatus": "awaiting-clinical-review",
+      "governanceFlags": ["missing-referenced-source", "reuse-unverified"],
+      "relatedSourceIds": [],
+      "supportingReferences": [
+        {
+          "title": "Separate SIADH pathway referenced by the flowchart",
+          "identifier": null,
+          "url": null,
+          "status": "not-supplied"
+        }
+      ],
+      "notes": [
+        "The source is the primary emergency-management pathway for the planned hyponatraemia module.",
+        "Exact flowchart transcription and branch ambiguities require clinical review before approval."
+      ]
+    },
+    {
+      "sourceId": "UNVERIFIED-HYPONATRAEMIA-CLASSIFICATION-CAPTURE",
+      "sourceKind": "diagram",
+      "clinicalScope": "hyponatraemia",
+      "organisation": null,
+      "title": "Classification of hyponatremia table capture",
+      "authors": [],
+      "owner": null,
+      "documentVersion": null,
+      "issueDate": null,
+      "reviewDate": null,
+      "pageCount": 1,
+      "mediaType": "image/jpeg",
+      "originalFileName": "WhatsApp Image 2026-08-09 at 11.57.48 AM.jpeg",
+      "localPath": "clinical-sources/hyponatraemia/WhatsApp Image 2026-08-09 at 11.57.48 AM.jpeg",
+      "sha256": "905B46C1DAEA97FDDA2864FC5965B2A3D95B0013867792B82E053A29B8410B15",
+      "fileSizeBytes": 152976,
+      "imageDimensions": { "width": 1232, "height": 1086 },
+      "provenanceStatus": "unverified-source",
+      "reuseStatus": "not-assessed",
+      "clinicalReviewStatus": "draft",
+      "governanceFlags": [
+        "boundary-ambiguous",
+        "metadata-incomplete",
+        "provenance-unverified",
+        "reuse-unverified"
+      ],
+      "relatedSourceIds": ["UNVERIFIED-HYPONATRAEMIA-CLASSIFICATION-DIAGRAM"],
+      "supportingReferences": [],
+      "notes": [
+        "No visible organisation, author, issue date, version, approval or reuse metadata is present.",
+        "Exact equality handling is undefined at serum osmolality 275 and 295, urine osmolality 100 and urine sodium 40."
+      ]
+    },
+    {
+      "sourceId": "UNVERIFIED-HYPONATRAEMIA-CLASSIFICATION-DIAGRAM",
+      "sourceKind": "diagram",
+      "clinicalScope": "hyponatraemia",
+      "organisation": null,
+      "title": "Classification of Hyponatremia",
+      "authors": [],
+      "owner": null,
+      "documentVersion": null,
+      "issueDate": null,
+      "reviewDate": null,
+      "pageCount": 1,
+      "mediaType": "image/jpeg",
+      "originalFileName": "WhatsApp Image 2026-08-09 at 12.01.45 PM.jpeg",
+      "localPath": "clinical-sources/hyponatraemia/WhatsApp Image 2026-08-09 at 12.01.45 PM.jpeg",
+      "sha256": "EBFCD8E82C715A5FF9E1A3359D49ED1C9A5098FB5D85263FFA1E288CEAD6C39D",
+      "fileSizeBytes": 222808,
+      "imageDimensions": { "width": 1536, "height": 1024 },
+      "provenanceStatus": "unverified-source",
+      "reuseStatus": "not-assessed",
+      "clinicalReviewStatus": "draft",
+      "governanceFlags": [
+        "boundary-ambiguous",
+        "metadata-incomplete",
+        "provenance-unverified",
+        "reuse-unverified"
+      ],
+      "relatedSourceIds": ["UNVERIFIED-HYPONATRAEMIA-CLASSIFICATION-CAPTURE"],
+      "supportingReferences": [],
+      "notes": [
+        "No visible organisation, author, issue date, version, approval or reuse metadata is present.",
+        "The diagram may identify compatible cause patterns but must not be treated as a definitive diagnostic source."
+      ]
+    },
+    {
+      "sourceId": "YSTHFT-ACUTE-HYPERKALAEMIA-V1",
+      "sourceKind": "clinical-pathway",
+      "clinicalScope": "hyperkalaemia",
+      "organisation": "York and Scarborough Teaching Hospitals NHS Foundation Trust",
+      "title": "Management of Acute Hyperkalaemia in Adults",
+      "authors": ["Tasnim Momoniat", "Matt Cooke", "Okkar Myint Zaw"],
+      "owner": null,
+      "documentVersion": "1.0",
+      "issueDate": { "value": "2023-11", "precision": "month" },
+      "reviewDate": { "value": "2026-11", "precision": "month" },
+      "pageCount": 2,
+      "mediaType": "application/pdf",
+      "originalFileName": "ps01173-protocol-for-management-of-acute-hyperkalaemia-in-adults-fy11000403.pdf",
+      "localPath": "clinical-sources/hyperkalaemia/ps01173-protocol-for-management-of-acute-hyperkalaemia-in-adults-fy11000403.pdf",
+      "sha256": "812308761523594CD02CFAC4A567FC70C1156B0BD93DAD3A5D8EEFB01D20886D",
+      "fileSizeBytes": 155701,
+      "imageDimensions": null,
+      "provenanceStatus": "identified-source",
+      "reuseStatus": "internal-verification-only",
+      "clinicalReviewStatus": "awaiting-clinical-review",
+      "governanceFlags": [
+        "internal-content-conflict",
+        "missing-referenced-source",
+        "reuse-unverified",
+        "review-due-soon"
+      ],
+      "relatedSourceIds": [],
+      "supportingReferences": [
+        {
+          "title": "UK Kidney Association Treatment of Acute Hyperkalaemia in Adults, August 2023",
+          "identifier": null,
+          "url": null,
+          "status": "not-supplied"
+        }
+      ],
+      "notes": [
+        "Page 2 is the primary clinician decision pathway; page 1 is mainly a prescribing and administration chart.",
+        "The repeat calcium and moderate potassium-removal branches require clinical clarification."
+      ]
+    },
+    {
+      "sourceId": "YSTHFT-HYPOCALCAEMIA-V4",
+      "sourceKind": "clinical-pathway",
+      "clinicalScope": "hypocalcaemia",
+      "organisation": "York and Scarborough Teaching Hospitals NHS Foundation Trust",
+      "title": "Diagnosis and Management of Hypocalcaemia",
+      "authors": ["T Pawlak", "C Jones"],
+      "owner": null,
+      "documentVersion": "4",
+      "issueDate": { "value": "2024-10", "precision": "month" },
+      "reviewDate": { "value": "2027-10", "precision": "month" },
+      "pageCount": 2,
+      "mediaType": "application/pdf",
+      "originalFileName": "hypocalcaemia-diagnosis-management-v4-oct-24-oct-27.pdf",
+      "localPath": "clinical-sources/hypocalcaemia/hypocalcaemia-diagnosis-management-v4-oct-24-oct-27.pdf",
+      "sha256": "76A7349CE1B1A704D10E6A18B388881CBCA083553F647EB809DB533D6848B348",
+      "fileSizeBytes": 135868,
+      "imageDimensions": null,
+      "provenanceStatus": "identified-source",
+      "reuseStatus": "internal-verification-only",
+      "clinicalReviewStatus": "awaiting-clinical-review",
+      "governanceFlags": [
+        "boundary-ambiguous",
+        "missing-referenced-source",
+        "reuse-unverified",
+        "source-mismatch"
+      ],
+      "relatedSourceIds": [],
+      "supportingReferences": [
+        {
+          "title": "York hypomagnesaemia diagnosis and management guidance referenced in the pathway",
+          "identifier": null,
+          "url": null,
+          "status": "not-supplied"
+        },
+        {
+          "title": "Massive blood loss in adults guidance referenced in the pathway",
+          "identifier": null,
+          "url": null,
+          "status": "not-supplied"
+        },
+        {
+          "title": "Calcium gluconate IV monograph referenced in the pathway",
+          "identifier": null,
+          "url": null,
+          "status": "not-supplied"
+        }
+      ],
+      "notes": [
+        "The supplied Tameside hypomagnesaemia source is not the York source linked by this pathway.",
+        "Exact severity boundaries and the interaction between symptoms, rate of fall and numeric classification require clinical review."
+      ]
+    },
+    {
+      "sourceId": "TGICFT-HYPOMAGNESAEMIA-UNDATED",
+      "sourceKind": "supporting-guidance",
+      "clinicalScope": "hypomagnesaemia",
+      "organisation": "Tameside and Glossop Integrated Care NHS Foundation Trust",
+      "title": "Hypomagnesemia Diagnosis & Management",
+      "authors": ["Dr Harris Rathur", "Dr Ali Zafar", "Dr Alina Nazir"],
+      "owner": null,
+      "documentVersion": null,
+      "issueDate": null,
+      "reviewDate": null,
+      "pageCount": 5,
+      "mediaType": "application/pdf",
+      "originalFileName": "Hypomagnesaemia_NHS_Guidelines (1).pdf",
+      "localPath": "clinical-sources/hypomagnesaemia/Hypomagnesaemia_NHS_Guidelines (1).pdf",
+      "sha256": "95EB0F9487541BCE9935210A4B8E4C36A667762CC14A5292B39E55AE3DBA5164",
+      "fileSizeBytes": 656238,
+      "imageDimensions": null,
+      "provenanceStatus": "identified-source",
+      "reuseStatus": "internal-verification-only",
+      "clinicalReviewStatus": "draft",
+      "governanceFlags": [
+        "internal-content-conflict",
+        "metadata-incomplete",
+        "reuse-unverified",
+        "source-mismatch"
+      ],
+      "relatedSourceIds": [],
+      "supportingReferences": [],
+      "notes": [
+        "No visible version, issue date, review date or approval body is recorded.",
+        "The narrative and flowchart contain different oral magnesium dosing wording.",
+        "This is supporting material only and is not the York guidance referenced by the hypocalcaemia source."
+      ]
+    },
+    {
+      "sourceId": "YTH-DKA-V9-2019",
+      "sourceKind": "clinical-pathway",
+      "clinicalScope": "dka",
+      "organisation": "York Teaching Hospital NHS Foundation Trust",
+      "title": "Guideline for the Management of Diabetic Ketoacidosis (DKA) in Adults",
+      "authors": ["Dr Jonathan Thow", "Liz Jackson"],
+      "owner": "Dr Jonathan Thow",
+      "documentVersion": "9",
+      "issueDate": { "value": "2019-05", "precision": "month" },
+      "reviewDate": { "value": "2021-04", "precision": "month" },
+      "pageCount": 4,
+      "mediaType": "application/pdf",
+      "originalFileName": "Diabetic-Ketoacidosis--DKA--in-Adults-Pathway-v9-May-19---Apr-21-1.pdf",
+      "localPath": "clinical-sources/dka/Diabetic-Ketoacidosis--DKA--in-Adults-Pathway-v9-May-19---Apr-21-1.pdf",
+      "sha256": "9DC7D5F7078CB2143FFF0CA7BAF59F99B9D0FD6D2E6151D55DA1B7555DC117D9",
+      "fileSizeBytes": 859469,
+      "imageDimensions": null,
+      "provenanceStatus": "identified-source",
+      "reuseStatus": "internal-verification-only",
+      "clinicalReviewStatus": "draft",
+      "governanceFlags": ["internal-content-conflict", "reuse-unverified", "review-overdue"],
+      "relatedSourceIds": [],
+      "supportingReferences": [],
+      "notes": [
+        "The review date passed in April 2021, so this source cannot activate a public calculator without currentness review.",
+        "Resolution wording differs between Step 9 and the monitoring chart and requires clinical resolution."
+      ]
+    }
+  ]
+}

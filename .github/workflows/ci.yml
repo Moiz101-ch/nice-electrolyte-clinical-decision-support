@@ -22,20 +22,8 @@ jobs:
           node-version: 24
           cache: npm
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
       - name: Install JavaScript dependencies
         run: npm ci
-
-      - name: Install Python dependencies
-        run: |
-          python -m venv .venv
-          . .venv/bin/activate
-          python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt
 
       - name: Check formatting
         run: npm run format:check
@@ -46,8 +34,8 @@ jobs:
       - name: Type check
         run: npm run typecheck
 
-      - name: Validate generated clinical data
-        run: npm run data:check
+      - name: Verify immutable clinical sources
+        run: npm run sources:check
 
       - name: Unit tests
         run: npm run test

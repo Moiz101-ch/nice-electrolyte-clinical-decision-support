@@ -49,7 +49,7 @@ export function MobileNavigation() {
           >
             <Dialog.Title className="sr-only">Application navigation</Dialog.Title>
             <Dialog.Description className="sr-only">
-              Navigate the NICE Electrolyte Clinical Decision Support application.
+              Navigate the electrolyte pathway application.
             </Dialog.Description>
             <div className="border-border flex h-[4.5rem] items-center justify-between border-b px-4">
               <Brand />
@@ -63,7 +63,7 @@ export function MobileNavigation() {
               <NavigationContent />
             </div>
             <div className="border-border bg-surface-subtle text-muted border-t px-4 py-3 text-xs leading-5">
-              Educational and professional support only.
+              Clinical pathways are not active.
             </div>
           </Dialog.Content>
         </Dialog.Portal>
