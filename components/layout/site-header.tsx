@@ -1,4 +1,4 @@
-import { FileClock, ShieldCheck } from "lucide-react";
+import { ClipboardPlus, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
@@ -18,18 +18,18 @@ export function SiteHeader() {
         <div className="ml-auto flex items-center gap-2 sm:gap-4">
           <Link
             className="text-muted-strong hover:bg-surface-subtle hover:text-foreground hidden min-h-10 items-center gap-2 rounded-md px-3 text-sm font-semibold sm:inline-flex"
-            href="/#safety-notice"
+            href="/#about-safety"
           >
             <ShieldCheck aria-hidden="true" className="size-4" />
             Safety
           </Link>
           <Badge className="hidden md:inline-flex" variant="review">
-            Educational prototype
+            Clinical review phase
           </Badge>
           <Button asChild className="hidden sm:inline-flex">
             <Link href="/assessment/new">
-              <FileClock aria-hidden="true" />
-              Pathway status
+              <ClipboardPlus aria-hidden="true" />
+              New assessment
             </Link>
           </Button>
         </div>

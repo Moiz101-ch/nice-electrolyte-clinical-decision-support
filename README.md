@@ -1,4 +1,4 @@
-# NICE Electrolyte Clinical Decision Support
+# Electrolyte Pathways
 
 Source-governed prototype for deterministic adult electrolyte pathways. The project is migrating
 from a retired synthetic-data/NICE catalogue to pathway-specific implementations transcribed from
@@ -13,21 +13,37 @@ or management decisions, and no patient-identifiable information should be enter
 - `src/clinical/sources/` provides the typed, SHA-256-verified source registry.
 - `src/clinical/pathways/` provides strict declarative pathway schemas and governance validation.
 - `src/clinical/engine/` provides deterministic, fail-closed pathway evaluation.
+- `components/clinical/` provides reusable, accessible pathway input and result presentation.
 - `/assessment/new` is temporarily locked and accepts no clinical input.
+- `/review/pathway-ui` presents the shared UI framework with non-evaluated demonstration states.
+- `/review/hyponatraemia/severity` previews source-derived sodium severity classification only.
+- `/review/hyponatraemia/fluid-status` previews adaptive volume-state and source-listed sign
+  branches without management output.
+- `/review/hyponatraemia/emergency-management` previews the source-derived symptomatic emergency
+  branch, correction safeguards and monitoring behind an explicit clinical-review warning.
+- `/review/hyponatraemia/classification` previews adaptive serum/urine osmolality classification,
+  compatible cause categories and a guarded SIADH-compatible endpoint.
+- `/review/hyponatraemia/result` consolidates one representative evaluated branch into an
+  operational review of actions, monitoring, safety, compatible causes, rationale and governance.
 - The previous catalogue, synthetic cases, generic assessment, flat rule engine and extraction
   experiment are isolated under `archive/legacy-nice-prototype/`.
 
 See the [source registry](docs/clinical-source-registry.md),
 [pathway engine foundation](docs/pathway-engine-foundation.md),
+[hyponatraemia fluid-status workflow](docs/hyponatraemia-fluid-status.md),
+[hyponatraemia emergency management](docs/hyponatraemia-emergency-management.md),
+[hyponatraemia urine/osmolality classification](docs/hyponatraemia-osmolality-classification.md),
+[hyponatraemia operational result](docs/hyponatraemia-operational-result.md),
 [legacy retirement record](docs/legacy-architecture-retirement.md), and
 [repository/source audit](docs/subtask-0-repository-source-audit.md).
 
 ## Source Policy
 
 Supplied operational NHS and Trust documents are the primary sources for interactive workflows.
-NICE material may be retained as a supporting reference only where it is mapped accurately. Every
-future output must expose the pathway version, source document, page, section and clinical-review
-status.
+NICE material may be retained as a supporting reference only where it is mapped accurately. Source
+documents, page/section mappings and registry IDs remain available internally for governance and
+testing, but are not displayed in clinician-facing workflow screens. Pathway version and
+clinical-review status remain visible.
 
 Synthetic cases may be introduced only as source-derived tests around reviewed boundaries. They
 must never define, train or infer clinical rules.

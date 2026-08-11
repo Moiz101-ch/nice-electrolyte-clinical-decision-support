@@ -20,3 +20,4 @@ export {
   type PathwayNode,
   type PathwaySourceReference,
 } from "./schema.ts";
+export * from "./hyponatraemia/index.ts";

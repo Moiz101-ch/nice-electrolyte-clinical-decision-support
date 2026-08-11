@@ -5,9 +5,7 @@ test("loads the responsive application shell", async ({ page }) => {
   await page.goto("/");
 
   await expect(page.locator('meta[name="darkreader-lock"]')).toHaveAttribute("content", "true");
-  await expect(
-    page.getByRole("heading", { name: "Evidence-based electrolyte support" }),
-  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Acute electrolyte management" })).toBeVisible();
   await expect(page.getByRole("navigation", { name: "Primary navigation" })).toBeVisible();
 
   const heroVisual = page.getByTestId("hero-visual");
@@ -50,9 +48,19 @@ test("tolerates extension attributes injected before hydration", async ({ page }
   expect(hydrationErrors).toEqual([]);
 });
 
-test("routes assessment actions to a fail-closed migration state", async ({ page }) => {
+test("shows the pathway-first workspace and keeps every clinical module gated", async ({
+  page,
+}) => {
   await page.goto("/");
-  await page.getByRole("link", { name: "View pathway status" }).first().click();
+
+  for (const pathway of ["Hyponatraemia", "Hyperkalaemia", "Hypocalcaemia"]) {
+    await expect(page.getByRole("heading", { name: pathway })).toBeVisible();
+  }
+  await expect(page.getByRole("button", { name: "Start pathway" })).toHaveCount(3);
+  await expect(page.getByRole("heading", { name: "DKA management pathway" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Open calculator" })).toBeDisabled();
+
+  await page.getByRole("link", { name: "New assessment" }).first().click();
 
   await expect(page).toHaveURL(/\/assessment\/new$/);
   await expect(
@@ -66,6 +74,9 @@ test("routes assessment actions to a fail-closed migration state", async ({ page
 test("keeps the locked route responsive and accessible", async ({ page }) => {
   await page.setViewportSize({ height: 844, width: 390 });
   await page.goto("/assessment/new");
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Clinical pathways are under review" }),
+  ).toBeVisible();
 
   expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(
     false,
@@ -90,12 +101,20 @@ test("opens and closes mobile navigation", async ({ page }) => {
   await page.goto("/");
 
   await page.getByRole("button", { name: "Open navigation" }).click();
-  await expect(page.getByRole("dialog", { name: "Application navigation" })).toBeVisible();
+  const dialog = page.getByRole("dialog", { name: "Application navigation" });
+
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByRole("link", { name: "Clinical pathways" })).toBeVisible();
+  await expect(dialog.getByRole("link", { name: "Source guidelines" })).toBeVisible();
+  await expect(page.getByText("My assessments")).toHaveCount(0);
   await page.keyboard.press("Escape");
-  await expect(page.getByRole("dialog", { name: "Application navigation" })).toBeHidden();
+  await expect(dialog).toBeHidden();
 });
 
 test("has no automatically detectable home-page accessibility violations", async ({ page }) => {
   await page.goto("/");
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Acute electrolyte management" }),
+  ).toBeVisible();
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
 });

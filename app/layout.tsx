@@ -5,11 +5,11 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "NICE Electrolyte CDS",
-    template: "%s | NICE Electrolyte CDS",
+    default: "Electrolyte Pathways",
+    template: "%s | Electrolyte Pathways",
   },
   description:
-    "Educational clinical decision-support prototype for adult electrolyte abnormalities using deterministic NICE-based rules.",
+    "Source-governed clinical pathway workspace for adult electrolyte abnormalities using deterministic evaluation and explicit clinical review.",
   other: {
     "darkreader-lock": "true",
   },

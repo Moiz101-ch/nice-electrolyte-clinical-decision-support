@@ -21,8 +21,8 @@ export function AppShell({ children }: { children: ReactNode }) {
             <NavigationContent />
           </div>
           <div className="p-4 pt-0">
-            <Alert className="p-3 text-xs" title="Pathways inactive" variant="warning">
-              No clinical pathway is currently available for assessment or management output.
+            <Alert className="p-3 text-xs" title="Clinical review phase" variant="warning">
+              Pathways and calculators remain locked until their review gates are complete.
             </Alert>
           </div>
         </aside>

@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 export function Brand({ compact = false }: { compact?: boolean }) {
   return (
     <Link
-      aria-label="NICE Electrolyte CDS home"
+      aria-label="Electrolyte Pathways home"
       className="inline-flex min-w-0 items-center gap-3 rounded-md"
       href="/"
     >
@@ -15,9 +15,9 @@ export function Brand({ compact = false }: { compact?: boolean }) {
       </span>
       <span className={cn("min-w-0", compact && "hidden sm:block")}>
         <span className="text-foreground block truncate text-sm font-bold sm:text-base">
-          NICE Electrolyte CDS
+          Electrolyte Pathways
         </span>
-        <span className="text-muted block truncate text-xs">Clinical Decision Support</span>
+        <span className="text-muted block truncate text-xs">Clinical decision support</span>
       </span>
     </Link>
   );

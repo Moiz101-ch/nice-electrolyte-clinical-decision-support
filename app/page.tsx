@@ -1,324 +1,267 @@
 import {
   ArrowRight,
-  BookOpen,
-  BrainCircuit,
-  Check,
-  ClipboardCheck,
-  ExternalLink,
+  BookOpenCheck,
+  Calculator,
+  ClipboardPlus,
   FileCheck2,
+  LockKeyhole,
   ShieldCheck,
-  Stethoscope,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+import { PathwayCard } from "@/components/home/pathway-card";
 import { AppShell } from "@/components/layout/app-shell";
 import { Alert } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { loadClinicalSourceRegistry } from "@/src/clinical/sources/registry";
+import type { ClinicalSource, SourceDate } from "@/src/clinical/sources/schema";
 
-const electrolytes = [
+const primaryPathways = [
   {
-    abnormalityHigh: "Hypernatraemia",
-    abnormalityLow: "Hyponatraemia",
-    badgeVariant: "info" as const,
-    borderClass: "border-t-primary",
-    coverage: "Source registered",
-    iconClass: "bg-info-subtle text-primary",
-    name: "Sodium",
+    accent: "sodium" as const,
+    direction: "low" as const,
+    electrolyte: "Sodium",
+    name: "Hyponatraemia",
+    sourceId: "YSTHFT-HYPONATRAEMIA-EMERGENCY-V1",
     symbol: "Na+",
   },
   {
-    abnormalityHigh: "Hyperkalaemia",
-    abnormalityLow: "Hypokalaemia",
-    badgeVariant: "success" as const,
-    borderClass: "border-t-success",
-    coverage: "Source registered",
-    iconClass: "bg-success-subtle text-success-strong",
-    name: "Potassium",
+    accent: "potassium" as const,
+    direction: "high" as const,
+    electrolyte: "Potassium",
+    name: "Hyperkalaemia",
+    sourceId: "YSTHFT-ACUTE-HYPERKALAEMIA-V1",
     symbol: "K+",
   },
   {
-    abnormalityHigh: "Hypercalcaemia",
-    abnormalityLow: "Hypocalcaemia",
-    badgeVariant: "warning" as const,
-    borderClass: "border-t-warning",
-    coverage: "Source registered",
-    iconClass: "bg-warning-subtle text-warning-strong",
-    name: "Calcium",
+    accent: "calcium" as const,
+    direction: "low" as const,
+    electrolyte: "Calcium",
+    name: "Hypocalcaemia",
+    sourceId: "YSTHFT-HYPOCALCAEMIA-V4",
     symbol: "Ca2+",
   },
-  {
-    abnormalityHigh: "Hypermagnesaemia",
-    abnormalityLow: "Hypomagnesaemia",
-    badgeVariant: "review" as const,
-    borderClass: "border-t-review-strong",
-    coverage: "Supporting source",
-    iconClass: "bg-review-subtle text-review-strong",
-    name: "Magnesium",
-    symbol: "Mg2+",
-  },
-];
-
-const workflowSteps = [
-  {
-    description: "Select a source-supported module after its pathway becomes available.",
-    icon: Stethoscope,
-    title: "Select the pathway",
-  },
-  {
-    description: "Confirm only the structured inputs required by the reviewed source pathway.",
-    icon: ClipboardCheck,
-    title: "Confirm clinical context",
-  },
-  {
-    description: "Review deterministic actions, limitations and page-level source references.",
-    icon: FileCheck2,
-    title: "Review the evidence",
-  },
-];
-
-const coverageAreas = [
-  "Hyponatraemia: primary pathway source registered; implementation pending",
-  "Hyperkalaemia: primary pathway source registered; implementation pending",
-  "Hypocalcaemia: primary pathway source registered; implementation pending",
-  "Hypomagnesaemia: supporting source only; no standalone pathway is active",
-];
+] as const;
 
 export default function Home() {
+  const registry = loadClinicalSourceRegistry();
+  const approvedSourceCount = registry.sources.filter(
+    (source) => source.clinicalReviewStatus === "approved-for-project-use",
+  ).length;
+  const dkaSource = getSource(registry.sources, "YTH-DKA-V9-2019");
+
   return (
     <AppShell>
-      <div className="space-y-10 sm:space-y-12">
-        <section
-          aria-labelledby="home-title"
-          className="border-info-border bg-surface relative isolate -mx-4 min-h-[19rem] overflow-hidden border-y shadow-xs sm:-mx-6 sm:min-h-[20rem] lg:-mx-8"
-        >
-          <Image
-            alt=""
-            className="object-cover object-[68%_center]"
-            data-testid="hero-visual"
-            fill
-            priority
-            sizes="(min-width: 1024px) calc(100vw - 16rem), 100vw"
-            src="/clinical-electrolyte-hero.webp"
-          />
-          <div className="absolute inset-0 bg-white/70 sm:bg-white/55 lg:bg-white/35" />
-          <div className="relative z-10 flex min-h-[19rem] items-center px-4 py-8 sm:min-h-[20rem] sm:px-6 lg:px-8">
-            <div className="max-w-[39rem]">
-              <Badge variant="review">Pathway migration in progress</Badge>
-              <h1
-                className="text-foreground mt-4 max-w-[36rem] text-3xl font-bold sm:text-4xl"
-                id="home-title"
-              >
-                Evidence-based electrolyte support
+      <div className="space-y-9">
+        <section aria-labelledby="home-title" id="acute-electrolyte-management">
+          <div className="border-info-border relative isolate min-h-48 overflow-hidden rounded-lg border shadow-xs">
+            <Image
+              alt=""
+              className="object-cover object-[72%_center]"
+              data-testid="hero-visual"
+              fill
+              priority
+              sizes="(min-width: 1024px) calc(100vw - 20rem), 100vw"
+              src="/clinical-electrolyte-hero.webp"
+            />
+            <div className="absolute inset-0 bg-white/80 sm:bg-white/70 lg:bg-white/58" />
+            <div className="relative z-10 flex min-h-48 max-w-3xl flex-col justify-center px-5 py-6 sm:px-7">
+              <div className="flex flex-wrap items-center gap-2">
+                <Badge variant="info">Clinical workspace</Badge>
+                <Badge variant="review">0 active pathways</Badge>
+              </div>
+              <h1 className="text-foreground mt-3 text-2xl font-bold sm:text-3xl" id="home-title">
+                Acute electrolyte management
               </h1>
-              <p className="text-muted-strong mt-3 max-w-[37rem] text-sm leading-6 sm:text-base sm:leading-7">
-                Supplied NHS and Trust documents are being converted into transparent,
-                source-traceable pathways. No clinical pathway is active yet.
+              <p className="text-muted-strong mt-2 max-w-2xl text-sm leading-6">
+                Select a source-governed pathway. Modules remain locked until implementation,
+                technical verification and clinical review are complete.
               </p>
-              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                <Button asChild size="lg">
+              <div className="mt-5 flex flex-col gap-2 sm:flex-row">
+                <Button asChild>
                   <Link href="/assessment/new">
-                    <FileCheck2 aria-hidden="true" />
-                    View pathway status
+                    <ClipboardPlus aria-hidden="true" />
+                    New assessment
                   </Link>
                 </Button>
-                <Button asChild size="lg" variant="secondary">
-                  <Link href="/#workflow">
-                    Review migration status
+                <Button asChild variant="secondary">
+                  <Link href="/#source-governance">
+                    Review source status
                     <ArrowRight aria-hidden="true" />
                   </Link>
                 </Button>
               </div>
             </div>
           </div>
-        </section>
 
-        <section aria-labelledby="electrolytes-title" id="electrolytes">
-          <div className="mb-5">
-            <p className="text-primary text-xs font-bold uppercase">Registered scope</p>
-            <h2 className="text-foreground mt-2 text-xl font-bold" id="electrolytes-title">
-              Current source areas
-            </h2>
-            <p className="text-muted mt-2 max-w-2xl text-sm leading-6">
-              Source registration does not mean that a pathway is implemented, reviewed or approved.
+          <div className="mt-7 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-primary text-xs font-bold uppercase">Primary pathways</p>
+              <h2 className="text-foreground mt-1 text-xl font-bold">Choose a clinical pathway</h2>
+            </div>
+            <p className="text-muted max-w-xl text-sm leading-5 sm:text-right">
+              Availability follows explicit source and clinical-review governance.
             </p>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            {electrolytes.map((electrolyte) => (
-              <article
-                className={`border-border bg-surface shadow-card rounded-lg border border-t-2 p-5 ${electrolyte.borderClass}`}
-                key={electrolyte.name}
-              >
-                <div className="flex items-start gap-3">
-                  <span
-                    className={`flex size-11 shrink-0 items-center justify-center rounded-full text-xs font-bold ${electrolyte.iconClass}`}
-                  >
-                    {electrolyte.symbol}
-                  </span>
-                  <div className="min-w-0">
-                    <h3 className="text-foreground text-base font-semibold">{electrolyte.name}</h3>
-                    <p className="text-muted mt-1 text-xs">Related abnormalities</p>
-                  </div>
-                </div>
-                <ul className="text-muted-strong mt-5 space-y-2 text-sm">
-                  <li className="flex items-center gap-2">
-                    <Check aria-hidden="true" className="text-success size-4 shrink-0" />
-                    {electrolyte.abnormalityLow}
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check aria-hidden="true" className="text-success size-4 shrink-0" />
-                    {electrolyte.abnormalityHigh}
-                  </li>
-                </ul>
-                <div className="border-border mt-5 border-t pt-4">
-                  <Badge variant={electrolyte.badgeVariant}>{electrolyte.coverage}</Badge>
-                </div>
-              </article>
-            ))}
+          <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {primaryPathways.map((pathway) => {
+              const source = getSource(registry.sources, pathway.sourceId);
+
+              return (
+                <PathwayCard
+                  accent={pathway.accent}
+                  direction={pathway.direction}
+                  electrolyte={pathway.electrolyte}
+                  key={pathway.name}
+                  name={pathway.name}
+                  organisation={source.organisation ?? "Organisation not recorded"}
+                  reviewDate={formatSourceDate(source.reviewDate)}
+                  sourceTitle={source.title}
+                  symbol={pathway.symbol}
+                  version={source.documentVersion ?? "Not recorded"}
+                />
+              );
+            })}
           </div>
         </section>
 
         <section
-          aria-labelledby="workflow-title"
-          className="border-border border-y py-8"
-          id="workflow"
+          aria-labelledby="calculators-title"
+          className="border-border border-y py-7"
+          id="clinical-calculators"
         >
-          <div className="grid gap-8 lg:grid-cols-[17rem_minmax(0,1fr)] lg:gap-12">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-primary text-xs font-bold uppercase">Planned workflow</p>
-              <h2 className="text-foreground mt-2 text-xl font-bold" id="workflow-title">
-                From registered source to traceable result
+              <p className="text-primary text-xs font-bold uppercase">Planned tools</p>
+              <h2 className="text-foreground mt-1 text-xl font-bold" id="calculators-title">
+                Clinical calculators &amp; pathways
               </h2>
-              <p className="text-muted mt-3 text-sm leading-6">
-                This workflow remains unavailable until pathway-specific implementation and review.
+            </div>
+            <p className="text-muted max-w-xl text-sm leading-5 sm:text-right">
+              Calculation logic will remain deterministic and source-traceable.
+            </p>
+          </div>
+
+          <article className="border-border bg-surface mt-5 grid gap-5 rounded-lg border p-5 shadow-xs lg:grid-cols-[auto_minmax(0,1fr)_16rem] lg:items-center">
+            <span className="bg-danger-subtle text-danger-strong flex size-11 items-center justify-center rounded-md">
+              <Calculator aria-hidden="true" className="size-5" strokeWidth={1.8} />
+            </span>
+            <div className="min-w-0">
+              <div className="flex flex-wrap items-center gap-2">
+                <h3 className="text-foreground text-base font-bold">DKA management pathway</h3>
+                <Badge variant="danger">Source review overdue</Badge>
+              </div>
+              <p className="text-muted mt-2 text-sm leading-6">
+                Planned guided pathway and calculator. The supplied source requires a currentness
+                review before implementation can be activated.
+              </p>
+              <p className="text-muted-strong mt-2 text-xs">
+                {dkaSource.organisation} | document v{dkaSource.documentVersion} | source review{" "}
+                {formatSourceDate(dkaSource.reviewDate)}
               </p>
             </div>
-            <ol className="grid gap-6 md:grid-cols-3">
-              {workflowSteps.map(({ description, icon: Icon, title }, index) => (
-                <li className="relative" key={title}>
-                  <div className="flex items-center gap-3">
-                    <span className="bg-info-subtle text-primary flex size-10 shrink-0 items-center justify-center rounded-md">
-                      <Icon aria-hidden="true" className="size-5" strokeWidth={1.8} />
-                    </span>
-                    <span className="text-muted text-xs font-bold">STEP {index + 1}</span>
-                  </div>
-                  <h3 className="text-foreground mt-4 text-sm font-semibold">{title}</h3>
-                  <p className="text-muted mt-2 text-sm leading-6">{description}</p>
-                </li>
-              ))}
-            </ol>
-          </div>
+            <Button className="w-full" disabled type="button" variant="secondary">
+              <LockKeyhole aria-hidden="true" />
+              Open calculator
+            </Button>
+          </article>
         </section>
 
-        <section aria-labelledby="coverage-title" id="nice-coverage">
-          <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_24rem] xl:gap-12">
+        <section aria-labelledby="governance-title" id="source-governance">
+          <div className="grid gap-7 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-10">
             <div>
-              <div className="bg-success-subtle text-success-strong flex size-11 items-center justify-center rounded-md">
-                <ShieldCheck aria-hidden="true" className="size-5" strokeWidth={1.8} />
+              <div className="bg-info-subtle text-primary flex size-10 items-center justify-center rounded-md">
+                <BookOpenCheck aria-hidden="true" className="size-5" strokeWidth={1.8} />
               </div>
-              <p className="text-success-strong mt-4 text-xs font-bold uppercase">
-                Migration status
-              </p>
-              <h2 className="text-foreground mt-2 text-xl font-bold" id="coverage-title">
-                Source coverage is explicit, including the gaps
+              <h2 className="text-foreground mt-4 text-lg font-bold" id="governance-title">
+                Source guidelines and governance
               </h2>
-              <p className="text-muted mt-3 max-w-3xl text-sm leading-6">
-                The retired catalogue is no longer a runtime authority. The new implementation
-                starts from registered source documents and remains gated by clinical review.
+              <p className="text-muted mt-2 max-w-3xl text-sm leading-6">
+                Supplied NHS and Trust documents are registered separately from executable pathway
+                definitions. Software completion never implies clinical approval.
               </p>
-
-              <dl className="border-border mt-6 grid grid-cols-3 divide-x border-y py-4">
+              <dl className="border-border mt-5 grid grid-cols-3 divide-x border-y py-4">
                 <div className="pr-3">
-                  <dt className="text-muted text-xs">Active pathways</dt>
-                  <dd className="text-foreground mt-1 text-xl font-bold">0</dd>
+                  <dt className="text-muted text-xs">Registered sources</dt>
+                  <dd className="text-foreground mt-1 text-xl font-bold">
+                    {registry.sources.length}
+                  </dd>
                 </div>
                 <div className="px-3">
-                  <dt className="text-muted text-xs">Source records</dt>
-                  <dd className="text-foreground mt-1 text-xl font-bold">7</dd>
+                  <dt className="text-muted text-xs">Approved sources</dt>
+                  <dd className="text-foreground mt-1 text-xl font-bold">{approvedSourceCount}</dd>
                 </div>
                 <div className="pl-3">
-                  <dt className="text-muted text-xs">Target pathways</dt>
-                  <dd className="text-foreground mt-1 text-xl font-bold">3</dd>
+                  <dt className="text-muted text-xs">Primary modules</dt>
+                  <dd className="text-foreground mt-1 text-xl font-bold">
+                    {primaryPathways.length}
+                  </dd>
                 </div>
               </dl>
             </div>
 
-            <div className="border-border bg-surface rounded-lg border p-5">
-              <h3 className="text-foreground text-sm font-semibold">Current source scope</h3>
-              <ul className="text-muted mt-4 space-y-3 text-sm leading-5">
-                {coverageAreas.map((area) => (
-                  <li className="flex gap-2" key={area}>
-                    <Check aria-hidden="true" className="text-success mt-0.5 size-4 shrink-0" />
-                    <span>{area}</span>
-                  </li>
-                ))}
-              </ul>
-              <a
-                className="text-primary hover:text-primary-hover mt-5 inline-flex min-h-10 items-center gap-2 text-sm font-semibold"
-                href="https://www.nice.org.uk/guidance"
-                rel="noreferrer"
-                target="_blank"
-              >
-                Browse current NICE guidance
-                <ExternalLink aria-hidden="true" className="size-4" />
-              </a>
+            <div className="border-border border-l-2 pl-5">
+              <div className="flex items-center gap-2">
+                <FileCheck2 aria-hidden="true" className="text-success size-5" />
+                <h3 className="text-foreground text-sm font-semibold">Release gate</h3>
+              </div>
+              <ol className="text-muted mt-4 space-y-3 text-sm leading-5">
+                <li>1. Source registration and integrity verification</li>
+                <li>2. Declarative pathway transcription and boundary tests</li>
+                <li>3. Clinical review, correction and project approval</li>
+              </ol>
             </div>
           </div>
         </section>
 
-        <section aria-label="Product safeguards" className="grid gap-4 md:grid-cols-3">
-          <article className="border-border bg-surface shadow-card rounded-lg border p-5">
-            <BookOpen aria-hidden="true" className="text-primary size-6" strokeWidth={1.8} />
-            <h2 className="text-foreground mt-4 text-base font-semibold">Evidence traceability</h2>
-            <p className="text-muted mt-2 text-sm leading-6">
-              Future outputs must identify the pathway version, source document, page, section and
-              clinical-review status.
-            </p>
-            <Link
-              className="text-primary hover:text-primary-hover mt-4 inline-flex min-h-10 items-center gap-2 text-sm font-semibold"
-              href="/#nice-coverage"
-            >
-              View evidence coverage
-              <ArrowRight aria-hidden="true" className="size-4" />
-            </Link>
-          </article>
-
-          <article className="border-border bg-surface shadow-card rounded-lg border p-5">
-            <BrainCircuit
-              aria-hidden="true"
-              className="text-review-strong size-6"
-              strokeWidth={1.8}
-            />
-            <div className="mt-4 flex items-center gap-2">
-              <h2 className="text-foreground text-base font-semibold">Optional browser AI</h2>
-              <Badge variant="review">Deferred</Badge>
+        <section id="about-safety">
+          <Alert title="No pathway is approved for clinical use" variant="warning">
+            <div className="flex items-start gap-2">
+              <ShieldCheck aria-hidden="true" className="mt-1 size-4 shrink-0" />
+              <p>
+                Follow approved local pathways, emergency procedures and current guidance. Do not
+                enter patient-identifiable information while modules remain inactive.
+              </p>
             </div>
-            <p className="text-muted mt-2 text-sm leading-6">
-              Note extraction is outside the current implementation phase and cannot influence a
-              pathway branch or management result.
-            </p>
-          </article>
-
-          <article className="border-border bg-surface shadow-card rounded-lg border p-5">
-            <ShieldCheck aria-hidden="true" className="text-success size-6" strokeWidth={1.8} />
-            <h2 className="text-foreground mt-4 text-base font-semibold">Fail-closed migration</h2>
-            <p className="text-muted mt-2 text-sm leading-6">
-              With no reviewed pathway active, the application accepts no clinical inputs and
-              generates no treatment instruction.
-            </p>
-          </article>
+          </Alert>
         </section>
-
-        <Alert id="safety-notice" title="Clinical pathways are not active" variant="warning">
-          <p>
-            Do not use this application for diagnosis or management decisions. Follow approved local
-            pathways, emergency procedures and current guidance. Do not enter real
-            patient-identifiable information.
-          </p>
-        </Alert>
       </div>
     </AppShell>
   );
+}
+
+function getSource(
+  sources: readonly Readonly<ClinicalSource>[],
+  sourceId: string,
+): Readonly<ClinicalSource> {
+  const source = sources.find((candidate) => candidate.sourceId === sourceId);
+
+  if (!source) {
+    throw new Error(`Homepage source ${sourceId} is missing from the clinical source registry.`);
+  }
+
+  return source;
+}
+
+function formatSourceDate(sourceDate: SourceDate | null): string {
+  if (!sourceDate) {
+    return "Not recorded";
+  }
+
+  const [year, month = "01", day = "01"] = sourceDate.value.split("-");
+  const date = new Date(Date.UTC(Number(year), Number(month) - 1, Number(day)));
+
+  if (sourceDate.precision === "year") {
+    return year ?? sourceDate.value;
+  }
+
+  return new Intl.DateTimeFormat("en-GB", {
+    day: sourceDate.precision === "day" ? "numeric" : undefined,
+    month: "short",
+    timeZone: "UTC",
+    year: "numeric",
+  }).format(date);
 }
