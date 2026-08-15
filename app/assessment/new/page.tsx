@@ -1,5 +1,5 @@
-import { ArrowLeft, Clock3, FileCheck2, ShieldAlert } from "lucide-react";
-import type { Metadata } from "next";
+import { ArrowLeft, ArrowRight, Clock3, FileCheck2, ShieldAlert } from "lucide-react";
+import type { Metadata, Route } from "next";
 import Link from "next/link";
 
 import { AppShell } from "@/components/layout/app-shell";
@@ -14,15 +14,28 @@ export const metadata: Metadata = {
 const pathwayStatuses = [
   {
     name: "Hyponatraemia",
-    status: "Source registered; pathway implementation pending",
+    status: "Connected technical review available; clinical approval pending",
   },
   {
     name: "Hyperkalaemia",
-    status: "Source registered; pathway implementation pending",
+    status: "Connected severity and ECG review available; timed management pending",
   },
   {
     name: "Hypocalcaemia",
     status: "Source registered; pathway implementation pending",
+  },
+] as const;
+
+const technicalReviews = [
+  {
+    description: "Connected assessment and source-supported management endpoints.",
+    href: "/review/hyponatraemia/assessment",
+    name: "Hyponatraemia",
+  },
+  {
+    description: "Connected potassium severity, initial checks and source-listed ECG workflow.",
+    href: "/review/hyperkalaemia/assessment",
+    name: "Hyperkalaemia",
   },
 ] as const;
 
@@ -49,6 +62,37 @@ export default function NewAssessmentPage() {
           Do not use this application for diagnosis, treatment or management decisions. Follow an
           approved local pathway and current clinical escalation procedures.
         </Alert>
+
+        <section aria-labelledby="technical-reviews-title" className="border-border border-y py-6">
+          <div>
+            <h2 className="text-foreground text-base font-semibold" id="technical-reviews-title">
+              Technical pathway reviews
+            </h2>
+            <p className="text-muted mt-1 max-w-2xl text-sm leading-6">
+              Implemented stages remain separated from active clinical use until formal review.
+            </p>
+          </div>
+
+          <div className="border-border mt-5 divide-y border-y">
+            {technicalReviews.map((review) => (
+              <div
+                className="grid gap-4 py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center"
+                key={review.name}
+              >
+                <div>
+                  <h3 className="text-foreground text-sm font-semibold">{review.name}</h3>
+                  <p className="text-muted mt-1 text-sm leading-6">{review.description}</p>
+                </div>
+                <Button asChild variant="outline">
+                  <Link href={review.href as Route}>
+                    Open {review.name} review
+                    <ArrowRight aria-hidden="true" />
+                  </Link>
+                </Button>
+              </div>
+            ))}
+          </div>
+        </section>
 
         <section aria-labelledby="pathway-status-title" className="border-border border-y py-6">
           <div className="flex items-start gap-3">

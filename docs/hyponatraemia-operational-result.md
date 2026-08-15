@@ -12,9 +12,10 @@ not accept or store patient data.
 
 ## Composition
 
-`evaluateHyponatraemiaOperationalResult` composes the outputs of the existing deterministic
-severity, fluid-status/emergency-management, and urine/osmolality-classification engines. It does
-not reproduce clinical thresholds in React and does not add treatment instructions.
+`evaluateHyponatraemiaOperationalResult` composes the outputs of the deterministic severity,
+source-supported management, and urine/osmolality-classification engines. It does not reproduce
+clinical thresholds in React. Version 0.7.0 also composes the explicit non-emergency management
+endpoints documented in `hyponatraemia-source-supported-management.md`.
 
 The representative state is:
 

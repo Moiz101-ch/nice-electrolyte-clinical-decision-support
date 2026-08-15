@@ -33,8 +33,12 @@ export const representativeHyponatraemiaOperationalResult = evaluateHyponatraemi
 });
 
 export function HyponatraemiaOperationalResultReview({
+  contextLabel = "Representative emergency result",
+  explanationDescription = "Deterministic explanation from the confirmed example inputs",
   result = representativeHyponatraemiaOperationalResult,
 }: {
+  contextLabel?: string;
+  explanationDescription?: string;
   result?: HyponatraemiaOperationalResult;
 }) {
   return (
@@ -42,9 +46,7 @@ export function HyponatraemiaOperationalResultReview({
       <header className="border-border border-b p-5 sm:p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="min-w-0">
-            <p className="text-danger text-xs font-bold uppercase">
-              Representative emergency result
-            </p>
+            <p className="text-danger text-xs font-bold uppercase">{contextLabel}</p>
             <h2 className="text-foreground mt-1 text-xl font-bold">
               {result.severity?.label ?? "Hyponatraemia assessment"}
             </h2>
@@ -65,18 +67,23 @@ export function HyponatraemiaOperationalResultReview({
       <div className="p-5 sm:p-6">
         <Overview result={result} />
 
-        <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1.35fr)_minmax(18rem,0.65fr)]">
-          <ActionList actions={result.immediateActions} title="Immediate actions" />
-          <ResultSection
-            description="Initial correction goal"
-            icon={Gauge}
-            status="First 2-4 hours"
-            title="Correction target"
-            tone="info"
-          >
-            {result.treatmentTarget ?? "No correction target has been selected."}
-          </ResultSection>
-        </div>
+        {result.immediateActions.length > 0 || result.treatmentTarget ? (
+          <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1.35fr)_minmax(18rem,0.65fr)]">
+            <ActionList actions={result.immediateActions} title="Immediate actions" />
+            {result.treatmentTarget ? (
+              <ResultSection
+                description="Initial correction goal"
+                dividers={false}
+                icon={Gauge}
+                status="First 2-4 hours"
+                title="Correction target"
+                tone="info"
+              >
+                {result.treatmentTarget}
+              </ResultSection>
+            ) : null}
+          </div>
+        ) : null}
 
         <section aria-labelledby="safety-heading" className="mt-8">
           <h2 className="text-foreground text-base font-semibold" id="safety-heading">
@@ -98,6 +105,7 @@ export function HyponatraemiaOperationalResultReview({
         <div className="border-border mt-8 border-t pt-8">
           {result.monitoring.length > 0 ? (
             <MonitoringTimeline
+              dividers={false}
               items={result.monitoring.map((item, index) => ({
                 description: item.instruction,
                 id: item.monitoringId,
@@ -108,7 +116,7 @@ export function HyponatraemiaOperationalResultReview({
               title="Monitoring"
             />
           ) : (
-            <ResultSection icon={Activity} title="Monitoring" tone="warning">
+            <ResultSection dividers={false} icon={Activity} title="Monitoring" tone="warning">
               No monitoring schedule has been selected by this result.
             </ResultSection>
           )}
@@ -118,7 +126,7 @@ export function HyponatraemiaOperationalResultReview({
           <section>
             <ActionList actions={result.nextActions} title="Next steps" />
             <div className="mt-5">
-              <ResultSection icon={ArrowUpRight} title="Escalation" tone="warning">
+              <ResultSection dividers={false} icon={ArrowUpRight} title="Escalation" tone="warning">
                 {result.escalationSummary}
               </ResultSection>
             </div>
@@ -139,12 +147,10 @@ export function HyponatraemiaOperationalResultReview({
                 <h2 className="text-foreground text-base font-semibold" id="why-selected-heading">
                   Why this result was selected
                 </h2>
-                <p className="text-muted mt-1 text-xs leading-5">
-                  Deterministic explanation from the confirmed example inputs
-                </p>
+                <p className="text-muted mt-1 text-xs leading-5">{explanationDescription}</p>
               </div>
             </div>
-            <ol className="border-border mt-4 divide-y border-y">
+            <ol className="border-border mt-4 divide-y">
               {result.whySelected.map((reason, index) => (
                 <li
                   className="grid grid-cols-[1.75rem_minmax(0,1fr)] gap-3 py-3 text-sm leading-6"
@@ -161,6 +167,7 @@ export function HyponatraemiaOperationalResultReview({
 
           <ResultSection
             description="Governance gate"
+            dividers={false}
             icon={ClipboardCheck}
             status="Locked"
             title="Clinical review status"
@@ -215,7 +222,7 @@ function ActionList({
     <section>
       <h2 className="text-foreground text-base font-semibold">{title}</h2>
       {actions.length > 0 ? (
-        <ol className="border-border mt-4 divide-y border-y">
+        <ol className="border-border mt-4 divide-y">
           {actions.map((action, index) => (
             <li className="grid grid-cols-[2rem_minmax(0,1fr)] gap-3 py-4" key={action.actionId}>
               <span className="bg-info-subtle text-primary flex size-8 items-center justify-center rounded-full text-xs font-bold">
@@ -236,7 +243,7 @@ function ActionList({
           ))}
         </ol>
       ) : (
-        <p className="text-muted border-border mt-4 border-y py-4 text-sm leading-6">
+        <p className="text-muted mt-4 py-2 text-sm leading-6">
           No action has been selected for this section.
         </p>
       )}
@@ -247,11 +254,25 @@ function ActionList({
 function CauseResult({ result }: { result: HyponatraemiaOperationalResult }) {
   return (
     <section>
-      <h2 className="text-foreground text-base font-semibold">Causes</h2>
-      {result.causePattern ? (
+      <h2 className="text-foreground text-base font-semibold">Cause assessment</h2>
+      {result.euvolaemicUnderlyingCauseLabel ? (
         <div className="mt-4">
           <ResultSection
+            description="Explicit clinician selection - not inferred from laboratory values"
+            dividers={false}
+            icon={Stethoscope}
+            title={result.euvolaemicUnderlyingCauseLabel}
+            tone="info"
+          >
+            This cause state was explicitly confirmed for management-pathway selection.
+          </ResultSection>
+        </div>
+      ) : null}
+      {result.causePattern ? (
+        <div className={result.euvolaemicUnderlyingCauseLabel ? "mt-5" : "mt-4"}>
+          <ResultSection
             description="Compatible category only - not a definitive diagnosis"
+            dividers={false}
             icon={HeartPulse}
             title={result.causePattern.label}
             tone="info"
@@ -260,7 +281,7 @@ function CauseResult({ result }: { result: HyponatraemiaOperationalResult }) {
               : {})}
           >
             <p>{result.causePattern.summary}</p>
-            <ul className="border-border mt-3 divide-y border-y">
+            <ul className="border-border mt-3 divide-y">
               {result.causePattern.causes.map((cause) => (
                 <li className="flex min-h-10 items-center gap-2 py-2" key={cause}>
                   <Stethoscope aria-hidden="true" className="text-primary size-4 shrink-0" />
@@ -278,11 +299,11 @@ function CauseResult({ result }: { result: HyponatraemiaOperationalResult }) {
             </div>
           ) : null}
         </div>
-      ) : (
-        <p className="text-muted border-border mt-4 border-y py-4 text-sm leading-6">
+      ) : !result.euvolaemicUnderlyingCauseLabel ? (
+        <p className="text-muted mt-4 py-2 text-sm leading-6">
           No compatible cause category has been selected.
         </p>
-      )}
+      ) : null}
     </section>
   );
 }
@@ -297,15 +318,31 @@ function actionLabel(actionId: string): string {
       return "Repeat treatment";
     case "diagnose-manage-cause-consultant-review":
       return "Cause management";
+    case "review-hypovolaemic-causes":
+      return "Review hypovolaemic causes";
+    case "use-hypovolaemic-isotonic-saline":
+    case "add-hypovolaemic-isotonic-saline":
+      return "0.9% sodium chloride";
+    case "use-separate-siadh-pathway":
+      return "Separate SIADH pathway";
+    case "fluid-restriction-water-intoxication":
+      return "Fluid restriction";
+    case "refer-senior-hypervolaemic-cause":
+      return "Senior review and cause management";
     default:
       return "Pathway action";
   }
 }
 
 function warningTitle(warningId: string): string {
-  return warningId === "avoid-excessive-correction"
-    ? "Maximum correction limit"
-    : "Required exclusion checks";
+  switch (warningId) {
+    case "avoid-excessive-correction":
+      return "Maximum correction limit";
+    case "siadh-source-not-supplied":
+      return "Dedicated SIADH pathway not supplied";
+    default:
+      return "Required exclusion checks";
+  }
 }
 
 function statusLabel(status: HyponatraemiaOperationalResult["status"]): string {

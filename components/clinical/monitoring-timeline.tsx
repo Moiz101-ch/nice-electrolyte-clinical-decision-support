@@ -24,9 +24,11 @@ const timelineStatusConfig = {
 >;
 
 export function MonitoringTimeline({
+  dividers = true,
   items,
   title,
 }: {
+  dividers?: boolean;
   items: readonly MonitoringTimelineItem[];
   title: string;
 }) {
@@ -37,7 +39,7 @@ export function MonitoringTimeline({
       <h2 className="text-foreground text-base font-semibold" id={titleId}>
         {title}
       </h2>
-      <ol className="border-border mt-4 border-y">
+      <ol className={cn("mt-4", dividers && "border-border border-y")}>
         {items.map((item, index) => {
           const config = timelineStatusConfig[item.status];
           const Icon = config.icon;

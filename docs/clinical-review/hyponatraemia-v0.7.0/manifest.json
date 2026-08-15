@@ -1,0 +1,63 @@
+{
+  "packageId": "hyponatraemia-clinical-review-v0.7.0",
+  "packageVersion": "0.7.0",
+  "preparedOn": "2026-08-16",
+  "reviewStatus": "awaiting-clinical-review",
+  "reviewRoute": "/review/hyponatraemia/assessment",
+  "runtimePathwayVersion": "0.7.0",
+  "definitions": [
+    {
+      "pathwayId": "hyponatraemia-sodium-severity",
+      "version": "0.1.0",
+      "status": "awaiting-clinical-review"
+    },
+    {
+      "pathwayId": "hyponatraemia-initial-assessment",
+      "version": "0.2.0",
+      "status": "awaiting-clinical-review"
+    },
+    {
+      "pathwayId": "hyponatraemia-emergency-management",
+      "version": "0.3.0",
+      "status": "awaiting-clinical-review"
+    },
+    {
+      "pathwayId": "hyponatraemia-osmolality-classification",
+      "version": "0.4.0",
+      "status": "awaiting-clinical-review"
+    },
+    {
+      "pathwayId": "hyponatraemia-source-supported-management",
+      "version": "0.7.0",
+      "status": "awaiting-clinical-review"
+    }
+  ],
+  "sources": [
+    "YSTHFT-HYPONATRAEMIA-EMERGENCY-V1",
+    "UNVERIFIED-HYPONATRAEMIA-CLASSIFICATION-CAPTURE",
+    "UNVERIFIED-HYPONATRAEMIA-CLASSIFICATION-DIAGRAM"
+  ],
+  "artifacts": {
+    "reviewDocument": "docs/clinical-review/hyponatraemia-v0.7.0/README.md",
+    "checklist": "docs/clinical-review/hyponatraemia-v0.7.0/review-checklist.csv",
+    "screenshots": [
+      "docs/screenshots/subtask-11/hyponatraemia-connected-result-desktop.png",
+      "docs/screenshots/subtask-11/hyponatraemia-connected-result-mobile.png",
+      "docs/screenshots/subtask-12a/hyponatraemia-cause-review-desktop.png",
+      "docs/screenshots/subtask-12a/hyponatraemia-water-intoxication-result-desktop.png",
+      "docs/screenshots/subtask-12a/hyponatraemia-water-intoxication-result-mobile.png"
+    ]
+  },
+  "testEvidence": [
+    "tests/clinical/hyponatraemia-severity.test.ts",
+    "tests/clinical/hyponatraemia-fluid-status.test.ts",
+    "tests/clinical/hyponatraemia-emergency-management.test.ts",
+    "tests/clinical/hyponatraemia-osmolality-classification.test.ts",
+    "tests/clinical/hyponatraemia-management.test.ts",
+    "tests/clinical/hyponatraemia-operational-result.test.ts",
+    "tests/clinical/hyponatraemia-connected-assessment.test.ts",
+    "tests/clinical/hyponatraemia-clinical-review-package.test.ts",
+    "tests/e2e/hyponatraemia-connected-assessment.spec.ts"
+  ],
+  "approval": null
+}

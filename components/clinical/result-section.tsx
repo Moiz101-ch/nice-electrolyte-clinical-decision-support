@@ -15,6 +15,7 @@ const resultToneStyles = {
 export interface ResultSectionProps {
   children: ReactNode;
   description?: string;
+  dividers?: boolean;
   headingAs?: "h2" | "h3";
   icon: LucideIcon;
   status?: string;
@@ -25,6 +26,7 @@ export interface ResultSectionProps {
 export function ResultSection({
   children,
   description,
+  dividers = true,
   headingAs = "h2",
   icon: Icon,
   status,
@@ -34,7 +36,12 @@ export function ResultSection({
   const Heading = headingAs;
 
   return (
-    <section className="border-border grid grid-cols-[2.5rem_minmax(0,1fr)] gap-4 border-y py-5">
+    <section
+      className={cn(
+        "grid grid-cols-[2.5rem_minmax(0,1fr)] gap-4 py-5",
+        dividers && "border-border border-y",
+      )}
+    >
       <span
         aria-hidden="true"
         className={cn(

@@ -7,13 +7,14 @@ import type {
 } from "../../engine/index.ts";
 import type { PathwaySourceReference } from "../schema.ts";
 import {
-  evaluateHyponatraemiaEmergencyManagement,
-  type HyponatraemiaEmergencyEvaluationInput,
-} from "./emergency-management.ts";
-import {
   CEREBRAL_OEDEMA_SIGN_OPTIONS,
   HYPONATRAEMIA_FLUID_STATUS_OPTIONS,
 } from "./fluid-status.ts";
+import {
+  EUVOLAEMIC_UNDERLYING_CAUSE_OPTIONS,
+  evaluateHyponatraemiaManagement,
+  type HyponatraemiaManagementEvaluationInput,
+} from "./management.ts";
 import {
   evaluateHyponatraemiaOsmolalityClassification,
   type HyponatraemiaCausePattern,
@@ -22,10 +23,10 @@ import {
 } from "./osmolality-classification.ts";
 import { evaluateHyponatraemiaSeverity, type HyponatraemiaSeverity } from "./severity.ts";
 
-export const HYPONATRAEMIA_OPERATIONAL_RESULT_VERSION = "0.5.0";
+export const HYPONATRAEMIA_OPERATIONAL_RESULT_VERSION = "0.7.0";
 
 export interface HyponatraemiaOperationalResultInput
-  extends HyponatraemiaEmergencyEvaluationInput, HyponatraemiaOsmolalityClassificationInput {}
+  extends HyponatraemiaManagementEvaluationInput, HyponatraemiaOsmolalityClassificationInput {}
 
 export interface HyponatraemiaOperationalSeverity {
   label: string;
@@ -46,6 +47,7 @@ export interface HyponatraemiaOperationalResult {
   confirmedSignLabels: readonly string[];
   currentBranch: Readonly<HyponatraemiaOperationalBranch>;
   escalationSummary: string;
+  euvolaemicUnderlyingCauseLabel: string | null;
   fluidStatusLabel: string | null;
   immediateActions: readonly PathwayAction[];
   issues: readonly PathwayEvaluationIssue[];
@@ -72,23 +74,23 @@ export function evaluateHyponatraemiaOperationalResult(
   input: HyponatraemiaOperationalResultInput,
 ): HyponatraemiaOperationalResult {
   const severityEvaluation = evaluateHyponatraemiaSeverity(input.sodium, input.unit);
-  const emergencySnapshot = evaluateHyponatraemiaEmergencyManagement(input);
+  const managementSnapshot = evaluateHyponatraemiaManagement(input);
   const classificationEvaluation = evaluateHyponatraemiaOsmolalityClassification(input);
   const classificationSnapshot = classificationEvaluation.snapshot;
   const immediateActions = uniqueBy(
-    emergencySnapshot.immediateActions,
+    managementSnapshot.immediateActions,
     (action) => action.actionId,
   );
-  const nextActions = uniqueBy(emergencySnapshot.nextActions, (action) => action.actionId);
+  const nextActions = uniqueBy(managementSnapshot.nextActions, (action) => action.actionId);
   const warnings = uniqueBy(
-    [...emergencySnapshot.warnings, ...classificationSnapshot.warnings],
+    [...managementSnapshot.warnings, ...classificationSnapshot.warnings],
     (warning) => warning.warningId,
   );
-  const monitoring = uniqueBy(emergencySnapshot.monitoring, (item) => item.monitoringId);
+  const monitoring = uniqueBy(managementSnapshot.monitoring, (item) => item.monitoringId);
   const issues = uniqueBy(
     [
       ...severityEvaluation.snapshot.issues,
-      ...emergencySnapshot.issues,
+      ...managementSnapshot.issues,
       ...classificationSnapshot.issues,
     ],
     (issue) => `${issue.field}:${issue.message}`,
@@ -96,7 +98,7 @@ export function evaluateHyponatraemiaOperationalResult(
   const sourceReferences = uniqueBy(
     [
       ...severityEvaluation.snapshot.sourceReferences,
-      ...emergencySnapshot.sourceReferences,
+      ...managementSnapshot.sourceReferences,
       ...classificationSnapshot.sourceReferences,
     ],
     sourceReferenceKey,
@@ -120,15 +122,20 @@ export function evaluateHyponatraemiaOperationalResult(
       (sign) => CEREBRAL_OEDEMA_SIGN_OPTIONS.find((option) => option.value === sign)?.label ?? sign,
     );
   const treatmentTarget =
-    emergencySnapshot.information.find((item) => item.nodeId === "correction-target-information")
+    managementSnapshot.information.find((item) => item.nodeId === "correction-target-information")
       ?.body ?? null;
+  const euvolaemicUnderlyingCauseLabel =
+    EUVOLAEMIC_UNDERLYING_CAUSE_OPTIONS.find(
+      (option) => option.value === input.euvolaemicUnderlyingCause,
+    )?.label ?? null;
 
   const result: HyponatraemiaOperationalResult = {
     causePattern: classificationEvaluation.causePattern,
     clinicalReviewStatus: "awaiting-clinical-review",
     confirmedSignLabels,
-    currentBranch: currentBranch(emergencySnapshot, classificationEvaluation.causePattern),
+    currentBranch: currentBranch(managementSnapshot, classificationEvaluation.causePattern),
     escalationSummary: escalationSummary(immediateActions, nextActions),
+    euvolaemicUnderlyingCauseLabel,
     fluidStatusLabel,
     immediateActions,
     issues,
@@ -144,7 +151,7 @@ export function evaluateHyponatraemiaOperationalResult(
     sourceReferences,
     status: operationalStatus(
       severityEvaluation.kind,
-      emergencySnapshot.status,
+      managementSnapshot.status,
       classificationSnapshot.status,
     ),
     treatmentTarget,
@@ -184,25 +191,26 @@ function operationalStatus(
 }
 
 function currentBranch(
-  emergencySnapshot: ReturnType<typeof evaluateHyponatraemiaEmergencyManagement>,
+  managementSnapshot: ReturnType<typeof evaluateHyponatraemiaManagement>,
   causePattern: Readonly<HyponatraemiaCausePattern> | null,
 ): HyponatraemiaOperationalBranch {
-  if (emergencySnapshot.status === "blocked") {
+  if (managementSnapshot.status === "blocked") {
     return {
       detail: "Invalid or contradictory information prevented deterministic branch selection.",
       label: "No branch selected",
     };
   }
 
-  const hasEmergencyTreatment = emergencySnapshot.immediateActions.some(
+  const hasEmergencyTreatment = managementSnapshot.immediateActions.some(
     (action) => action.actionId === "administer-initial-hypertonic-saline",
   );
-  const hasRepeatDose = emergencySnapshot.immediateActions.some(
+  const hasRepeatDose = managementSnapshot.immediateActions.some(
     (action) => action.actionId === "repeat-hypertonic-saline-dose",
   );
-  const hasCauseManagement = emergencySnapshot.nextActions.some(
+  const hasCauseManagement = managementSnapshot.nextActions.some(
     (action) => action.actionId === "diagnose-manage-cause-consultant-review",
   );
+  const nextActionIds = new Set(managementSnapshot.nextActions.map((action) => action.actionId));
 
   if (hasRepeatDose) {
     return {
@@ -217,6 +225,35 @@ function currentBranch(
         ? "The symptomatic emergency branch reached cause management with consultant review."
         : "The symptomatic emergency branch is awaiting or requires a follow-up decision.",
       label: "Symptomatic emergency management",
+    };
+  }
+
+  if (nextActionIds.has("use-hypovolaemic-isotonic-saline")) {
+    return {
+      detail: "The non-emergency hypovolaemic branch selected cause review and isotonic saline.",
+      label: "Hypovolaemic management",
+    };
+  }
+
+  if (nextActionIds.has("fluid-restriction-water-intoxication")) {
+    return {
+      detail:
+        "Clinically established water intoxication selected fluid restriction and consultant review.",
+      label: "Euvolaemic water-intoxication management",
+    };
+  }
+
+  if (nextActionIds.has("use-separate-siadh-pathway")) {
+    return {
+      detail: "Clinically established SIADH selected redirection to a separate approved pathway.",
+      label: "Separate SIADH pathway required",
+    };
+  }
+
+  if (nextActionIds.has("refer-senior-hypervolaemic-cause")) {
+    return {
+      detail: "The hypervolaemic endpoint selected senior review and underlying-cause management.",
+      label: "Hypervolaemic management",
     };
   }
 
@@ -240,7 +277,7 @@ function escalationSummary(
 ): string {
   if (
     [...immediateActions, ...nextActions].some((action) =>
-      /consultant review/i.test(action.instruction),
+      /consultant review|senior clinician/i.test(action.instruction),
     )
   ) {
     return "Consultant review is included in the selected action. No separate escalation urgency or destination is defined by the implemented pathway.";
@@ -312,6 +349,15 @@ function buildWhySelected(
   if (input.urineSodium !== undefined) {
     explanations.push(
       `Urine sodium ${input.urineSodium} mEq/L was evaluated without inferring an unstated boundary result.`,
+    );
+  }
+
+  if (input.euvolaemicUnderlyingCause) {
+    const label = EUVOLAEMIC_UNDERLYING_CAUSE_OPTIONS.find(
+      (option) => option.value === input.euvolaemicUnderlyingCause,
+    )?.label;
+    explanations.push(
+      `${label ?? "The confirmed euvolaemic cause decision"} selected the source-defined management endpoint.`,
     );
   }
 

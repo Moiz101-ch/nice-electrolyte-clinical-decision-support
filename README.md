@@ -25,6 +25,13 @@ or management decisions, and no patient-identifiable information should be enter
   compatible cause categories and a guarded SIADH-compatible endpoint.
 - `/review/hyponatraemia/result` consolidates one representative evaluated branch into an
   operational review of actions, monitoring, safety, compatible causes, rationale and governance.
+- `/review/hyponatraemia/assessment` connects the implemented Hyponatraemia stages in one
+  in-memory technical-review workflow with dependency-aware answer resets, explicit
+  euvolaemic-cause confirmation and source-supported management endpoints.
+- `/review/hyperkalaemia/severity` previews source-derived potassium severity and initial checks,
+  including conditional ECG monitoring and the 7.0 mmol/L safeguard.
+- `/review/hyperkalaemia/assessment` connects potassium severity to the six source-listed ECG
+  changes, explicit no-change/uncertainty states and source escalation branch.
 - The previous catalogue, synthetic cases, generic assessment, flat rule engine and extraction
   experiment are isolated under `archive/legacy-nice-prototype/`.
 
@@ -34,6 +41,11 @@ See the [source registry](docs/clinical-source-registry.md),
 [hyponatraemia emergency management](docs/hyponatraemia-emergency-management.md),
 [hyponatraemia urine/osmolality classification](docs/hyponatraemia-osmolality-classification.md),
 [hyponatraemia operational result](docs/hyponatraemia-operational-result.md),
+[connected hyponatraemia assessment](docs/hyponatraemia-connected-assessment.md),
+[hyponatraemia source-supported management](docs/hyponatraemia-source-supported-management.md),
+[Hyponatraemia clinical-review package](docs/clinical-review/hyponatraemia-v0.7.0/README.md),
+[Hyperkalaemia severity workflow](docs/hyperkalaemia-severity.md),
+[Hyperkalaemia ECG workflow](docs/hyperkalaemia-ecg-workflow.md),
 [legacy retirement record](docs/legacy-architecture-retirement.md), and
 [repository/source audit](docs/subtask-0-repository-source-audit.md).
 

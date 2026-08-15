@@ -106,9 +106,55 @@ describe("hyponatraemia operational result", () => {
     expect(result.immediateActions).toEqual([]);
     expect(result.monitoring).toEqual([]);
     expect(result.nextActions).toEqual([]);
+    expect(result.status).toBe("awaiting-input");
     expect(result.currentBranch.label).toBe("SIADH-compatible pattern");
     expect(result.whySelected).toContain(
       "Euvolaemic fluid status with no listed sign confirmed did not select emergency treatment.",
+    );
+  });
+
+  it("composes the non-emergency hypovolaemic management endpoint", () => {
+    const result = evaluateHyponatraemiaOperationalResult({
+      cerebralOedemaSigns: ["none-confirmed"],
+      fluidStatus: "hypovolaemic",
+      serumOsmolality: 270,
+      sodium: 129,
+      urineResultsAvailable: true,
+      urineSodium: 20,
+    });
+
+    expect(result.currentBranch.label).toBe("Hypovolaemic management");
+    expect(result.nextActions.map((action) => action.actionId)).toEqual([
+      "review-hypovolaemic-causes",
+      "use-hypovolaemic-isotonic-saline",
+    ]);
+    expect(result.status).toBe("requires-clinical-review");
+  });
+
+  it("composes explicit euvolaemic and hypervolaemic endpoints", () => {
+    const waterIntoxication = evaluateHyponatraemiaOperationalResult({
+      cerebralOedemaSigns: ["none-confirmed"],
+      euvolaemicUnderlyingCause: "water-intoxication-established",
+      fluidStatus: "euvolaemic",
+      serumOsmolality: 270,
+      sodium: 129,
+      urineOsmolality: 99.9,
+      urineResultsAvailable: true,
+    });
+    const hypervolaemic = evaluateHyponatraemiaOperationalResult({
+      fluidStatus: "hypervolaemic",
+      serumOsmolality: 270,
+      sodium: 129,
+      urineResultsAvailable: true,
+    });
+
+    expect(waterIntoxication.currentBranch.label).toBe("Euvolaemic water-intoxication management");
+    expect(waterIntoxication.nextActions).toContainEqual(
+      expect.objectContaining({ actionId: "fluid-restriction-water-intoxication" }),
+    );
+    expect(hypervolaemic.currentBranch.label).toBe("Hypervolaemic management");
+    expect(hypervolaemic.nextActions).toContainEqual(
+      expect.objectContaining({ actionId: "refer-senior-hypervolaemic-cause" }),
     );
   });
 

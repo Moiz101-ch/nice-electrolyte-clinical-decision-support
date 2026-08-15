@@ -1,4 +1,4 @@
-import { ArrowLeft, ClipboardCheck } from "lucide-react";
+import { ArrowLeft, ArrowRight, ClipboardCheck } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -31,12 +31,20 @@ export default function HyponatraemiaOperationalResultPage() {
               monitoring, safety, compatible causes, rationale, and governance status.
             </p>
           </div>
-          <Button asChild variant="secondary">
-            <Link href="/review/hyponatraemia/emergency-management">
-              <ArrowLeft aria-hidden="true" />
-              Emergency review
-            </Link>
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <Button asChild variant="secondary">
+              <Link href="/review/hyponatraemia/emergency-management">
+                <ArrowLeft aria-hidden="true" />
+                Emergency review
+              </Link>
+            </Button>
+            <Button asChild variant="outline">
+              <Link href={{ pathname: "/review/hyponatraemia/assessment" }}>
+                Connected review
+                <ArrowRight aria-hidden="true" />
+              </Link>
+            </Button>
+          </div>
         </header>
 
         <SafetyAlert level="critical" title="Unapproved result preview - do not use clinically">

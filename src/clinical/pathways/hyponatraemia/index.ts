@@ -24,6 +24,14 @@ export {
   type HyponatraemiaFluidStatusEvaluationInput,
 } from "./fluid-status.ts";
 export {
+  EUVOLAEMIC_UNDERLYING_CAUSE_INPUT_KEY,
+  EUVOLAEMIC_UNDERLYING_CAUSE_OPTIONS,
+  evaluateHyponatraemiaManagement,
+  hyponatraemiaManagementPathwayDefinition,
+  type EuvolaemicUnderlyingCause,
+  type HyponatraemiaManagementEvaluationInput,
+} from "./management.ts";
+export {
   EUVOLAEMIC_URINE_SODIUM_INPUT_KEY,
   HYPONATRAEMIA_CAUSE_PATTERNS,
   HYPONATRAEMIA_CLASSIFICATION_SOURCE_IDS,
@@ -60,3 +68,9 @@ export {
   type HyponatraemiaOperationalResultInput,
   type HyponatraemiaOperationalSeverity,
 } from "./operational-result.ts";
+export {
+  HYPONATRAEMIA_CONNECTED_ASSESSMENT_VERSION,
+  evaluateHyponatraemiaConnectedAssessment,
+  type HyponatraemiaConnectedAssessmentEvaluation,
+  type HyponatraemiaConnectedAssessmentInput,
+} from "./connected-assessment.ts";
