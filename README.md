@@ -30,8 +30,9 @@ or management decisions, and no patient-identifiable information should be enter
   euvolaemic-cause confirmation and source-supported management endpoints.
 - `/review/hyperkalaemia/severity` previews source-derived potassium severity and initial checks,
   including conditional ECG monitoring and the 7.0 mmol/L safeguard.
-- `/review/hyperkalaemia/assessment` connects potassium severity to the six source-listed ECG
-  changes, explicit no-change/uncertainty states and source escalation branch.
+- `/review/hyperkalaemia/assessment` connects potassium severity, source-listed ECG changes,
+  calcium context, pre-treatment glucose, salbutamol context, timed actions, monitoring and
+  recurrence prevention while holding unresolved source conflicts for review.
 - The previous catalogue, synthetic cases, generic assessment, flat rule engine and extraction
   experiment are isolated under `archive/legacy-nice-prototype/`.
 
@@ -46,6 +47,8 @@ See the [source registry](docs/clinical-source-registry.md),
 [Hyponatraemia clinical-review package](docs/clinical-review/hyponatraemia-v0.7.0/README.md),
 [Hyperkalaemia severity workflow](docs/hyperkalaemia-severity.md),
 [Hyperkalaemia ECG workflow](docs/hyperkalaemia-ecg-workflow.md),
+[Hyperkalaemia timed management](docs/hyperkalaemia-timed-management.md),
+[Hyperkalaemia clinical-review package](docs/clinical-review/hyperkalaemia-v0.3.0/README.md),
 [legacy retirement record](docs/legacy-architecture-retirement.md), and
 [repository/source audit](docs/subtask-0-repository-source-audit.md).
 

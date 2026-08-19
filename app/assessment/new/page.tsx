@@ -18,7 +18,7 @@ const pathwayStatuses = [
   },
   {
     name: "Hyperkalaemia",
-    status: "Connected severity and ECG review available; timed management pending",
+    status: "Connected timed-management review available; clinical approval pending",
   },
   {
     name: "Hypocalcaemia",
@@ -33,7 +33,7 @@ const technicalReviews = [
     name: "Hyponatraemia",
   },
   {
-    description: "Connected potassium severity, initial checks and source-listed ECG workflow.",
+    description: "Connected potassium, ECG, timed management and monitoring workflow.",
     href: "/review/hyperkalaemia/assessment",
     name: "Hyperkalaemia",
   },

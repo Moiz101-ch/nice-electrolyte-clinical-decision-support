@@ -1,0 +1,43 @@
+{
+  "packageId": "hyperkalaemia-clinical-review-v0.3.0",
+  "packageVersion": "0.3.0",
+  "preparedOn": "2026-08-19",
+  "reviewStatus": "awaiting-clinical-review",
+  "reviewRoute": "/review/hyperkalaemia/assessment",
+  "runtimePathwayVersion": "0.3.0",
+  "definitions": [
+    {
+      "pathwayId": "hyperkalaemia-potassium-severity",
+      "version": "0.1.0",
+      "status": "awaiting-clinical-review"
+    },
+    {
+      "pathwayId": "hyperkalaemia-ecg-assessment",
+      "version": "0.2.0",
+      "status": "awaiting-clinical-review"
+    },
+    {
+      "pathwayId": "hyperkalaemia-timed-management",
+      "version": "0.3.0",
+      "status": "awaiting-clinical-review"
+    }
+  ],
+  "sources": ["YSTHFT-ACUTE-HYPERKALAEMIA-V1"],
+  "artifacts": {
+    "reviewDocument": "docs/clinical-review/hyperkalaemia-v0.3.0/README.md",
+    "checklist": "docs/clinical-review/hyperkalaemia-v0.3.0/review-checklist.csv",
+    "screenshots": [
+      "docs/screenshots/subtask-14-hyperkalaemia/timed-management-desktop.png",
+      "docs/screenshots/subtask-14-hyperkalaemia/timed-management-uncertain-mobile.png"
+    ]
+  },
+  "testEvidence": [
+    "tests/clinical/hyperkalaemia-severity.test.ts",
+    "tests/clinical/hyperkalaemia-ecg.test.ts",
+    "tests/clinical/hyperkalaemia-management.test.ts",
+    "tests/clinical/hyperkalaemia-clinical-review-package.test.ts",
+    "tests/design-system/hyperkalaemia-timed-management-review.test.tsx",
+    "tests/e2e/hyperkalaemia-timed-management.spec.ts"
+  ],
+  "approval": null
+}

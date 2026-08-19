@@ -17,3 +17,16 @@ export {
   type HyperkalaemiaEcgChange,
   type HyperkalaemiaEcgEvaluationInput,
 } from "./ecg.ts";
+export {
+  DIGOXIN_TOXICITY_INPUT_KEY,
+  DIGOXIN_TOXICITY_OPTIONS,
+  PRETREATMENT_GLUCOSE_INPUT_KEY,
+  PRETREATMENT_GLUCOSE_UNIT,
+  SALBUTAMOL_CONTEXT_INPUT_KEY,
+  SALBUTAMOL_CONTEXT_OPTIONS,
+  evaluateHyperkalaemiaTimedManagement,
+  hyperkalaemiaTimedManagementPathwayDefinition,
+  type DigoxinToxicityConcern,
+  type HyperkalaemiaTimedManagementInput,
+  type SalbutamolContext,
+} from "./management.ts";

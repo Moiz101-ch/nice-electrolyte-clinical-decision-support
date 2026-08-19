@@ -9,6 +9,9 @@
 - Review route: `/review/hyperkalaemia/assessment`
 - Approved for patient care: No
 
+This document records the `0.2.0` ECG subtask. The review route now renders the connected `0.3.0`
+timed-management workflow documented in [Hyperkalaemia Timed Management](hyperkalaemia-timed-management.md).
+
 ## Clinical Source
 
 - Organisation: York and Scarborough Teaching Hospitals NHS Foundation Trust
@@ -54,8 +57,8 @@ by the engine as an ambiguous branch.
 | Unable to determine        | Stop without selecting a present-or-absent treatment branch          |
 | Missing answer             | Remain awaiting input                                                |
 
-The confirmed-change outcome does not display calcium dose, administration details or the later
-insulin/glucose sequence. Those remain part of Subtask 14.
+The `0.2.0` confirmed-change outcome did not display calcium or later treatment details. These are
+implemented behind the clinical-review gate in the successor `0.3.0` graph.
 
 ## Visual Asset Decision
 
@@ -72,12 +75,12 @@ does not fabricate diagnostic traces or extract images from the source document.
 - Empty, unknown or contradictory ECG selections are blocked.
 - Assessment values remain in React memory and are reset on upstream change or page exit.
 
-## Deliberately Deferred
+## Implemented In The Successor Graph
 
 - Calcium-gluconate instructions and repeat-dose decisions
 - Digoxin-toxicity timing consideration
 - Insulin/glucose, capillary-glucose safeguards and salbutamol
-- Sodium zirconium and adjunctive treatment branches
+- Sodium-zirconium conflict handling and adjunctive treatment branches
 - Timed monitoring, renal/outreach escalation beyond the immediate ECG yes branch
 - Cause and recurrence prevention
 
