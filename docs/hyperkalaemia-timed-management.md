@@ -25,7 +25,8 @@ from the source file, and each graph node retains an internal page and section r
 
 The `0.3.0` graph extends the severity and ECG workflows without creating a separate state boundary:
 
-1. Confirm potassium and select the exact source severity band.
+1. Enter a confirmed potassium result and select the exact source severity band. The assessment does
+   not pre-populate a clinical value.
 2. Run initial checks; request ECG findings from `6.0 mmol/L`.
 3. For a listed ECG change, show cardiac escalation and request digoxin-toxicity context before
    selecting the calcium administration consideration.
@@ -40,6 +41,10 @@ The `0.3.0` graph extends the severity and ECG workflows without creating a sepa
 Changing potassium clears ECG and every downstream answer. Changing ECG clears calcium, glucose and
 salbutamol answers. Changing the calcium context clears glucose and salbutamol answers. Changing
 pre-treatment glucose clears the salbutamol answer.
+
+The visible progress indicator follows these answers: it starts at potassium, moves to ECG when the
+selected severity requires an ECG review, and reaches timed management only after that review is
+answered. For a mild result, ECG is explicitly marked as not required rather than completed.
 
 ## Deterministic Boundaries
 
@@ -66,9 +71,10 @@ The protocol contains materially different sodium-zirconium initiation wording:
 - Page 2 describes `10 grams TDS for 72 hours` in life-threatening Hyperkalaemia, without defining
   that term in the supplied document.
 
-The application records both references, displays a clinician-facing conflict warning, generates no
-automated sodium-zirconium regimen, and prevents the pathway from being marked clinically approved
-until the conflict is explicitly resolved.
+The application records both references internally, generates no automated sodium-zirconium
+regimen, and prevents the pathway from being marked clinically approved until the conflict is
+explicitly resolved. The unresolved source conflict is retained in review evidence rather than
+displayed in the clinician-facing assessment.
 
 ## Safety And Edge Cases
 

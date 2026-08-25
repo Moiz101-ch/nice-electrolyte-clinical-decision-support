@@ -178,7 +178,7 @@ const pathwayDefinitionInput: PathwayDefinition = {
     notes: [
       "The six ECG labels and yes-branch escalation are transcribed from page 2 of the supplied Trust protocol.",
       "Unable to determine safely is an application fail-closed state and is not a printed source branch.",
-      "No ECG waveform image is displayed because the source provides text labels only and no separately approved visual assets were supplied.",
+      "The UI displays original schematic waveform placeholders beside the source-listed text labels. They are unapproved, non-diagnostic and do not alter pathway evaluation.",
       "Calcium administration, insulin/glucose and all timed treatment details remain deferred.",
     ],
     reviewedBy: null,
@@ -187,7 +187,7 @@ const pathwayDefinitionInput: PathwayDefinition = {
   },
   sourceIds: [HYPERKALAEMIA_SOURCE_ID],
   status: "awaiting-clinical-review",
-  version: "0.2.0",
+  version: "0.2.1",
 };
 
 const ecgEngine = createPathwayEngine(pathwayDefinitionInput);

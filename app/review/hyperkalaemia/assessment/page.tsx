@@ -2,9 +2,9 @@ import { ArrowLeft, ClipboardCheck } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { PathwayProgress, SafetyAlert } from "@/components/clinical";
+import { SafetyAlert } from "@/components/clinical";
 import { AppShell } from "@/components/layout/app-shell";
-import { HyperkalaemiaTimedManagementReview } from "@/components/pathways/hyperkalaemia/timed-management-review";
+import { HyperkalaemiaAssessmentReview } from "@/components/pathways/hyperkalaemia/assessment-review";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { hyperkalaemiaTimedManagementPathwayDefinition } from "@/src/clinical/pathways/hyperkalaemia";
@@ -12,13 +12,6 @@ import { hyperkalaemiaTimedManagementPathwayDefinition } from "@/src/clinical/pa
 export const metadata: Metadata = {
   title: "Hyperkalaemia timed management review",
 };
-
-const progressSteps = [
-  { description: "Hyperkalaemia", id: "focus", label: "Assessment focus" },
-  { description: "Connected", id: "potassium", label: "Potassium result" },
-  { description: "Connected", id: "ecg", label: "ECG review" },
-  { description: "Current step", id: "management", label: "Timed management" },
-] as const;
 
 export default function HyperkalaemiaAssessmentPage() {
   return (
@@ -54,30 +47,7 @@ export default function HyperkalaemiaAssessmentPage() {
           patient care.
         </SafetyAlert>
 
-        <section aria-labelledby="hyperkalaemia-ecg-progress-title">
-          <h2 className="sr-only" id="hyperkalaemia-ecg-progress-title">
-            Hyperkalaemia ECG pathway progress
-          </h2>
-          <PathwayProgress currentStepId="management" steps={progressSteps} />
-        </section>
-
-        <section className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-start">
-          <HyperkalaemiaTimedManagementReview />
-          <aside aria-label="Review notes" className="space-y-5">
-            <SafetyAlert level="information" title="Text labels only">
-              No approved ECG waveform assets were supplied. The review therefore uses the six
-              source-listed text labels without illustrative traces.
-            </SafetyAlert>
-            <SafetyAlert level="warning" title="Clinical review pending">
-              Drug doses, timings, monitoring and escalation remain locked until the formal clinical
-              review package is approved.
-            </SafetyAlert>
-            <SafetyAlert level="warning" title="Source conflict held">
-              The protocol uses different sodium-zirconium initiation wording. The application does
-              not generate that regimen until the conflict is clinically resolved.
-            </SafetyAlert>
-          </aside>
-        </section>
+        <HyperkalaemiaAssessmentReview />
 
         <footer className="text-muted flex items-start gap-2 text-xs leading-5">
           <ClipboardCheck aria-hidden="true" className="mt-0.5 size-4 shrink-0" />

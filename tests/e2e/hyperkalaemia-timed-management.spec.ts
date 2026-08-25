@@ -7,7 +7,34 @@ test("connects severe Hyperkalaemia to timed treatment, monitoring and preventio
   await page.goto("/review/hyperkalaemia/assessment");
 
   await expect(page.getByRole("heading", { name: "Hyperkalaemia timed management" })).toBeVisible();
-  await page.getByRole("checkbox", { name: "None of the listed ECG changes confirmed" }).check();
+  const progress = page.getByRole("navigation", { name: "Assessment progress" });
+  await expect(progress.locator('[aria-current="step"]')).toContainText("Potassium result");
+  await page.getByRole("spinbutton", { name: /Latest potassium result/i }).fill("6.5");
+  await expect(progress.locator('[aria-current="step"]')).toContainText("ECG review");
+  await expect(page.getByText("Unapproved schematic ECG references")).toBeVisible();
+  await expect(page.locator("[data-ecg-waveform]")).toHaveCount(6);
+  const noChangeGroup = page.getByRole("region", { name: "No listed change" });
+  const uncertainGroup = page.getByRole("region", { name: "Uncertain assessment" });
+  const [noChangeBox, uncertainBox] = await Promise.all([
+    noChangeGroup.boundingBox(),
+    uncertainGroup.boundingBox(),
+  ]);
+  expect(noChangeBox).not.toBeNull();
+  expect(uncertainBox).not.toBeNull();
+  expect(Math.abs(noChangeBox!.y - uncertainBox!.y)).toBeLessThan(1);
+  expect(Math.abs(noChangeBox!.width - uncertainBox!.width)).toBeLessThan(1);
+  expect(Math.abs(noChangeBox!.height - uncertainBox!.height)).toBeLessThan(1);
+
+  const noChange = page.getByRole("checkbox", {
+    name: "None of the listed ECG changes confirmed",
+  });
+  const uncertain = page.getByRole("checkbox", { name: "Unable to determine safely" });
+  await uncertain.check();
+  await expect(uncertain).toBeChecked();
+  await noChange.check();
+  await expect(noChange).toBeChecked();
+  await expect(uncertain).not.toBeChecked();
+  await expect(progress.locator('[aria-current="step"]')).toContainText("Timed management");
   await page
     .getByRole("spinbutton", { name: /Confirmed pre-treatment blood glucose/i })
     .fill("6.9");
@@ -16,7 +43,8 @@ test("connects severe Hyperkalaemia to timed treatment, monitoring and preventio
   await expect(page.getByRole("heading", { name: "Connected management output" })).toBeVisible();
   await expect(page.getByText(/Give 6 units of soluble insulin \(Actrapid\)/i)).toBeVisible();
   await expect(page.getByText(/Because pre-treatment blood glucose is below 7.0/i)).toBeVisible();
-  await expect(page.getByText("Conflicting sodium-zirconium criteria")).toBeVisible();
+  await expect(page.getByText("Conflicting sodium-zirconium criteria")).toHaveCount(0);
+  await expect(page.getByText("Source conflict held")).toHaveCount(0);
   await expect(page.getByRole("heading", { name: "Ongoing monitoring" })).toBeVisible();
   await expect(page.getByText("Cause and recurrence prevention")).toBeVisible();
   await expect(page.getByText("YSTHFT-ACUTE-HYPERKALAEMIA-V1")).toHaveCount(0);
@@ -28,6 +56,7 @@ test("connects severe Hyperkalaemia to timed treatment, monitoring and preventio
 test("selects calcium and salbutamol safeguards from explicit contexts", async ({ page }) => {
   await page.goto("/review/hyperkalaemia/assessment");
 
+  await page.getByRole("spinbutton", { name: /Latest potassium result/i }).fill("6.5");
   await page.getByRole("checkbox", { name: "Broad QRS" }).check();
   await expect(page.getByRole("heading", { name: "ECG changes confirmed" })).toBeVisible();
   await expect(page.getByText("Use cardiac monitoring and resuscitation support.")).toBeVisible();
@@ -64,5 +93,5 @@ test("keeps the critical uncertainty branch inside a mobile viewport", async ({ 
   expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(
     false,
   );
-  await expect(page.getByText("Source conflict held")).toBeVisible();
+  await expect(page.getByText("Source conflict held")).toHaveCount(0);
 });

@@ -45,6 +45,23 @@ describe("shared clinical pathway components", () => {
     expect(input).toHaveAccessibleDescription("Confirm the displayed unit. Enter a valid result.");
   });
 
+  it("distinguishes a skipped pathway step from a completed step", () => {
+    render(
+      <PathwayProgress
+        currentStepId="result"
+        skippedStepIds={["findings"]}
+        steps={[
+          { id: "focus", label: "Focus" },
+          { id: "findings", label: "Findings" },
+          { id: "result", label: "Result" },
+        ]}
+      />,
+    );
+
+    expect(screen.getByText("Findings").closest("li")).toHaveTextContent("Status: skipped");
+    expect(screen.getByText("Result").closest("li")).toHaveAttribute("aria-current", "step");
+  });
+
   it("uses native radio and checkbox behavior for clinical selections", async () => {
     const user = userEvent.setup();
 
@@ -165,6 +182,8 @@ describe("shared clinical pathway components", () => {
 
     expect(screen.getByRole("alert", { name: /Critical safety alert/ })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Monitoring" })).toBeInTheDocument();
+    expect(screen.queryByRole("radio")).not.toBeInTheDocument();
+    expect(screen.queryByRole("checkbox")).not.toBeInTheDocument();
     expect(screen.getByText("Complete")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Monitoring result" })).toBeInTheDocument();
     expect(screen.getByText("Awaiting clinical review")).toBeInTheDocument();

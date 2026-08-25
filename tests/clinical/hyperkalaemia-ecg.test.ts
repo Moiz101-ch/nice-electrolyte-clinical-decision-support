@@ -15,7 +15,7 @@ describe("Hyperkalaemia ECG workflow", () => {
       pathwayId: "hyperkalaemia-ecg-assessment",
       sourceIds: [HYPERKALAEMIA_SOURCE_ID],
       status: "awaiting-clinical-review",
-      version: "0.2.0",
+      version: "0.2.1",
     });
     expect(HYPERKALAEMIA_ECG_CHANGE_OPTIONS.map(({ label }) => label)).toEqual([
       "Peaked T waves",

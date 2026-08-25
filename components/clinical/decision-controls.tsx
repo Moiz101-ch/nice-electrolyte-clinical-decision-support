@@ -1,6 +1,7 @@
 "use client";
 
 import type { LucideIcon } from "lucide-react";
+import type { ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -107,6 +108,7 @@ export interface SymptomSelectionOption {
   description?: string;
   label: string;
   value: string;
+  visual?: ReactNode;
 }
 
 export interface SymptomSelectionGroup {
@@ -146,56 +148,77 @@ export function GroupedSymptomSelection({
         </p>
       ) : null}
       <div className="mt-3 grid gap-3 lg:grid-cols-2">
-        {groups.map((group) => (
-          <section className="py-4 last:odd:lg:col-span-2" key={group.id}>
-            <h3 className="text-foreground text-sm font-semibold">{group.label}</h3>
-            {group.description ? (
-              <p className="text-muted mt-1 text-xs leading-5">{group.description}</p>
-            ) : null}
-            <div className="border-border mt-3 divide-y border-y">
-              {group.options.map((option) => {
-                const optionId = `${name}-${group.id}-${option.value}`;
+        {groups.map((group) => {
+          const groupTitleId = `${name}-${group.id}-title`;
 
-                return (
-                  <label
-                    className="hover:bg-surface-subtle flex min-h-12 cursor-pointer items-start gap-3 py-3"
-                    htmlFor={optionId}
-                    key={option.value}
-                  >
-                    <input
-                      className="accent-primary mt-0.5 size-4 shrink-0"
-                      id={optionId}
-                      name={`${name}-${group.id}`}
-                      onChange={(event) => {
-                        const currentValues = values ?? defaultValues;
-                        const nextValues = event.target.checked
-                          ? [...new Set([...currentValues, option.value])]
-                          : currentValues.filter((value) => value !== option.value);
+          return (
+            <section
+              aria-labelledby={groupTitleId}
+              className="row-span-2 grid grid-rows-subgrid py-4 last:odd:lg:col-span-2"
+              data-symptom-group={group.id}
+              key={group.id}
+            >
+              <div>
+                <h3 className="text-foreground text-sm font-semibold" id={groupTitleId}>
+                  {group.label}
+                </h3>
+                {group.description ? (
+                  <p className="text-muted mt-1 text-xs leading-5">{group.description}</p>
+                ) : null}
+              </div>
+              <div className="border-border mt-3 h-full divide-y border-y">
+                {group.options.map((option) => {
+                  const optionId = `${name}-${group.id}-${option.value}`;
 
-                        onValuesChange?.(nextValues);
-                      }}
-                      type="checkbox"
-                      value={option.value}
-                      {...(values === undefined
-                        ? { defaultChecked: defaultValues.includes(option.value) }
-                        : { checked: values.includes(option.value) })}
-                    />
-                    <span className="min-w-0">
-                      <span className="text-foreground block text-sm font-medium">
-                        {option.label}
+                  return (
+                    <label
+                      className={cn(
+                        "hover:bg-surface-subtle flex min-h-12 cursor-pointer items-start gap-3 py-3",
+                        option.visual && "min-h-24 flex-wrap sm:flex-nowrap sm:items-center",
+                      )}
+                      htmlFor={optionId}
+                      key={option.value}
+                    >
+                      <input
+                        className="accent-primary mt-0.5 size-4 shrink-0"
+                        id={optionId}
+                        name={`${name}-${group.id}`}
+                        onChange={(event) => {
+                          const currentValues = values ?? defaultValues;
+                          const nextValues = event.target.checked
+                            ? [...new Set([...currentValues, option.value])]
+                            : currentValues.filter((value) => value !== option.value);
+
+                          onValuesChange?.(nextValues);
+                        }}
+                        type="checkbox"
+                        value={option.value}
+                        {...(values === undefined
+                          ? { defaultChecked: defaultValues.includes(option.value) }
+                          : { checked: values.includes(option.value) })}
+                      />
+                      <span className="min-w-0 flex-1">
+                        <span className="text-foreground block text-sm font-medium">
+                          {option.label}
+                        </span>
+                        {option.description ? (
+                          <span className="text-muted mt-0.5 block text-xs leading-5">
+                            {option.description}
+                          </span>
+                        ) : null}
                       </span>
-                      {option.description ? (
-                        <span className="text-muted mt-0.5 block text-xs leading-5">
-                          {option.description}
+                      {option.visual ? (
+                        <span aria-hidden="true" className="w-full shrink-0 pl-7 sm:w-36 sm:pl-0">
+                          {option.visual}
                         </span>
                       ) : null}
-                    </span>
-                  </label>
-                );
-              })}
-            </div>
-          </section>
-        ))}
+                    </label>
+                  );
+                })}
+              </div>
+            </section>
+          );
+        })}
       </div>
     </fieldset>
   );

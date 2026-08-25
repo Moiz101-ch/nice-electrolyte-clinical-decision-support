@@ -3,13 +3,13 @@
 ## Status
 
 - Application pathway: `hyperkalaemia-ecg-assessment`
-- Version: `0.2.0`
+- Version: `0.2.1`
 - Status: Awaiting clinical review
 - Scope: connected potassium severity, initial checks and ECG branch selection
 - Review route: `/review/hyperkalaemia/assessment`
 - Approved for patient care: No
 
-This document records the `0.2.0` ECG subtask. The review route now renders the connected `0.3.0`
+This document records the `0.2.1` ECG subtask. The review route now renders the connected `0.3.0`
 timed-management workflow documented in [Hyperkalaemia Timed Management](hyperkalaemia-timed-management.md).
 
 ## Clinical Source
@@ -24,7 +24,7 @@ timed-management workflow documented in [Hyperkalaemia Timed Management](hyperka
 
 ## Connected Branch
 
-The `0.2.0` definition inherits the reviewed `0.1.0` potassium severity and initial checks. It does
+The `0.2.1` definition inherits the reviewed `0.1.0` potassium severity and initial checks. It does
 not redefine those thresholds.
 
 1. Enter a confirmed potassium result.
@@ -57,14 +57,18 @@ by the engine as an ambiguous branch.
 | Unable to determine        | Stop without selecting a present-or-absent treatment branch          |
 | Missing answer             | Remain awaiting input                                                |
 
-The `0.2.0` confirmed-change outcome did not display calcium or later treatment details. These are
+The `0.2.1` confirmed-change outcome does not display calcium or later treatment details. These are
 implemented behind the clinical-review gate in the successor `0.3.0` graph.
 
 ## Visual Asset Decision
 
 The supplied protocol lists ECG changes as text and does not supply separately approved waveform
-assets for application reuse. The UI therefore uses verified text labels and an ECG icon only. It
-does not fabricate diagnostic traces or extract images from the source document.
+assets for application reuse. The UI now places six original schematic placeholders beside those
+labels at the project owner's request. They are visibly marked as unapproved, are hidden from the
+checkbox accessible name and do not affect pathway evaluation. No third-party trace was copied.
+
+The drawings are simplified visual references rather than diagnostic ECG examples. Clinical review
+must approve, replace or remove each drawing before project use.
 
 ## Technical Controls
 
@@ -91,7 +95,7 @@ does not fabricate diagnostic traces or extract images from the source document.
 
 ## Clinical Review Questions
 
-1. Are all six ECG labels suitable without waveform images?
+1. Are all six ECG labels and their unapproved schematic placeholders clinically suitable?
 2. Should an inability to determine ECG changes trigger a more specific local escalation?
 3. Does `Cardiac monitoring/resus` require locally approved expanded wording?
 4. Is `Consider referral to outreach` sufficiently explicit for project use?

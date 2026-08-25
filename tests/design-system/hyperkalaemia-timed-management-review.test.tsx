@@ -9,8 +9,15 @@ describe("Hyperkalaemia timed management review", () => {
     const user = userEvent.setup();
     render(<HyperkalaemiaTimedManagementReview />);
 
+    const potassium = screen.getByRole("spinbutton", { name: /Latest potassium result/i });
+    expect(potassium).toHaveValue(null);
+    expect(screen.getByText("Awaiting potassium result")).toBeInTheDocument();
+    await user.type(potassium, "6.5");
+
     expect(screen.getByRole("heading", { name: "Severe hyperkalaemia" })).toBeInTheDocument();
+    expect(screen.getByText("Unapproved schematic ECG references")).toBeInTheDocument();
     expect(screen.getByRole("group", { name: "Source-listed ECG changes" })).toBeInTheDocument();
+    expect(screen.getAllByTestId(/^ecg-waveform-/)).toHaveLength(6);
     expect(
       screen.queryByRole("spinbutton", { name: /Confirmed pre-treatment blood glucose/i }),
     ).not.toBeInTheDocument();
@@ -36,7 +43,7 @@ describe("Hyperkalaemia timed management review", () => {
     expect(
       screen.getByText(/Because pre-treatment blood glucose is below 7.0/i),
     ).toBeInTheDocument();
-    expect(screen.getByText("Conflicting sodium-zirconium criteria")).toBeInTheDocument();
+    expect(screen.queryByText("Conflicting sodium-zirconium criteria")).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Ongoing monitoring" })).toBeInTheDocument();
     expect(screen.getByText("Cause and recurrence prevention")).toBeInTheDocument();
   });
@@ -45,6 +52,7 @@ describe("Hyperkalaemia timed management review", () => {
     const user = userEvent.setup();
     render(<HyperkalaemiaTimedManagementReview />);
 
+    await user.type(screen.getByRole("spinbutton", { name: /Latest potassium result/i }), "6.5");
     await user.click(screen.getByRole("checkbox", { name: "Peaked T waves" }));
     expect(
       screen.getByRole("group", { name: /Is there concern about digoxin toxicity?/i }),
@@ -66,6 +74,7 @@ describe("Hyperkalaemia timed management review", () => {
     const user = userEvent.setup();
     render(<HyperkalaemiaTimedManagementReview />);
 
+    await user.type(screen.getByRole("spinbutton", { name: /Latest potassium result/i }), "6.5");
     const peaked = screen.getByRole("checkbox", { name: "Peaked T waves" });
     const none = screen.getByRole("checkbox", {
       name: "None of the listed ECG changes confirmed",
@@ -88,7 +97,6 @@ describe("Hyperkalaemia timed management review", () => {
     render(<HyperkalaemiaTimedManagementReview />);
     const potassium = screen.getByRole("spinbutton", { name: /Latest potassium result/i });
 
-    await user.clear(potassium);
     await user.type(potassium, "7.0");
     expect(screen.getByRole("alert", { name: /Urgent threshold safeguard/ })).toBeInTheDocument();
 
@@ -103,6 +111,7 @@ describe("Hyperkalaemia timed management review", () => {
     render(<HyperkalaemiaTimedManagementReview />);
     const potassium = screen.getByRole("spinbutton", { name: /Latest potassium result/i });
 
+    await user.type(potassium, "6.5");
     await user.click(screen.getByRole("checkbox", { name: "Broad QRS" }));
     await user.click(screen.getByRole("radio", { name: /Concern not confirmed/i }));
     const glucose = screen.getByRole("spinbutton", {
@@ -117,6 +126,7 @@ describe("Hyperkalaemia timed management review", () => {
     expect(
       screen.queryByRole("group", { name: "Source-listed ECG changes" }),
     ).not.toBeInTheDocument();
+    expect(screen.queryAllByTestId(/^ecg-waveform-/)).toHaveLength(0);
     expect(
       screen.queryByRole("spinbutton", { name: /Confirmed pre-treatment blood glucose/i }),
     ).not.toBeInTheDocument();

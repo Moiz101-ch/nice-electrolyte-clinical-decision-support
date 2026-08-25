@@ -12,7 +12,7 @@ import {
   Stethoscope,
   TestTube2,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import {
   GroupedSymptomSelection,
@@ -40,6 +40,8 @@ import {
   type SalbutamolContext,
 } from "@/src/clinical/pathways/hyperkalaemia";
 
+import { HyperkalaemiaEcgWaveform } from "./ecg-waveform-reference";
+
 const severityTone = {
   mild: "info",
   moderate: "warning",
@@ -50,12 +52,18 @@ const ecgSelectionGroups = [
   {
     id: "conduction",
     label: "Repolarisation and conduction",
-    options: HYPERKALAEMIA_ECG_CHANGE_OPTIONS.slice(0, 3),
+    options: HYPERKALAEMIA_ECG_CHANGE_OPTIONS.slice(0, 3).map((option) => ({
+      ...option,
+      visual: <HyperkalaemiaEcgWaveform variant={option.value} />,
+    })),
   },
   {
     id: "rhythm",
     label: "Rhythm and advanced changes",
-    options: HYPERKALAEMIA_ECG_CHANGE_OPTIONS.slice(3),
+    options: HYPERKALAEMIA_ECG_CHANGE_OPTIONS.slice(3).map((option) => ({
+      ...option,
+      visual: <HyperkalaemiaEcgWaveform variant={option.value} />,
+    })),
   },
   {
     description: "Select only when none of the six listed changes is confirmed.",
@@ -128,7 +136,6 @@ const managementWarningIds = new Set([
   "calcium-duration-not-selected",
   "avoid-salbutamol-tachycardia",
   "salbutamol-context-uncertain",
-  "sodium-zirconium-source-conflict",
 ]);
 
 const monitoringLabels: Record<string, { label: string; timing: string }> = {
@@ -160,8 +167,21 @@ const monitoringLabels: Record<string, { label: string; timing: string }> = {
   },
 };
 
-export function HyperkalaemiaTimedManagementReview() {
-  const [potassiumInput, setPotassiumInput] = useState("6.5");
+export type HyperkalaemiaAssessmentStepId = "potassium" | "ecg" | "management";
+
+export interface HyperkalaemiaAssessmentProgress {
+  currentStepId: HyperkalaemiaAssessmentStepId;
+  ecgSkipped: boolean;
+}
+
+interface HyperkalaemiaTimedManagementReviewProps {
+  onProgressChange?: (progress: HyperkalaemiaAssessmentProgress) => void;
+}
+
+export function HyperkalaemiaTimedManagementReview({
+  onProgressChange,
+}: HyperkalaemiaTimedManagementReviewProps = {}) {
+  const [potassiumInput, setPotassiumInput] = useState("");
   const [ecgChanges, setEcgChanges] = useState<readonly HyperkalaemiaEcgChange[]>([]);
   const [digoxinConcern, setDigoxinConcern] = useState<DigoxinToxicityConcern | "">("");
   const [pretreatmentGlucoseInput, setPretreatmentGlucoseInput] = useState("");
@@ -187,6 +207,14 @@ export function HyperkalaemiaTimedManagementReview() {
   const traceNodeIds = new Set(evaluation?.trace.map(({ nodeId }) => nodeId));
   const requiresEcg =
     severityEvaluation?.kind === "classified" && severityEvaluation.band.severity !== "mild";
+  const ecgSkipped =
+    severityEvaluation?.kind === "classified" && severityEvaluation.band.severity === "mild";
+  const currentStepId: HyperkalaemiaAssessmentStepId =
+    severityEvaluation?.kind !== "classified"
+      ? "potassium"
+      : requiresEcg && ecgChanges.length === 0
+        ? "ecg"
+        : "management";
   const showDigoxinContext =
     traceNodeIds.has("ecg-changes-confirmed-review") ||
     traceNodeIds.has("seven-plus-digoxin-context");
@@ -223,6 +251,10 @@ export function HyperkalaemiaTimedManagementReview() {
     calciumActions.length > 0 ||
     intracellularShiftActions.length > 0 ||
     managementWarnings.length > 0;
+
+  useEffect(() => {
+    onProgressChange?.({ currentStepId, ecgSkipped });
+  }, [currentStepId, ecgSkipped, onProgressChange]);
 
   function resetDownstreamFromPotassium() {
     setEcgChanges([]);
@@ -368,14 +400,21 @@ export function HyperkalaemiaTimedManagementReview() {
             <h3 className="sr-only" id="hyperkalaemia-ecg-selection-title">
               ECG change selection
             </h3>
-            <GroupedSymptomSelection
-              description="Select every listed change that is clinically confirmed, or choose one explicit no-change or uncertainty state."
-              groups={ecgSelectionGroups}
-              legend="Source-listed ECG changes"
-              name="hyperkalaemia-management-ecg-changes"
-              onValuesChange={handleEcgChanges}
-              values={ecgChanges}
-            />
+            <SafetyAlert level="warning" title="Unapproved schematic ECG references">
+              These simplified illustrations are technical-review placeholders, not diagnostic
+              traces or approved clinical assets. Confirm findings from the actual 12-lead ECG and
+              use the text labels for this review selection.
+            </SafetyAlert>
+            <div className="mt-5">
+              <GroupedSymptomSelection
+                description="Select every listed change that is clinically confirmed, or choose one explicit no-change or uncertainty state."
+                groups={ecgSelectionGroups}
+                legend="Source-listed ECG changes"
+                name="hyperkalaemia-management-ecg-changes"
+                onValuesChange={handleEcgChanges}
+                values={ecgChanges}
+              />
+            </div>
 
             <div aria-live="polite" className="mt-5">
               {ecgChanges.length === 0 ? (
@@ -670,7 +709,6 @@ function ManagementWarning({ warning }: { warning: PathwayWarning }) {
     "moderate-treatment-selection-unresolved": "No deterministic moderate-treatment selection",
     "salbutamol-context-uncertain": "No salbutamol instruction generated",
     "severe-ecg-uncertain": "Urgent ECG review required",
-    "sodium-zirconium-source-conflict": "Conflicting sodium-zirconium criteria",
   };
 
   return (

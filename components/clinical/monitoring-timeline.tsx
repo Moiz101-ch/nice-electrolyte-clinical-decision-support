@@ -1,4 +1,4 @@
-import { Check, Circle, Clock3, type LucideIcon } from "lucide-react";
+import { CalendarClock, Check, Clock3, type LucideIcon } from "lucide-react";
 import { useId } from "react";
 
 import { Badge } from "@/components/ui/badge";
@@ -17,7 +17,7 @@ export interface MonitoringTimelineItem {
 const timelineStatusConfig = {
   complete: { icon: Check, label: "Complete", variant: "success" },
   current: { icon: Clock3, label: "Current", variant: "info" },
-  upcoming: { icon: Circle, label: "Upcoming", variant: "neutral" },
+  upcoming: { icon: CalendarClock, label: "Upcoming", variant: "neutral" },
 } satisfies Record<
   MonitoringStatus,
   { icon: LucideIcon; label: string; variant: "info" | "neutral" | "success" }
@@ -55,7 +55,7 @@ export function MonitoringTimeline({
               <span
                 aria-hidden="true"
                 className={cn(
-                  "bg-surface-subtle text-muted flex size-8 items-center justify-center rounded-full",
+                  "bg-surface-subtle text-muted flex size-8 items-center justify-center rounded-md",
                   item.status === "complete" && "bg-success-subtle text-success",
                   item.status === "current" && "bg-info-subtle text-primary",
                 )}

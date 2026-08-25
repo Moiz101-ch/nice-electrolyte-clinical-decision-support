@@ -13,7 +13,7 @@
     },
     {
       "pathwayId": "hyperkalaemia-ecg-assessment",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "status": "awaiting-clinical-review"
     },
     {
@@ -28,7 +28,9 @@
     "checklist": "docs/clinical-review/hyperkalaemia-v0.3.0/review-checklist.csv",
     "screenshots": [
       "docs/screenshots/subtask-14-hyperkalaemia/timed-management-desktop.png",
-      "docs/screenshots/subtask-14-hyperkalaemia/timed-management-uncertain-mobile.png"
+      "docs/screenshots/subtask-14-hyperkalaemia/timed-management-uncertain-mobile.png",
+      "docs/screenshots/subtask-15a-hyperkalaemia/ecg-illustrations-desktop.png",
+      "docs/screenshots/subtask-15a-hyperkalaemia/ecg-illustrations-mobile.png"
     ]
   },
   "testEvidence": [

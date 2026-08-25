@@ -1,4 +1,4 @@
-import { Check } from "lucide-react";
+import { Check, Minus } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -11,15 +11,18 @@ export interface PathwayProgressStep {
 export interface PathwayProgressProps {
   ariaLabel?: string;
   currentStepId: string;
+  skippedStepIds?: readonly string[];
   steps: readonly PathwayProgressStep[];
 }
 
 export function PathwayProgress({
   ariaLabel = "Assessment progress",
   currentStepId,
+  skippedStepIds = [],
   steps,
 }: PathwayProgressProps) {
   const currentStepIndex = steps.findIndex((step) => step.id === currentStepId);
+  const skippedSteps = new Set(skippedStepIds);
 
   if (currentStepIndex === -1) {
     throw new Error(`Current pathway step ${currentStepId} is not present in the supplied steps.`);
@@ -29,8 +32,9 @@ export function PathwayProgress({
     <nav aria-label={ariaLabel}>
       <ol className="grid gap-3 md:auto-cols-fr md:grid-flow-col">
         {steps.map((step, index) => {
-          const state =
-            index < currentStepIndex
+          const state = skippedSteps.has(step.id)
+            ? "skipped"
+            : index < currentStepIndex
               ? "complete"
               : index === currentStepIndex
                 ? "current"
@@ -42,6 +46,7 @@ export function PathwayProgress({
               className={cn(
                 "border-border bg-surface grid min-h-20 grid-cols-[2rem_minmax(0,1fr)] gap-3 rounded-md border p-3",
                 state === "current" && "border-primary bg-info-subtle",
+                state === "skipped" && "bg-surface-subtle border-dashed",
               )}
               key={step.id}
             >
@@ -51,9 +56,16 @@ export function PathwayProgress({
                   "border-border-strong bg-surface-subtle text-muted flex size-8 items-center justify-center rounded-full border text-xs font-bold",
                   state === "complete" && "border-success bg-success text-white",
                   state === "current" && "border-primary bg-primary text-white",
+                  state === "skipped" && "border-border-strong bg-surface text-muted",
                 )}
               >
-                {state === "complete" ? <Check className="size-4" strokeWidth={2.4} /> : index + 1}
+                {state === "complete" ? (
+                  <Check className="size-4" strokeWidth={2.4} />
+                ) : state === "skipped" ? (
+                  <Minus className="size-4" strokeWidth={2.4} />
+                ) : (
+                  index + 1
+                )}
               </span>
               <span className="min-w-0">
                 <span className="text-foreground block text-sm font-semibold">{step.label}</span>
