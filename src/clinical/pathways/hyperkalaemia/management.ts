@@ -9,7 +9,12 @@ import {
   hyperkalaemiaEcgPathwayDefinition,
   type HyperkalaemiaEcgChange,
 } from "./ecg.ts";
-import { HYPERKALAEMIA_SOURCE_ID, POTASSIUM_INPUT_KEY, POTASSIUM_UNIT } from "./severity.ts";
+import {
+  HYPERKALAEMIA_SOURCE_ID,
+  HYPERKALAEMIA_UKKA_SOURCE_ID,
+  POTASSIUM_INPUT_KEY,
+  POTASSIUM_UNIT,
+} from "./severity.ts";
 
 export const DIGOXIN_TOXICITY_INPUT_KEY = "digoxinToxicityConcern";
 export const PRETREATMENT_GLUCOSE_INPUT_KEY = "pretreatmentBloodGlucose";
@@ -816,6 +821,7 @@ const managementDefinitionInput: PathwayDefinition = {
     approvedOn: null,
     notes: [
       "The first 15-30 minute, 30-60 minute, monitoring, adjunct and recurrence-prevention instructions are transcribed from the supplied Trust protocol.",
+      "The registered UK Kidney Association guideline supports the detailed pseudohyperkalaemia exclusion and blood-gas guidance; these additions await project clinical review.",
       "Active drug treatment is generated for severe Hyperkalaemia or when a source-listed ECG change is confirmed; moderate Hyperkalaemia without a listed ECG change stops short of acute drug selection because the source provides no deterministic criteria based on clinical condition or rate of rise.",
       "The sodium-zirconium prescribing chart and management algorithm use different initiation wording, so no automated sodium-zirconium instruction is generated.",
       "Unable-to-determine states do not infer absent cautions or select an unsupported dose or administration duration.",
@@ -825,7 +831,7 @@ const managementDefinitionInput: PathwayDefinition = {
     reviewedOn: null,
     status: "awaiting-clinical-review",
   },
-  sourceIds: [HYPERKALAEMIA_SOURCE_ID],
+  sourceIds: [HYPERKALAEMIA_SOURCE_ID, HYPERKALAEMIA_UKKA_SOURCE_ID],
   status: "awaiting-clinical-review",
   version: "0.3.0",
 };

@@ -15,6 +15,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 
 import {
+  ActionContent,
   GroupedSymptomSelection,
   MajorDecisionCards,
   MonitoringTimeline,
@@ -639,7 +640,7 @@ function ActionList({
             className="text-success mt-1 size-4 shrink-0"
             strokeWidth={2}
           />
-          <span className="text-foreground text-sm leading-6">{action.instruction}</span>
+          <ActionContent action={action} />
         </li>
       ))}
     </ul>

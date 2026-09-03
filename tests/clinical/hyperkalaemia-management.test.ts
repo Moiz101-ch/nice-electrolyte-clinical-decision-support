@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   DIGOXIN_TOXICITY_INPUT_KEY,
   HYPERKALAEMIA_SOURCE_ID,
+  HYPERKALAEMIA_UKKA_SOURCE_ID,
   PRETREATMENT_GLUCOSE_INPUT_KEY,
   SALBUTAMOL_CONTEXT_INPUT_KEY,
   evaluateHyperkalaemiaTimedManagement,
@@ -24,7 +25,7 @@ describe("Hyperkalaemia timed management", () => {
   it("provides a source-traceable review-gated v0.3.0 definition", () => {
     expect(hyperkalaemiaTimedManagementPathwayDefinition).toMatchObject({
       pathwayId: "hyperkalaemia-timed-management",
-      sourceIds: [HYPERKALAEMIA_SOURCE_ID],
+      sourceIds: [HYPERKALAEMIA_SOURCE_ID, HYPERKALAEMIA_UKKA_SOURCE_ID],
       status: "awaiting-clinical-review",
       version: "0.3.0",
     });

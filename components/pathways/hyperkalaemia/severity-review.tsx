@@ -4,6 +4,7 @@ import { Activity, CircleCheck, Gauge, ShieldCheck } from "lucide-react";
 import { useState } from "react";
 
 import {
+  ActionContent,
   NumericClinicalInput,
   ResultSection,
   ReviewStatusBadge,
@@ -147,9 +148,7 @@ export function HyperkalaemiaSeverityReview() {
                           <CircleCheck className="size-4" />
                         )}
                       </span>
-                      <span className="text-foreground text-sm leading-6">
-                        {action.instruction}
-                      </span>
+                      <ActionContent action={action} />
                     </li>
                   ))}
                 </ul>

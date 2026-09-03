@@ -19,8 +19,9 @@
 - Internal source ID: `YSTHFT-ACUTE-HYPERKALAEMIA-V1`
 - Implemented location: page 2, initial checks and severity row
 
-The source is an operational Trust protocol. It is not presented as NICE guidance. Its cited UK
-Kidney Association reference was not supplied as an immutable project source.
+The source is an operational Trust protocol. It is not presented as NICE guidance. The official UK
+Kidney Association October 2023 guideline cited by the pathway is registered as supporting evidence
+for the detailed pseudohyperkalaemia and blood-gas guidance.
 
 ## Deterministic Input
 
@@ -40,8 +41,10 @@ Hyperkalaemia severity classification. No rounding or unstated threshold is infe
 
 All supported severity branches return these source-derived checks:
 
-1. Exclude pseudohyperkalaemia.
-2. Check serum calcium and bicarbonate.
+1. Exclude pseudohyperkalaemia. The UI provides paired serum/plasma sampling steps, the `>0.4
+mmol/L` difference, FBC/haematological context and a qualified ECG reminder from UKKA guidance.
+2. Check serum calcium and bicarbonate, and obtain a VBG for rapid potassium and acid-base
+   assessment.
 3. Check whether potassium is chronically raised and within the patient's satisfactory range,
    including in known CKD.
 

@@ -22,7 +22,7 @@ const pathwayStatuses = [
   },
   {
     name: "Hypocalcaemia",
-    status: "Source registered; pathway implementation pending",
+    status: "Connected cause, safeguard and management review available; clinical approval pending",
   },
 ] as const;
 
@@ -36,6 +36,12 @@ const technicalReviews = [
     description: "Connected potassium, ECG, timed management and monitoring workflow.",
     href: "/review/hyperkalaemia/assessment",
     name: "Hyperkalaemia",
+  },
+  {
+    description:
+      "Connected adjusted-calcium assessment with cause safeguards and gated management branches.",
+    href: "/review/hypocalcaemia/assessment",
+    name: "Hypocalcaemia",
   },
 ] as const;
 

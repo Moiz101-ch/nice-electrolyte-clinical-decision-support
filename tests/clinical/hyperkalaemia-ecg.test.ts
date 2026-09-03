@@ -4,6 +4,7 @@ import {
   ECG_CHANGES_INPUT_KEY,
   HYPERKALAEMIA_ECG_CHANGE_OPTIONS,
   HYPERKALAEMIA_SOURCE_ID,
+  HYPERKALAEMIA_UKKA_SOURCE_ID,
   evaluateHyperkalaemiaEcgWorkflow,
   hyperkalaemiaEcgPathwayDefinition,
   type HyperkalaemiaEcgChange,
@@ -13,7 +14,7 @@ describe("Hyperkalaemia ECG workflow", () => {
   it("extends the severity pathway with a source-traceable review-gated definition", () => {
     expect(hyperkalaemiaEcgPathwayDefinition).toMatchObject({
       pathwayId: "hyperkalaemia-ecg-assessment",
-      sourceIds: [HYPERKALAEMIA_SOURCE_ID],
+      sourceIds: [HYPERKALAEMIA_SOURCE_ID, HYPERKALAEMIA_UKKA_SOURCE_ID],
       status: "awaiting-clinical-review",
       version: "0.2.1",
     });

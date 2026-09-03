@@ -32,7 +32,7 @@ describe("pathway-first home page", () => {
     expect(screen.getByRole("heading", { name: "DKA management pathway" })).toBeInTheDocument();
     expect(screen.getByText("Source review overdue")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Open calculator" })).toBeDisabled();
-    expect(screen.getByText("7")).toBeInTheDocument();
+    expect(screen.getByText("8")).toBeInTheDocument();
     expect(screen.getByText("0")).toBeInTheDocument();
     expect(screen.getByText("3")).toBeInTheDocument();
 

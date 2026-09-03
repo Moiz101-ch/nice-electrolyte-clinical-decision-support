@@ -2,6 +2,7 @@ import { createPathwayEngine, type PathwayInputDatum } from "../../engine/index.
 import { pathwayNodeSchema, type PathwayDefinition, type PathwayNode } from "../schema.ts";
 import {
   HYPERKALAEMIA_SOURCE_ID,
+  HYPERKALAEMIA_UKKA_SOURCE_ID,
   POTASSIUM_INPUT_KEY,
   POTASSIUM_UNIT,
   hyperkalaemiaSeverityPathwayDefinition,
@@ -185,7 +186,7 @@ const pathwayDefinitionInput: PathwayDefinition = {
     reviewedOn: null,
     status: "awaiting-clinical-review",
   },
-  sourceIds: [HYPERKALAEMIA_SOURCE_ID],
+  sourceIds: [HYPERKALAEMIA_SOURCE_ID, HYPERKALAEMIA_UKKA_SOURCE_ID],
   status: "awaiting-clinical-review",
   version: "0.2.1",
 };

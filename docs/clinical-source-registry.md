@@ -24,15 +24,15 @@ Registry status is separate from software completion. A source may move only thr
 review states and cannot be marked `approved-for-project-use` while approval-blocking flags remain.
 Unknown dates use `null`; month-only dates retain month precision instead of inventing a day.
 
-The registry currently contains seven immutable files:
+The registry currently contains eight immutable files:
 
-| Scope           | Records | Status                                                        |
-| --------------- | ------: | ------------------------------------------------------------- |
-| Hyponatraemia   |       3 | One pathway awaiting review; two unverified diagrams in draft |
-| Hyperkalaemia   |       1 | Awaiting review; review due November 2026                     |
-| Hypocalcaemia   |       1 | Awaiting review                                               |
-| Hypomagnesaemia |       1 | Draft with incomplete metadata and an internal conflict       |
-| DKA             |       1 | Draft; review overdue since April 2021                        |
+| Scope           | Records | Status                                                            |
+| --------------- | ------: | ----------------------------------------------------------------- |
+| Hyponatraemia   |       3 | One pathway awaiting review; two unverified diagrams in draft     |
+| Hyperkalaemia   |       2 | Trust pathway plus UKKA supporting guidance; both awaiting review |
+| Hypocalcaemia   |       1 | Awaiting review                                                   |
+| Hypomagnesaemia |       1 | Draft with incomplete metadata and an internal conflict           |
+| DKA             |       1 | Draft; review overdue since April 2021                            |
 
 No source is clinically approved for project use. The original files remain under
 `clinical-sources/` and must not be edited in place.

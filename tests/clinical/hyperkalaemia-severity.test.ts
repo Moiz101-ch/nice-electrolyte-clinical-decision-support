@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   HYPERKALAEMIA_SEVERITY_BANDS,
   HYPERKALAEMIA_SOURCE_ID,
+  HYPERKALAEMIA_UKKA_SOURCE_ID,
   POTASSIUM_UNIT,
   evaluateHyperkalaemiaSeverity,
   hyperkalaemiaSeverityPathwayDefinition,
@@ -12,7 +13,7 @@ describe("Hyperkalaemia potassium severity pathway", () => {
   it("loads a source-traceable definition below the clinical approval gate", () => {
     expect(hyperkalaemiaSeverityPathwayDefinition).toMatchObject({
       pathwayId: "hyperkalaemia-potassium-severity",
-      sourceIds: [HYPERKALAEMIA_SOURCE_ID],
+      sourceIds: [HYPERKALAEMIA_SOURCE_ID, HYPERKALAEMIA_UKKA_SOURCE_ID],
       status: "awaiting-clinical-review",
       version: "0.1.0",
     });
@@ -74,6 +75,32 @@ describe("Hyperkalaemia potassium severity pathway", () => {
         ]),
       );
     }
+  });
+
+  it("keeps pseudohyperkalaemia exclusion and VBG guidance source-traceable", () => {
+    const result = evaluateHyperkalaemiaSeverity(6.5);
+    const pseudohyperkalaemia = result.snapshot.immediateActions.find(
+      ({ actionId }) => actionId === "exclude-pseudohyperkalaemia",
+    );
+    const calciumAndBicarbonate = result.snapshot.immediateActions.find(
+      ({ actionId }) => actionId === "check-calcium-bicarbonate",
+    );
+
+    expect(pseudohyperkalaemia?.guidance).toMatchObject({
+      title: "How to exclude pseudohyperkalaemia",
+      steps: expect.arrayContaining([
+        expect.stringMatching(/paired samples/i),
+        expect.stringMatching(/more than 0\.4 mmol\/L/i),
+        expect.stringMatching(/normal ECG.*does not exclude true hyperkalaemia/i),
+      ]),
+    });
+    expect(pseudohyperkalaemia?.sourceReferences).toContainEqual(
+      expect.objectContaining({ page: 71, sourceId: HYPERKALAEMIA_UKKA_SOURCE_ID }),
+    );
+    expect(calciumAndBicarbonate?.instruction).toMatch(/venous blood gas \(VBG\)/i);
+    expect(calciumAndBicarbonate?.sourceReferences).toContainEqual(
+      expect.objectContaining({ page: 68, sourceId: HYPERKALAEMIA_UKKA_SOURCE_ID }),
+    );
   });
 
   it("adds ECG and rhythm monitoring only from 6.0 mmol/L", () => {

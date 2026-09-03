@@ -1,7 +1,7 @@
 review_item_id,domain,review_prompt,status,reviewer_comments
 HK-CR-001,Source identity,"Confirm the Trust pathway title, authors, version, issue date and review date.",Pending,
 HK-CR-002,Source currency,"Confirm whether the November 2026 review date and local governance permit continued project use.",Pending,
-HK-CR-003,Supporting evidence,"Supply and reconcile the cited August 2023 UK Kidney Association guidance.",Pending,
+HK-CR-003,Supporting evidence,"Review and reconcile the registered October 2023 UK Kidney Association guidance, including pseudohyperkalaemia and blood-gas additions.",Pending,
 HK-CR-004,Severity,"Confirm mild, moderate and severe potassium bands and the fail-closed decimal-gap handling.",Pending,
 HK-CR-005,ECG,"Confirm the ECG threshold, six listed changes, unapproved schematic placeholders and mutually exclusive uncertainty choices.",Pending,
 HK-CR-006,Seven-plus safeguard,"Confirm the do-not-wait-for-ECG behavior at or above 7.0 mmol/L.",Pending,

@@ -326,9 +326,17 @@ const booleanBranchNodeSchema = z
     validateUnique([node.trueBranch.branchId, node.falseBranch.branchId], "branch ID", context);
   });
 
+const actionGuidanceSchema = z
+  .object({
+    steps: z.array(nonEmptyText).min(1),
+    title: nonEmptyText,
+  })
+  .strict();
+
 const actionItemSchema = z
   .object({
     actionId: pathwayNodeIdSchema,
+    guidance: actionGuidanceSchema.optional(),
     instruction: nonEmptyText,
     sourceReferences: sourceReferencesSchema,
     timing: z.enum(["immediate", "next"]),

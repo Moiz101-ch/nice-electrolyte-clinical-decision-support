@@ -49,6 +49,9 @@ See the [source registry](docs/clinical-source-registry.md),
 [Hyperkalaemia ECG workflow](docs/hyperkalaemia-ecg-workflow.md),
 [Hyperkalaemia timed management](docs/hyperkalaemia-timed-management.md),
 [Hyperkalaemia clinical-review package](docs/clinical-review/hyperkalaemia-v0.3.0/README.md),
+[Hypocalcaemia assessment workflow](docs/hypocalcaemia-assessment.md),
+[Hypocalcaemia cause and safeguard review](docs/hypocalcaemia-causes-guardrails.md),
+[Hypocalcaemia management branches](docs/hypocalcaemia-management.md),
 [legacy retirement record](docs/legacy-architecture-retirement.md), and
 [repository/source audit](docs/subtask-0-repository-source-audit.md).
 

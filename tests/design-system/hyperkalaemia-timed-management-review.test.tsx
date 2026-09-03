@@ -15,6 +15,13 @@ describe("Hyperkalaemia timed management review", () => {
     await user.type(potassium, "6.5");
 
     expect(screen.getByRole("heading", { name: "Severe hyperkalaemia" })).toBeInTheDocument();
+    expect(screen.getByText("How to exclude pseudohyperkalaemia")).toBeInTheDocument();
+    expect(screen.getByText(/paired samples from a large vein/i)).toBeInTheDocument();
+    expect(screen.getByText(/more than 0\.4 mmol\/L higher than plasma/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/normal ECG.*does not exclude true hyperkalaemia/i),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/venous blood gas \(VBG\)/i)).toBeInTheDocument();
     expect(screen.getByText("Unapproved schematic ECG references")).toBeInTheDocument();
     expect(screen.getByRole("group", { name: "Source-listed ECG changes" })).toBeInTheDocument();
     expect(screen.getAllByTestId(/^ecg-waveform-/)).toHaveLength(6);

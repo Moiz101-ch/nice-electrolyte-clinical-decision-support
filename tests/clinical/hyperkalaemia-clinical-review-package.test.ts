@@ -5,6 +5,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   HYPERKALAEMIA_SOURCE_ID,
+  HYPERKALAEMIA_UKKA_SOURCE_ID,
   evaluateHyperkalaemiaEcgWorkflow,
   evaluateHyperkalaemiaSeverity,
   evaluateHyperkalaemiaTimedManagement,
@@ -74,7 +75,7 @@ describe("Hyperkalaemia clinical-review package", () => {
     const references = definitions.flatMap(collectSourceReferences);
 
     expect(manifest.sources).toEqual(registeredSourceIds);
-    expect(manifest.sources).toEqual([HYPERKALAEMIA_SOURCE_ID]);
+    expect(manifest.sources).toEqual([HYPERKALAEMIA_SOURCE_ID, HYPERKALAEMIA_UKKA_SOURCE_ID]);
     expect(references.length).toBeGreaterThan(0);
     expect(new Set(references.map(({ sourceId }) => sourceId))).toEqual(new Set(manifest.sources));
 

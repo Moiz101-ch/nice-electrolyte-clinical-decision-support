@@ -5,14 +5,14 @@ import { clinicalSourceRegistrySchema, sourceDateSchema } from "@/src/clinical/s
 import { describe, expect, it } from "vitest";
 
 describe("clinical source registry", () => {
-  it("loads seven immutable source records grouped by clinical scope", () => {
+  it("loads eight immutable source records grouped by clinical scope", () => {
     const registry = loadClinicalSourceRegistry();
 
-    expect(registry.registryVersion).toBe("1.0.0");
-    expect(registry.auditedOn).toBe("2026-08-10");
-    expect(registry.sources).toHaveLength(7);
+    expect(registry.registryVersion).toBe("1.1.0");
+    expect(registry.auditedOn).toBe("2026-08-28");
+    expect(registry.sources).toHaveLength(8);
     expect(registry.getSourcesForScope("hyponatraemia")).toHaveLength(3);
-    expect(registry.getSourcesForScope("hyperkalaemia")).toHaveLength(1);
+    expect(registry.getSourcesForScope("hyperkalaemia")).toHaveLength(2);
     expect(registry.getSourcesForScope("hypocalcaemia")).toHaveLength(1);
     expect(registry.getSourcesForScope("hypomagnesaemia")).toHaveLength(1);
     expect(registry.getSourcesForScope("dka")).toHaveLength(1);
@@ -37,13 +37,16 @@ describe("clinical source registry", () => {
   it("derives source currentness from precision-preserving review dates", () => {
     const registry = loadClinicalSourceRegistry();
     const hyperkalaemia = registry.getSource("YSTHFT-ACUTE-HYPERKALAEMIA-V1");
+    const ukkaHyperkalaemia = registry.getSource("UKKA-HYPERKALAEMIA-2023");
     const dka = registry.getSource("YTH-DKA-V9-2019");
     const hypomagnesaemia = registry.getSource("TGICFT-HYPOMAGNESAEMIA-UNDATED");
 
     expect(hyperkalaemia).toBeDefined();
+    expect(ukkaHyperkalaemia).toBeDefined();
     expect(dka).toBeDefined();
     expect(hypomagnesaemia).toBeDefined();
     expect(getSourceCurrentness(hyperkalaemia!, registry.auditedOn)).toBe("review-due-soon");
+    expect(getSourceCurrentness(ukkaHyperkalaemia!, registry.auditedOn)).toBe("review-due-soon");
     expect(getSourceCurrentness(dka!, registry.auditedOn)).toBe("review-overdue");
     expect(getSourceCurrentness(hypomagnesaemia!, registry.auditedOn)).toBe("unknown");
   });
@@ -52,8 +55,8 @@ describe("clinical source registry", () => {
     const registry = loadClinicalSourceRegistry();
     const verified = await verifyClinicalSourceIntegrity(registry, process.cwd());
 
-    expect(verified).toHaveLength(7);
-    expect(new Set(verified.map((source) => source.localPath)).size).toBe(7);
+    expect(verified).toHaveLength(8);
+    expect(new Set(verified.map((source) => source.localPath)).size).toBe(8);
   });
 
   it("rejects duplicate registry IDs", () => {

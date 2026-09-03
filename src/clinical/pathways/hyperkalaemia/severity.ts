@@ -2,6 +2,7 @@ import { createPathwayEngine, type PathwayEvaluationSnapshot } from "../../engin
 import type { NumericRange, PathwayDefinition, PathwayNode } from "../schema.ts";
 
 export const HYPERKALAEMIA_SOURCE_ID = "YSTHFT-ACUTE-HYPERKALAEMIA-V1";
+export const HYPERKALAEMIA_UKKA_SOURCE_ID = "UKKA-HYPERKALAEMIA-2023";
 export const POTASSIUM_INPUT_KEY = "potassium";
 export const POTASSIUM_UNIT = "mmol/L";
 
@@ -76,6 +77,16 @@ const initialChecksReference = {
   section: "Initial investigations and safety checks",
   sourceId: HYPERKALAEMIA_SOURCE_ID,
 };
+const bloodGasReference = {
+  page: 68,
+  section: "Guideline 15.2 - Hyperkalaemia: Blood gas analysis",
+  sourceId: HYPERKALAEMIA_UKKA_SOURCE_ID,
+};
+const pseudohyperkalaemiaReference = {
+  page: 71,
+  section: "Guideline 15.3 - Hyperkalaemia: Pseudo-hyperkalaemia",
+  sourceId: HYPERKALAEMIA_UKKA_SOURCE_ID,
+};
 const sevenPlusReference = {
   page: 2,
   section: "Potassium at or above 7.0 mmol/L",
@@ -88,14 +99,23 @@ type NumericBranchNode = Extract<PathwayNode, { type: "numeric-branch" }>;
 const commonInitialChecks: ActionGroupNode["actions"] = [
   {
     actionId: "exclude-pseudohyperkalaemia",
+    guidance: {
+      steps: [
+        "Repeat potassium using paired samples from a large vein: one clotted tube (serum) and one lithium-heparin tube (plasma). Use a gentle, non-traumatic draw, avoid fist clenching or a prolonged tourniquet, send promptly and check for haemolysis.",
+        "Compare the paired results. Pseudohyperkalaemia is present when serum potassium is more than 0.4 mmol/L higher than plasma potassium.",
+        "Send an FBC and consider thrombocytosis or leukocytosis. A normal ECG may support suspicion, but it does not exclude true hyperkalaemia.",
+      ],
+      title: "How to exclude pseudohyperkalaemia",
+    },
     instruction: "Exclude pseudohyperkalaemia.",
-    sourceReferences: [initialChecksReference],
+    sourceReferences: [initialChecksReference, pseudohyperkalaemiaReference],
     timing: "immediate",
   },
   {
     actionId: "check-calcium-bicarbonate",
-    instruction: "Check serum calcium and bicarbonate.",
-    sourceReferences: [initialChecksReference],
+    instruction:
+      "Check serum calcium and bicarbonate; obtain a venous blood gas (VBG) for rapid potassium and acid-base assessment.",
+    sourceReferences: [initialChecksReference, bloodGasReference],
     timing: "immediate",
   },
   {
@@ -281,6 +301,7 @@ const pathwayDefinitionInput: PathwayDefinition = {
     approvedOn: null,
     notes: [
       "Severity bands and initial checks are transcribed from page 2 of the supplied Trust protocol.",
+      "The UK Kidney Association guideline supports the detailed pseudohyperkalaemia exclusion and blood-gas guidance; these additions await project clinical review.",
       "Results reported between the printed one-decimal bands are not rounded or inferred.",
       "ECG morphology, treatment doses, timed management and ongoing monitoring are deferred to later reviewed subtasks.",
       "The source review is due in November 2026.",
@@ -289,7 +310,7 @@ const pathwayDefinitionInput: PathwayDefinition = {
     reviewedOn: null,
     status: "awaiting-clinical-review",
   },
-  sourceIds: [HYPERKALAEMIA_SOURCE_ID],
+  sourceIds: [HYPERKALAEMIA_SOURCE_ID, HYPERKALAEMIA_UKKA_SOURCE_ID],
   status: "awaiting-clinical-review",
   version: "0.1.0",
 };

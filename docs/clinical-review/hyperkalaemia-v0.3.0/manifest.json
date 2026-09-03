@@ -22,7 +22,7 @@
       "status": "awaiting-clinical-review"
     }
   ],
-  "sources": ["YSTHFT-ACUTE-HYPERKALAEMIA-V1"],
+  "sources": ["YSTHFT-ACUTE-HYPERKALAEMIA-V1", "UKKA-HYPERKALAEMIA-2023"],
   "artifacts": {
     "reviewDocument": "docs/clinical-review/hyperkalaemia-v0.3.0/README.md",
     "checklist": "docs/clinical-review/hyperkalaemia-v0.3.0/review-checklist.csv",

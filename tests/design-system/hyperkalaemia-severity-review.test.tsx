@@ -15,6 +15,8 @@ describe("Hyperkalaemia severity review", () => {
     expect(
       screen.getByText("Perform a 12-lead ECG and monitor cardiac rhythm."),
     ).toBeInTheDocument();
+    expect(screen.getByText("How to exclude pseudohyperkalaemia")).toBeInTheDocument();
+    expect(screen.getByText(/venous blood gas \(VBG\)/i)).toBeInTheDocument();
 
     await user.clear(input);
     await user.type(input, "5.5");

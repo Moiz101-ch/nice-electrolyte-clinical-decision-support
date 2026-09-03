@@ -1,6 +1,6 @@
 {
-  "registryVersion": "1.0.0",
-  "auditedOn": "2026-08-10",
+  "registryVersion": "1.1.0",
+  "auditedOn": "2026-08-28",
   "sources": [
     {
       "sourceId": "YSTHFT-HYPONATRAEMIA-EMERGENCY-V1",
@@ -127,24 +127,63 @@
       "provenanceStatus": "identified-source",
       "reuseStatus": "internal-verification-only",
       "clinicalReviewStatus": "awaiting-clinical-review",
-      "governanceFlags": [
-        "internal-content-conflict",
-        "missing-referenced-source",
-        "reuse-unverified",
-        "review-due-soon"
-      ],
-      "relatedSourceIds": [],
+      "governanceFlags": ["internal-content-conflict", "reuse-unverified", "review-due-soon"],
+      "relatedSourceIds": ["UKKA-HYPERKALAEMIA-2023"],
       "supportingReferences": [
         {
-          "title": "UK Kidney Association Treatment of Acute Hyperkalaemia in Adults, August 2023",
-          "identifier": null,
-          "url": null,
-          "status": "not-supplied"
+          "title": "UK Kidney Association Clinical Practice Guideline - Management of Hyperkalaemia in Adults, October 2023",
+          "identifier": "UKKA-HYPERKALAEMIA-2023",
+          "url": "https://www.ukkidney.org/health-professionals/guidelines/treatment-acute-hyperkalaemia-adults-0",
+          "status": "supplied"
         }
       ],
       "notes": [
         "Page 2 is the primary clinician decision pathway; page 1 is mainly a prescribing and administration chart.",
         "The repeat calcium and moderate potassium-removal branches require clinical clarification."
+      ]
+    },
+    {
+      "sourceId": "UKKA-HYPERKALAEMIA-2023",
+      "sourceKind": "supporting-guidance",
+      "clinicalScope": "hyperkalaemia",
+      "organisation": "UK Kidney Association",
+      "title": "Clinical Practice Guideline - Management of Hyperkalaemia in Adults",
+      "authors": [
+        "Annette Alfonzo",
+        "Alex Harrison",
+        "Richard Baines",
+        "Ann Chu",
+        "Simon Mann",
+        "Murdoch MacRury"
+      ],
+      "owner": null,
+      "documentVersion": "October 2023",
+      "issueDate": { "value": "2023-12-19", "precision": "day" },
+      "reviewDate": { "value": "2026-10-19", "precision": "day" },
+      "pageCount": 171,
+      "mediaType": "application/pdf",
+      "originalFileName": "UKKA-Clinical-Practice-Guideline-Management-of-Hyperkalaemia-in-Adults-2023.pdf",
+      "localPath": "clinical-sources/supporting/UKKA-Clinical-Practice-Guideline-Management-of-Hyperkalaemia-in-Adults-2023.pdf",
+      "sha256": "C8EEF6A55A95AFC09B343135757DF972956EAE288ECA02BF154A53B9C14FA1E3",
+      "fileSizeBytes": 4513705,
+      "imageDimensions": null,
+      "provenanceStatus": "identified-source",
+      "reuseStatus": "internal-verification-only",
+      "clinicalReviewStatus": "awaiting-clinical-review",
+      "governanceFlags": ["reuse-unverified", "review-due-soon"],
+      "relatedSourceIds": ["YSTHFT-ACUTE-HYPERKALAEMIA-V1"],
+      "supportingReferences": [
+        {
+          "title": "Official UK Kidney Association guideline publication page",
+          "identifier": null,
+          "url": "https://www.ukkidney.org/health-professionals/guidelines/treatment-acute-hyperkalaemia-adults-0",
+          "status": "external-only"
+        }
+      ],
+      "notes": [
+        "Downloaded from the official UK Kidney Association publication page on 28 August 2026.",
+        "Used as supporting evidence for blood-gas analysis and pseudohyperkalaemia exclusion guidance; the supplied Trust pathway remains the primary pathway source.",
+        "The supporting guidance remains subject to project clinical review and reuse approval."
       ]
     },
     {

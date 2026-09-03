@@ -35,10 +35,11 @@ Until an authorized decision is recorded, every Hyperkalaemia result remains loc
 - Relevant locations: page 1 prescribing chart and page 2 clinical pathway
 - Registry status: identified source, internal verification only, awaiting clinical review
 
-The source cites the UK Kidney Association's August 2023 acute Hyperkalaemia guidance, but that
-supporting reference was not supplied. The supplied source also contains internal conflicts that
-are listed below. Internal source IDs, file locations, hashes and page mappings remain in the
-registry and pathway definitions; they are intentionally absent from the clinician-facing UI.
+The UK Kidney Association's October 2023 guideline is now registered as supporting evidence for
+the detailed pseudohyperkalaemia exclusion and blood-gas guidance. The Trust pathway remains the
+primary source and contains internal conflicts that are listed below. Internal source IDs, file
+locations, hashes and page mappings remain in the registry and pathway definitions; they are
+intentionally absent from the clinician-facing UI.
 
 ## Implementation Inventory
 
@@ -176,21 +177,21 @@ and diet to prevent further rise or recurrence.
 
 ## Ambiguity Register
 
-| ID           | Unresolved item                                                                              | Current safe behavior                                                |
-| ------------ | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| `HK-AMB-001` | Decimal gaps between the printed one-decimal severity bands                                  | Do not round; stop without management                                |
-| `HK-AMB-002` | Moderate treatment depends on condition, ECG and rate of rise without deterministic criteria | Generate no acute drug instruction when ECG changes are absent       |
-| `HK-AMB-003` | Page 1 duplicates calcium rows while page 2 describes a possible repeat                      | Keep one initial action and a conditional repeat consideration       |
-| `HK-AMB-004` | Calcium access wording differs between the two pages                                         | Retain the page 2 large-bore IV wording for review                   |
-| `HK-AMB-005` | Calcium timing differs between page 1 and page 2                                             | Present the page 2 timing group for review                           |
-| `HK-AMB-006` | Sodium-zirconium initiation wording conflicts between pages 1 and 2                          | Generate warning only; no regimen                                    |
-| `HK-AMB-007` | The source does not define "life-threatening" Hyperkalaemia precisely                        | Do not infer a sodium-zirconium eligibility rule                     |
-| `HK-AMB-008` | The cited UK Kidney Association source was not supplied                                      | Keep this Trust-only implementation unapproved                       |
-| `HK-AMB-009` | Empirical arrhythmia treatment is mentioned without a regimen                                | Generate no empirical arrhythmia treatment                           |
-| `HK-AMB-010` | Renal-team review "depending on severity" lacks a numeric threshold                          | Retain only explicitly conditioned escalation                        |
-| `HK-AMB-011` | No approved ECG waveform assets were supplied                                                | Show original unapproved schematics beside authoritative text labels |
-| `HK-AMB-012` | The source review is due in November 2026                                                    | Require currency confirmation during review                          |
-| `HK-AMB-013` | Source reuse/licensing is unverified and restricted to internal verification                 | Do not treat package as publication permission                       |
+| ID           | Unresolved item                                                                              | Current safe behavior                                                  |
+| ------------ | -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `HK-AMB-001` | Decimal gaps between the printed one-decimal severity bands                                  | Do not round; stop without management                                  |
+| `HK-AMB-002` | Moderate treatment depends on condition, ECG and rate of rise without deterministic criteria | Generate no acute drug instruction when ECG changes are absent         |
+| `HK-AMB-003` | Page 1 duplicates calcium rows while page 2 describes a possible repeat                      | Keep one initial action and a conditional repeat consideration         |
+| `HK-AMB-004` | Calcium access wording differs between the two pages                                         | Retain the page 2 large-bore IV wording for review                     |
+| `HK-AMB-005` | Calcium timing differs between page 1 and page 2                                             | Present the page 2 timing group for review                             |
+| `HK-AMB-006` | Sodium-zirconium initiation wording conflicts between pages 1 and 2                          | Generate warning only; no regimen                                      |
+| `HK-AMB-007` | The source does not define "life-threatening" Hyperkalaemia precisely                        | Do not infer a sodium-zirconium eligibility rule                       |
+| `HK-AMB-008` | The registered UK Kidney Association source has not completed project clinical review        | Keep the Trust pathway primary and the supporting additions unapproved |
+| `HK-AMB-009` | Empirical arrhythmia treatment is mentioned without a regimen                                | Generate no empirical arrhythmia treatment                             |
+| `HK-AMB-010` | Renal-team review "depending on severity" lacks a numeric threshold                          | Retain only explicitly conditioned escalation                          |
+| `HK-AMB-011` | No approved ECG waveform assets were supplied                                                | Show original unapproved schematics beside authoritative text labels   |
+| `HK-AMB-012` | The source review is due in November 2026                                                    | Require currency confirmation during review                            |
+| `HK-AMB-013` | Source reuse/licensing is unverified and restricted to internal verification                 | Do not treat package as publication permission                         |
 
 ## Review Cases
 

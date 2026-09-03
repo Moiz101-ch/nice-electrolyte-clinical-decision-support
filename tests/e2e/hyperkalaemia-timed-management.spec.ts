@@ -11,6 +11,11 @@ test("connects severe Hyperkalaemia to timed treatment, monitoring and preventio
   await expect(progress.locator('[aria-current="step"]')).toContainText("Potassium result");
   await page.getByRole("spinbutton", { name: /Latest potassium result/i }).fill("6.5");
   await expect(progress.locator('[aria-current="step"]')).toContainText("ECG review");
+  await expect(page.getByText("How to exclude pseudohyperkalaemia")).toBeVisible();
+  await expect(page.getByText(/paired samples from a large vein/i)).toBeVisible();
+  await expect(page.getByText(/more than 0\.4 mmol\/L higher than plasma/i)).toBeVisible();
+  await expect(page.getByText(/normal ECG.*does not exclude true hyperkalaemia/i)).toBeVisible();
+  await expect(page.getByText(/venous blood gas \(VBG\)/i)).toBeVisible();
   await expect(page.getByText("Unapproved schematic ECG references")).toBeVisible();
   await expect(page.locator("[data-ecg-waveform]")).toHaveCount(6);
   const noChangeGroup = page.getByRole("region", { name: "No listed change" });

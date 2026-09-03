@@ -19,6 +19,10 @@ describe("retired generic assessment route", () => {
       "href",
       "/review/hyperkalaemia/assessment",
     );
+    expect(screen.getByRole("link", { name: "Open Hypocalcaemia review" })).toHaveAttribute(
+      "href",
+      "/review/hypocalcaemia/assessment",
+    );
     expect(screen.getByRole("link", { name: "Return home" })).toHaveAttribute("href", "/");
     expect(screen.queryByRole("form")).not.toBeInTheDocument();
     expect(screen.queryByRole("spinbutton")).not.toBeInTheDocument();

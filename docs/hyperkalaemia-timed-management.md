@@ -21,6 +21,10 @@
 The source PDF remains immutable under `clinical-sources/hyperkalaemia/`. Runtime logic is separate
 from the source file, and each graph node retains an internal page and section reference.
 
+The official UK Kidney Association October 2023 guideline is also registered as immutable supporting
+evidence for pseudohyperkalaemia exclusion and rapid blood-gas assessment. It does not replace the
+Trust pathway as the primary management source.
+
 ## Connected Flow
 
 The `0.3.0` graph extends the severity and ECG workflows without creating a separate state boundary:
