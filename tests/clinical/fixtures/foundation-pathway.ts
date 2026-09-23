@@ -183,6 +183,7 @@ export function buildFoundationPathway(): PathwayDefinition {
         type: "boolean-branch",
       },
       {
+        formula: "score + 2",
         id: "score-calculation",
         nextNodeId: "adjusted-score-branch",
         operands: [
@@ -194,6 +195,7 @@ export function buildFoundationPathway(): PathwayDefinition {
         precision: 1,
         roundingMode: "half-away-from-zero",
         sourceReferences: [sourceReference()],
+        sourceDefinedLimit: null,
         title: "Fixture calculation",
         type: "calculation",
         unit: "points",

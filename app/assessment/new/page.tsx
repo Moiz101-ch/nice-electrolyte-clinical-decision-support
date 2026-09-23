@@ -1,97 +1,86 @@
-import { ArrowLeft, ArrowRight, Clock3, FileCheck2, ShieldAlert } from "lucide-react";
+import { Activity, ArrowLeft, ArrowRight, Calculator, HeartPulse, Zap } from "lucide-react";
 import type { Metadata, Route } from "next";
 import Link from "next/link";
 
+import { SafetyAlert } from "@/components/clinical";
 import { AppShell } from "@/components/layout/app-shell";
-import { Alert } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-export const metadata: Metadata = {
-  title: "Pathway status",
-};
+export const metadata: Metadata = { title: "Choose an assessment" };
 
-const pathwayStatuses = [
+const workflows = [
   {
-    name: "Hyponatraemia",
-    status: "Connected technical review available; clinical approval pending",
-  },
-  {
-    name: "Hyperkalaemia",
-    status: "Connected timed-management review available; clinical approval pending",
-  },
-  {
-    name: "Hypocalcaemia",
-    status: "Connected cause, safeguard and management review available; clinical approval pending",
-  },
-] as const;
-
-const technicalReviews = [
-  {
-    description: "Connected assessment and source-supported management endpoints.",
+    description: "Connected sodium classification, clinical context and management branches.",
     href: "/review/hyponatraemia/assessment",
+    icon: Activity,
     name: "Hyponatraemia",
   },
   {
-    description: "Connected potassium, ECG, timed management and monitoring workflow.",
+    description: "Potassium result, ECG findings, timed actions and ongoing monitoring.",
     href: "/review/hyperkalaemia/assessment",
+    icon: Zap,
     name: "Hyperkalaemia",
   },
   {
-    description:
-      "Connected adjusted-calcium assessment with cause safeguards and gated management branches.",
+    description: "Adjusted calcium, symptoms, investigations and management safeguards.",
     href: "/review/hypocalcaemia/assessment",
+    icon: HeartPulse,
     name: "Hypocalcaemia",
+  },
+  {
+    description: "JBDS-based DKA diagnosis, fluids, insulin, response and transition calculator.",
+    href: "/review/dka/current-calculator",
+    icon: Calculator,
+    name: "Diabetic ketoacidosis",
   },
 ] as const;
 
 export default function NewAssessmentPage() {
   return (
     <AppShell>
-      <div className="mx-auto max-w-4xl space-y-8">
-        <header>
-          <Badge variant="review">
-            <Clock3 aria-hidden="true" className="size-3.5" />
-            Migration in progress
-          </Badge>
-          <h1 className="text-foreground mt-4 text-2xl font-bold sm:text-[1.75rem]">
-            Clinical pathways are under review
-          </h1>
-          <p className="text-muted mt-3 max-w-3xl text-sm leading-6 sm:text-base">
-            The retired generic assessment and catalogue cannot generate management output. New
-            pathway-specific assessments will become available only after source transcription,
-            technical verification and clinical review.
-          </p>
+      <div className="mx-auto max-w-5xl space-y-7">
+        <header className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <Badge variant="info">4 interactive workflows</Badge>
+            <h1 className="text-foreground mt-4 text-2xl font-bold">Choose an assessment</h1>
+          </div>
+          <Button asChild variant="secondary">
+            <Link href="/">
+              <ArrowLeft aria-hidden="true" />
+              Home
+            </Link>
+          </Button>
         </header>
 
-        <Alert title="No active clinical assessment" variant="warning">
-          Do not use this application for diagnosis, treatment or management decisions. Follow an
-          approved local pathway and current clinical escalation procedures.
-        </Alert>
+        <SafetyAlert level="warning" title="Technical use only">
+          These workflows are available for software testing. They are not approved for patient
+          care. Do not enter patient-identifiable information; use an approved local pathway for
+          clinical decisions.
+        </SafetyAlert>
 
-        <section aria-labelledby="technical-reviews-title" className="border-border border-y py-6">
-          <div>
-            <h2 className="text-foreground text-base font-semibold" id="technical-reviews-title">
-              Technical pathway reviews
-            </h2>
-            <p className="text-muted mt-1 max-w-2xl text-sm leading-6">
-              Implemented stages remain separated from active clinical use until formal review.
-            </p>
-          </div>
-
-          <div className="border-border mt-5 divide-y border-y">
-            {technicalReviews.map((review) => (
+        <section aria-labelledby="available-workflows-title">
+          <h2 className="text-foreground text-base font-semibold" id="available-workflows-title">
+            Available workflows
+          </h2>
+          <div className="border-border divide-border mt-3 divide-y border-y">
+            {workflows.map(({ description, href, icon: Icon, name }) => (
               <div
-                className="grid gap-4 py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center"
-                key={review.name}
+                className="motion-workflow-row grid gap-4 px-3 py-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center"
+                key={href}
               >
-                <div>
-                  <h3 className="text-foreground text-sm font-semibold">{review.name}</h3>
-                  <p className="text-muted mt-1 text-sm leading-6">{review.description}</p>
+                <div className="flex min-w-0 items-start gap-3">
+                  <span className="bg-info-subtle text-primary flex size-10 shrink-0 items-center justify-center rounded-md">
+                    <Icon aria-hidden="true" className="size-5" />
+                  </span>
+                  <div className="min-w-0">
+                    <h3 className="text-foreground text-sm font-semibold">{name}</h3>
+                    <p className="text-muted mt-1 text-sm leading-6">{description}</p>
+                  </div>
                 </div>
-                <Button asChild variant="outline">
-                  <Link href={review.href as Route}>
-                    Open {review.name} review
+                <Button asChild variant="secondary">
+                  <Link aria-label={`Open ${name} workflow`} href={href as Route} prefetch={false}>
+                    Open workflow
                     <ArrowRight aria-hidden="true" />
                   </Link>
                 </Button>
@@ -99,45 +88,6 @@ export default function NewAssessmentPage() {
             ))}
           </div>
         </section>
-
-        <section aria-labelledby="pathway-status-title" className="border-border border-y py-6">
-          <div className="flex items-start gap-3">
-            <FileCheck2
-              aria-hidden="true"
-              className="text-primary mt-0.5 size-5 shrink-0"
-              strokeWidth={1.8}
-            />
-            <div className="min-w-0 flex-1">
-              <h2 className="text-foreground text-base font-semibold" id="pathway-status-title">
-                Target pathway status
-              </h2>
-              <dl className="border-border mt-4 divide-y border-y">
-                {pathwayStatuses.map((pathway) => (
-                  <div
-                    className="grid gap-1 py-4 sm:grid-cols-[11rem_minmax(0,1fr)]"
-                    key={pathway.name}
-                  >
-                    <dt className="text-foreground text-sm font-semibold">{pathway.name}</dt>
-                    <dd className="text-muted text-sm leading-5">{pathway.status}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-          </div>
-        </section>
-
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <Button asChild variant="secondary">
-            <Link href="/">
-              <ArrowLeft aria-hidden="true" />
-              Return home
-            </Link>
-          </Button>
-          <p className="text-muted flex max-w-md items-start gap-2 text-xs leading-5">
-            <ShieldAlert aria-hidden="true" className="mt-0.5 size-4 shrink-0" />
-            No patient data is requested or stored on this page.
-          </p>
-        </div>
       </div>
     </AppShell>
   );

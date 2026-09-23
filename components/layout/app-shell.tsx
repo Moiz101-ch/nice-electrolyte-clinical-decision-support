@@ -21,13 +21,13 @@ export function AppShell({ children }: { children: ReactNode }) {
             <NavigationContent />
           </div>
           <div className="p-4 pt-0">
-            <Alert className="p-3 text-xs" title="Clinical review phase" variant="warning">
-              Pathways and calculators remain locked until their review gates are complete.
+            <Alert className="p-3 text-xs" title="Technical testing" variant="warning">
+              Interactive workflows are available for technical testing, not patient care.
             </Alert>
           </div>
         </aside>
         <main className="min-w-0 flex-1" id="main-content" tabIndex={-1}>
-          <div className="mx-auto w-full max-w-[90rem] px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+          <div className="motion-page-enter mx-auto w-full max-w-[90rem] px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
             {children}
           </div>
         </main>

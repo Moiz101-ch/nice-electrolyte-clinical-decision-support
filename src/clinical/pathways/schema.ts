@@ -448,19 +448,52 @@ const calculationOperandSchema = z.discriminatedUnion("kind", [
     .strict(),
 ]);
 
+const calculationLimitSchema = z
+  .object({
+    kind: z.enum(["maximum", "minimum"]),
+    unit: nonEmptyText,
+    value: z.number().finite(),
+  })
+  .strict();
+
 const calculationNodeSchema = z
   .object({
     ...commonNodeFields,
+    formula: nonEmptyText,
     nextNodeId: pathwayNodeIdSchema,
     operands: z.array(calculationOperandSchema).min(2),
     operation: z.enum(["add", "divide", "maximum", "minimum", "multiply", "subtract"]),
     outputKey: pathwayDataKeySchema,
     precision: z.number().int().min(0).max(8),
     roundingMode: z.enum(["ceiling", "floor", "half-away-from-zero"]),
+    sourceDefinedLimit: calculationLimitSchema.nullable(),
     type: z.literal("calculation"),
     unit: nonEmptyText,
   })
-  .strict();
+  .strict()
+  .superRefine((node, context) => {
+    if (node.sourceDefinedLimit && node.sourceDefinedLimit.unit !== node.unit) {
+      context.addIssue({
+        code: "custom",
+        path: ["sourceDefinedLimit", "unit"],
+        message: "A calculation limit must use the calculation output unit.",
+      });
+    }
+
+    if (node.sourceDefinedLimit) {
+      const factor = 10 ** node.precision;
+      const scaled = node.sourceDefinedLimit.value * factor;
+      const tolerance = Number.EPSILON * Math.max(1, Math.abs(scaled)) * 4;
+
+      if (Math.abs(scaled - Math.round(scaled)) > tolerance) {
+        context.addIssue({
+          code: "custom",
+          path: ["sourceDefinedLimit", "value"],
+          message: "A calculation limit cannot exceed the calculation output precision.",
+        });
+      }
+    }
+  });
 
 const stopNodeSchema = z
   .object({

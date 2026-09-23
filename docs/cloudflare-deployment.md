@@ -91,3 +91,9 @@ Review binding and data compatibility before rolling back a future release that 
 - The health endpoint confirms that the application Worker is responding; it is not a clinical
   validation signal and does not inspect patient data or external services.
 - Never log clinical note text, patient identifiers, secrets, or complete assessment payloads.
+- `wrangler.jsonc` disables Worker log persistence and Wrangler telemetry for this prototype.
+  Do not enable either without an approved logging and retention policy.
+- Verify CSP and security headers on HTML and API responses in a production-like Worker preview.
+  Clinical review and assessment pages must return `Cache-Control: no-store`.
+- Cloudflare access-log and error-retention settings are not configured by this repository. Review
+  them before accepting patient information or enabling clinical workflows.

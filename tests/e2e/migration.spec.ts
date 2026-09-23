@@ -48,35 +48,31 @@ test("tolerates extension attributes injected before hydration", async ({ page }
   expect(hydrationErrors).toEqual([]);
 });
 
-test("shows the pathway-first workspace and keeps every clinical module gated", async ({
-  page,
-}) => {
+test("opens connected workflows from the pathway-first workspace", async ({ page }) => {
   await page.goto("/");
 
   for (const pathway of ["Hyponatraemia", "Hyperkalaemia", "Hypocalcaemia"]) {
     await expect(page.getByRole("heading", { name: pathway })).toBeVisible();
   }
-  await expect(page.getByRole("button", { name: "Start pathway" })).toHaveCount(3);
+  for (const pathway of ["Hyponatraemia", "Hyperkalaemia", "Hypocalcaemia"]) {
+    await expect(page.getByRole("link", { name: `Open ${pathway} assessment` })).toBeVisible();
+  }
   await expect(page.getByRole("heading", { name: "DKA management pathway" })).toBeVisible();
-  await expect(page.getByRole("button", { name: "Open calculator" })).toBeDisabled();
+  await expect(page.getByRole("link", { name: "Open DKA calculator" })).toBeVisible();
 
   await page.getByRole("link", { name: "New assessment" }).first().click();
 
   await expect(page).toHaveURL(/\/assessment\/new$/);
-  await expect(
-    page.getByRole("heading", { name: "Clinical pathways are under review" }),
-  ).toBeVisible();
-  await expect(page.getByText("No active clinical assessment")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Choose an assessment" })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Open .* workflow/ })).toHaveCount(4);
   await expect(page.getByRole("spinbutton")).toHaveCount(0);
   await expect(page.getByRole("button", { name: /generate result/i })).toHaveCount(0);
 });
 
-test("keeps the locked route responsive and accessible", async ({ page }) => {
+test("keeps the chooser responsive and accessible", async ({ page }) => {
   await page.setViewportSize({ height: 844, width: 390 });
   await page.goto("/assessment/new");
-  await expect(
-    page.getByRole("heading", { level: 1, name: "Clinical pathways are under review" }),
-  ).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: "Choose an assessment" })).toBeVisible();
 
   expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(
     false,

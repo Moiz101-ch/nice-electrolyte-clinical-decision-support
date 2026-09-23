@@ -4,10 +4,10 @@ import {
   Calculator,
   ClipboardPlus,
   FileCheck2,
-  LockKeyhole,
   ShieldCheck,
 } from "lucide-react";
 import Image from "next/image";
+import type { Route } from "next";
 import Link from "next/link";
 
 import { PathwayCard } from "@/components/home/pathway-card";
@@ -23,6 +23,7 @@ const primaryPathways = [
     accent: "sodium" as const,
     direction: "low" as const,
     electrolyte: "Sodium",
+    href: "/review/hyponatraemia/assessment",
     name: "Hyponatraemia",
     sourceId: "YSTHFT-HYPONATRAEMIA-EMERGENCY-V1",
     symbol: "Na+",
@@ -31,6 +32,7 @@ const primaryPathways = [
     accent: "potassium" as const,
     direction: "high" as const,
     electrolyte: "Potassium",
+    href: "/review/hyperkalaemia/assessment",
     name: "Hyperkalaemia",
     sourceId: "YSTHFT-ACUTE-HYPERKALAEMIA-V1",
     symbol: "K+",
@@ -39,6 +41,7 @@ const primaryPathways = [
     accent: "calcium" as const,
     direction: "low" as const,
     electrolyte: "Calcium",
+    href: "/review/hypocalcaemia/assessment",
     name: "Hypocalcaemia",
     sourceId: "YSTHFT-HYPOCALCAEMIA-V4",
     symbol: "Ca2+",
@@ -47,10 +50,7 @@ const primaryPathways = [
 
 export default function Home() {
   const registry = loadClinicalSourceRegistry();
-  const approvedSourceCount = registry.sources.filter(
-    (source) => source.clinicalReviewStatus === "approved-for-project-use",
-  ).length;
-  const dkaSource = getSource(registry.sources, "YTH-DKA-V9-2019");
+  const dkaSource = getSource(registry.sources, "JBDS-02-DKA-MARCH-2023");
 
   return (
     <AppShell>
@@ -59,7 +59,7 @@ export default function Home() {
           <div className="border-info-border relative isolate min-h-48 overflow-hidden rounded-lg border shadow-xs">
             <Image
               alt=""
-              className="object-cover object-[72%_center]"
+              className="motion-hero-image object-cover object-[72%_center]"
               data-testid="hero-visual"
               fill
               priority
@@ -70,14 +70,14 @@ export default function Home() {
             <div className="relative z-10 flex min-h-48 max-w-3xl flex-col justify-center px-5 py-6 sm:px-7">
               <div className="flex flex-wrap items-center gap-2">
                 <Badge variant="info">Clinical workspace</Badge>
-                <Badge variant="review">0 active pathways</Badge>
+                <Badge variant="info">4 interactive workflows</Badge>
               </div>
               <h1 className="text-foreground mt-3 text-2xl font-bold sm:text-3xl" id="home-title">
                 Acute electrolyte management
               </h1>
               <p className="text-muted-strong mt-2 max-w-2xl text-sm leading-6">
-                Select a source-governed pathway. Modules remain locked until implementation,
-                technical verification and clinical review are complete.
+                Explore the connected electrolyte assessments and DKA calculator. Inputs remain in
+                this browser session; no patient record is created.
               </p>
               <div className="mt-5 flex flex-col gap-2 sm:flex-row">
                 <Button asChild>
@@ -102,11 +102,11 @@ export default function Home() {
               <h2 className="text-foreground mt-1 text-xl font-bold">Choose a clinical pathway</h2>
             </div>
             <p className="text-muted max-w-xl text-sm leading-5 sm:text-right">
-              Availability follows explicit source and clinical-review governance.
+              Select a pathway to open its connected assessment.
             </p>
           </div>
 
-          <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          <div className="motion-home-grid mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {primaryPathways.map((pathway) => {
               const source = getSource(registry.sources, pathway.sourceId);
 
@@ -115,6 +115,7 @@ export default function Home() {
                   accent={pathway.accent}
                   direction={pathway.direction}
                   electrolyte={pathway.electrolyte}
+                  href={pathway.href}
                   key={pathway.name}
                   name={pathway.name}
                   organisation={source.organisation ?? "Organisation not recorded"}
@@ -135,37 +136,38 @@ export default function Home() {
         >
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-primary text-xs font-bold uppercase">Planned tools</p>
+              <p className="text-primary text-xs font-bold uppercase">Source-mapped tools</p>
               <h2 className="text-foreground mt-1 text-xl font-bold" id="calculators-title">
                 Clinical calculators &amp; pathways
               </h2>
             </div>
             <p className="text-muted max-w-xl text-sm leading-5 sm:text-right">
-              Calculation logic will remain deterministic and source-traceable.
+              Calculation logic is deterministic and source-traceable.
             </p>
           </div>
 
-          <article className="border-border bg-surface mt-5 grid gap-5 rounded-lg border p-5 shadow-xs lg:grid-cols-[auto_minmax(0,1fr)_16rem] lg:items-center">
+          <article className="motion-home-card motion-surface border-border bg-surface mt-5 grid gap-5 rounded-lg border p-5 shadow-xs lg:grid-cols-[auto_minmax(0,1fr)_16rem] lg:items-center">
             <span className="bg-danger-subtle text-danger-strong flex size-11 items-center justify-center rounded-md">
               <Calculator aria-hidden="true" className="size-5" strokeWidth={1.8} />
             </span>
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2">
                 <h3 className="text-foreground text-base font-bold">DKA management pathway</h3>
-                <Badge variant="danger">Source review overdue</Badge>
+                <Badge variant="info">JBDS calculator</Badge>
               </div>
               <p className="text-muted mt-2 text-sm leading-6">
-                Planned guided pathway and calculator. The supplied source requires a currentness
-                review before implementation can be activated.
+                The connected DKA calculator covers diagnosis through resolution and transition
+                using current JBDS guidance. It is available for interactive technical testing.
               </p>
               <p className="text-muted-strong mt-2 text-xs">
-                {dkaSource.organisation} | document v{dkaSource.documentVersion} | source review{" "}
-                {formatSourceDate(dkaSource.reviewDate)}
+                {dkaSource.organisation} | {dkaSource.documentVersion}
               </p>
             </div>
-            <Button className="w-full" disabled type="button" variant="secondary">
-              <LockKeyhole aria-hidden="true" />
-              Open calculator
+            <Button asChild className="w-full" variant="secondary">
+              <Link href={"/review/dka/current-calculator" as Route} prefetch={false}>
+                <Calculator aria-hidden="true" />
+                Open DKA calculator
+              </Link>
             </Button>
           </article>
         </section>
@@ -180,8 +182,7 @@ export default function Home() {
                 Source guidelines and governance
               </h2>
               <p className="text-muted mt-2 max-w-3xl text-sm leading-6">
-                Supplied NHS and Trust documents are registered separately from executable pathway
-                definitions. Software completion never implies clinical approval.
+                Source documents, executable rules and test coverage are tracked separately.
               </p>
               <dl className="border-border mt-5 grid grid-cols-3 divide-x border-y py-4">
                 <div className="pr-3">
@@ -191,14 +192,12 @@ export default function Home() {
                   </dd>
                 </div>
                 <div className="px-3">
-                  <dt className="text-muted text-xs">Approved sources</dt>
-                  <dd className="text-foreground mt-1 text-xl font-bold">{approvedSourceCount}</dd>
+                  <dt className="text-muted text-xs">Interactive workflows</dt>
+                  <dd className="text-foreground mt-1 text-xl font-bold">4</dd>
                 </div>
                 <div className="pl-3">
-                  <dt className="text-muted text-xs">Primary modules</dt>
-                  <dd className="text-foreground mt-1 text-xl font-bold">
-                    {primaryPathways.length}
-                  </dd>
+                  <dt className="text-muted text-xs">Stored patient records</dt>
+                  <dd className="text-foreground mt-1 text-xl font-bold">0</dd>
                 </div>
               </dl>
             </div>
@@ -206,12 +205,12 @@ export default function Home() {
             <div className="border-border border-l-2 pl-5">
               <div className="flex items-center gap-2">
                 <FileCheck2 aria-hidden="true" className="text-success size-5" />
-                <h3 className="text-foreground text-sm font-semibold">Release gate</h3>
+                <h3 className="text-foreground text-sm font-semibold">Technical status</h3>
               </div>
               <ol className="text-muted mt-4 space-y-3 text-sm leading-5">
-                <li>1. Source registration and integrity verification</li>
-                <li>2. Declarative pathway transcription and boundary tests</li>
-                <li>3. Clinical review, correction and project approval</li>
+                <li>1. Source files registered and integrity-checked</li>
+                <li>2. Deterministic pathways and boundary tests</li>
+                <li>3. Assessments remain in browser memory</li>
               </ol>
             </div>
           </div>
@@ -223,7 +222,7 @@ export default function Home() {
               <ShieldCheck aria-hidden="true" className="mt-1 size-4 shrink-0" />
               <p>
                 Follow approved local pathways, emergency procedures and current guidance. Do not
-                enter patient-identifiable information while modules remain inactive.
+                enter patient-identifiable information while testing these workflows.
               </p>
             </div>
           </Alert>

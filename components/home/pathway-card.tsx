@@ -1,4 +1,6 @@
-import { ArrowDown, ArrowUp, LockKeyhole } from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUp } from "lucide-react";
+import type { Route } from "next";
+import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -14,7 +16,7 @@ const accentStyles = {
   },
   sodium: {
     border: "border-t-primary",
-    icon: "bg-info-subtle text-primary",
+    icon: "bg-info-subtle text-info-strong",
   },
 } as const;
 
@@ -22,6 +24,7 @@ interface PathwayCardProps {
   accent: keyof typeof accentStyles;
   direction: "high" | "low";
   electrolyte: string;
+  href: Route;
   name: string;
   organisation: string;
   reviewDate: string;
@@ -34,6 +37,7 @@ export function PathwayCard({
   accent,
   direction,
   electrolyte,
+  href,
   name,
   organisation,
   reviewDate,
@@ -46,7 +50,7 @@ export function PathwayCard({
 
   return (
     <article
-      className={`border-border bg-surface shadow-card flex min-h-[22rem] flex-col rounded-lg border border-t-2 p-5 ${styles.border}`}
+      className={`motion-surface border-border bg-surface shadow-card flex min-h-[22rem] flex-col rounded-lg border border-t-2 p-5 ${styles.border}`}
     >
       <div className="flex min-h-12 items-start justify-between gap-3">
         <span
@@ -56,7 +60,7 @@ export function PathwayCard({
           {symbol}
           <DirectionIcon className="size-3.5" strokeWidth={2.2} />
         </span>
-        <Badge variant="review">Awaiting clinical review</Badge>
+        <Badge variant="info">Interactive</Badge>
       </div>
 
       <div className="mt-5">
@@ -83,9 +87,11 @@ export function PathwayCard({
         </div>
       </dl>
 
-      <Button className="mt-5 w-full" disabled type="button" variant="secondary">
-        <LockKeyhole aria-hidden="true" />
-        Start pathway
+      <Button asChild className="mt-5 w-full" variant="secondary">
+        <Link aria-label={`Open ${name} assessment`} href={href} prefetch={false}>
+          Open assessment
+          <ArrowRight aria-hidden="true" />
+        </Link>
       </Button>
     </article>
   );

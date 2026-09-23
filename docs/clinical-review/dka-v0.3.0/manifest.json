@@ -1,0 +1,47 @@
+{
+  "packageId": "dka-clinical-review-v0.3.0",
+  "packageVersion": "0.3.0",
+  "preparedOn": "2026-09-20",
+  "reviewStatus": "awaiting-clinical-review",
+  "reviewRoute": "/review/dka/steps-one-to-four",
+  "continuationRoute": "/review/dka/steps-five-to-ten",
+  "technicalStageVersions": {
+    "calculatorFoundation": "0.1.0",
+    "stepsOneToFour": "0.2.0",
+    "stepsFiveToTen": "0.3.0"
+  },
+  "sources": ["YTH-DKA-V9-2019"],
+  "sourceSha256": "9DC7D5F7078CB2143FFF0CA7BAF59F99B9D0FD6D2E6151D55DA1B7555DC117D9",
+  "sourceReviewDate": "2021-04",
+  "unresolvedGateRequirements": [
+    "source-currentness",
+    "internal-conflict",
+    "registry-review-status",
+    "clinical-approval-record",
+    "public-display-reuse"
+  ],
+  "artifacts": {
+    "reviewDocument": "docs/clinical-review/dka-v0.3.0/README.md",
+    "checklist": "docs/clinical-review/dka-v0.3.0/review-checklist.csv",
+    "captureScript": "scripts/capture-dka-review-screenshots.mjs",
+    "screenshots": [
+      "docs/screenshots/subtask-25-dka/initial-rate-desktop.png",
+      "docs/screenshots/subtask-25-dka/monitoring-desktop.png",
+      "docs/screenshots/subtask-25-dka/resolution-stop-desktop.png",
+      "docs/screenshots/subtask-25-dka/response-review-mobile.png"
+    ]
+  },
+  "testEvidence": [
+    "tests/clinical/dka-source-currentness.test.ts",
+    "tests/clinical/dka-calculator-foundation.test.ts",
+    "tests/clinical/dka-steps-one-to-four.test.ts",
+    "tests/clinical/dka-steps-five-to-ten.test.ts",
+    "tests/clinical/dka-clinical-review-package.test.ts",
+    "tests/design-system/dka-steps-one-to-four-review.test.tsx",
+    "tests/design-system/dka-steps-five-to-ten-review.test.tsx",
+    "tests/foundation/dka-technical-preview-production-gate.test.tsx",
+    "tests/e2e/dka-steps-one-to-four.spec.ts",
+    "tests/e2e/dka-steps-five-to-ten.spec.ts"
+  ],
+  "approval": null
+}

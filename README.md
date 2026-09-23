@@ -4,8 +4,9 @@ Source-governed prototype for deterministic adult electrolyte pathways. The proj
 from a retired synthetic-data/NICE catalogue to pathway-specific implementations transcribed from
 supplied NHS and Trust documents.
 
-No clinical pathway is currently active. The application must not be used for diagnosis, treatment
-or management decisions, and no patient-identifiable information should be entered.
+Interactive workflows are available for technical testing, but no pathway is approved for patient
+care. The application must not be used for diagnosis, treatment or management decisions, and no
+patient-identifiable information should be entered.
 
 ## Current Architecture
 
@@ -14,7 +15,8 @@ or management decisions, and no patient-identifiable information should be enter
 - `src/clinical/pathways/` provides strict declarative pathway schemas and governance validation.
 - `src/clinical/engine/` provides deterministic, fail-closed pathway evaluation.
 - `components/clinical/` provides reusable, accessible pathway input and result presentation.
-- `/assessment/new` is temporarily locked and accepts no clinical input.
+- `/assessment/new` opens the four implemented interactive workflows. They are available for
+  technical testing, not approved patient care.
 - `/review/pathway-ui` presents the shared UI framework with non-evaluated demonstration states.
 - `/review/hyponatraemia/severity` previews source-derived sodium severity classification only.
 - `/review/hyponatraemia/fluid-status` previews adaptive volume-state and source-listed sign
@@ -33,6 +35,20 @@ or management decisions, and no patient-identifiable information should be enter
 - `/review/hyperkalaemia/assessment` connects potassium severity, source-listed ECG changes,
   calcium context, pre-treatment glucose, salbutamol context, timed actions, monitoring and
   recurrence prevention while holding unresolved source conflicts for review.
+- `/review/dka/source-currentness` exposes the overdue DKA source, clinical activation gate,
+  complete ten-stage source map and future calculation inventory without accepting patient inputs
+  or activating a calculator.
+- `/review/dka/calculator` provides source-stage navigation, typed state and transparent calculation
+  contracts for technical review while keeping all DKA clinical inputs and execution locked.
+- `/review/dka/connected-calculator` connects editable synthetic test values across all ten DKA
+  York stages in local development. This historical source still has an unresolved resolution
+  conflict and remains blocked in production.
+- `/review/dka/current-calculator` connects diagnosis, risk, fluids/potassium, insulin/glucose,
+  timed response and resolution/transition from current JBDS 02 guidance in an editable workflow
+  available in production. Results update in browser memory; it is not approved for patient care.
+- `/review/dka/steps-one-to-four` and `/review/dka/steps-five-to-ten` connect fixed synthetic DKA
+  cases in local development. Clinical execution, DKA resolution and insulin conversion remain
+  blocked.
 - The previous catalogue, synthetic cases, generic assessment, flat rule engine and extraction
   experiment are isolated under `archive/legacy-nice-prototype/`.
 
@@ -52,6 +68,18 @@ See the [source registry](docs/clinical-source-registry.md),
 [Hypocalcaemia assessment workflow](docs/hypocalcaemia-assessment.md),
 [Hypocalcaemia cause and safeguard review](docs/hypocalcaemia-causes-guardrails.md),
 [Hypocalcaemia management branches](docs/hypocalcaemia-management.md),
+[Hypocalcaemia clinical-review package](docs/clinical-review/hypocalcaemia-v0.3.0/README.md),
+[Hypomagnesaemia supporting linkage](docs/hypomagnesaemia-supporting-linkage.md),
+[DKA source-currentness gate](docs/dka-source-currentness-gate.md),
+[DKA calculator foundation](docs/dka-calculator-foundation.md),
+[connected DKA technical calculator](docs/dka-connected-calculator.md),
+[current JBDS DKA calculator](docs/dka-jbds-calculator.md),
+[DKA Steps 1–4 technical preview](docs/dka-steps-one-to-four.md),
+[DKA Steps 5-10 technical preview](docs/dka-steps-five-to-ten.md),
+[DKA clinical-review package](docs/clinical-review/dka-v0.3.0/README.md),
+[security and privacy audit](docs/security-privacy-audit.md),
+[accessibility and responsive audit](docs/accessibility-responsive-audit.md),
+[performance hardening audit](docs/performance-hardening.md),
 [legacy retirement record](docs/legacy-architecture-retirement.md), and
 [repository/source audit](docs/subtask-0-repository-source-audit.md).
 

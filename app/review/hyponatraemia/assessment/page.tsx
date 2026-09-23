@@ -34,14 +34,14 @@ export default function HyponatraemiaConnectedAssessmentPage() {
           <Button asChild variant="secondary">
             <Link href="/assessment/new">
               <ArrowLeft aria-hidden="true" />
-              Pathway status
+              All workflows
             </Link>
           </Button>
         </header>
 
         <SafetyAlert level="critical" title="Unapproved pathway review - do not use clinically">
-          This connected workflow remains locked for technical and clinical review. Use current
-          approved local guidance and escalation procedures for patient care.
+          This connected workflow is available for technical testing, not patient care. Use current
+          approved local guidance and escalation procedures for clinical decisions.
         </SafetyAlert>
 
         <section aria-labelledby="connected-assessment-title">

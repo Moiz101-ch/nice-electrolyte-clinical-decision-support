@@ -1,7 +1,15 @@
 import type { Metadata, Viewport } from "next";
+import localFont from "next/font/local";
 
-import "@fontsource-variable/inter";
 import "./globals.css";
+
+const inter = localFont({
+  display: "swap",
+  fallback: ["Inter", "Arial", "sans-serif"],
+  src: "./fonts/inter-latin-wght-normal.woff2",
+  variable: "--font-inter",
+  weight: "100 900",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -25,7 +33,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html className={inter.variable} lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning>{children}</body>
     </html>
   );

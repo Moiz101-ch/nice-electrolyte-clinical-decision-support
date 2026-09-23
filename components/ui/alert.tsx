@@ -35,7 +35,7 @@ export function Alert({ children, className, title, variant = "info", ...props }
   return (
     <div
       className={cn(
-        "grid grid-cols-[auto_minmax(0,1fr)] gap-3 rounded-md border p-4 text-sm",
+        "motion-alert grid grid-cols-[auto_minmax(0,1fr)] gap-3 rounded-md border p-4 text-sm",
         config.className,
         className,
       )}

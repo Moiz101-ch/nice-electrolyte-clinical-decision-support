@@ -79,7 +79,7 @@ function NavigationItem({
     <Link
       aria-current={active ? "page" : undefined}
       className={cn(
-        "flex min-h-10 w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium",
+        "motion-nav flex min-h-10 w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium",
         active && "bg-info-subtle text-primary shadow-[inset_3px_0_0_var(--color-primary)]",
         !active && "text-muted-strong hover:bg-surface-subtle hover:text-foreground",
       )}

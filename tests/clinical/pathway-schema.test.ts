@@ -164,6 +164,30 @@ describe("declarative pathway definition", () => {
     );
   });
 
+  it("rejects calculation limits whose unit differs from the output", () => {
+    const fixture = buildFoundationPathway();
+    const calculation = fixture.nodes.find((node) => node.id === "score-calculation")!;
+
+    if (calculation.type !== "calculation") throw new Error("Fixture changed unexpectedly.");
+    calculation.sourceDefinedLimit = { kind: "maximum", unit: "wrong-unit", value: 10 };
+
+    expect(() => loadPathwayDefinition(fixture, { sources: foundationSources })).toThrow(
+      /calculation limit must use the calculation output unit/i,
+    );
+  });
+
+  it("rejects a source-defined limit with excess output precision", () => {
+    const fixture = buildFoundationPathway();
+    const calculation = fixture.nodes.find((node) => node.id === "score-calculation")!;
+
+    if (calculation.type !== "calculation") throw new Error("Fixture changed unexpectedly.");
+    calculation.sourceDefinedLimit = { kind: "maximum", unit: "points", value: 6.25 };
+
+    expect(() => loadPathwayDefinition(fixture, { sources: foundationSources })).toThrow(
+      /calculation limit cannot exceed the calculation output precision/i,
+    );
+  });
+
   it("rejects arbitrary executable expression fields", () => {
     const fixture = buildFoundationPathway() as ReturnType<typeof buildFoundationPathway> & {
       expression?: string;

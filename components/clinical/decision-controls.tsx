@@ -83,7 +83,7 @@ export function MajorDecisionCards({
                   ? { defaultChecked: option.value === defaultValue }
                   : { checked: option.value === value })}
               />
-              <span className="border-border bg-surface peer-checked:border-primary peer-checked:bg-info-subtle peer-focus-visible:ring-focus/30 peer-disabled:bg-surface-subtle peer-disabled:text-muted flex h-full min-h-40 cursor-pointer flex-col rounded-md border p-4 shadow-xs peer-focus-visible:ring-2 peer-disabled:cursor-not-allowed">
+              <span className="motion-choice border-border bg-surface peer-checked:border-primary peer-checked:bg-info-subtle peer-focus-visible:ring-focus/30 peer-disabled:bg-surface-subtle peer-disabled:text-muted flex h-full min-h-40 cursor-pointer flex-col rounded-md border p-4 shadow-xs peer-focus-visible:ring-2 peer-disabled:cursor-not-allowed">
                 {Icon ? (
                   <span className="bg-surface-subtle text-primary flex size-9 items-center justify-center rounded-md">
                     <Icon aria-hidden="true" className="size-4.5" strokeWidth={1.8} />
@@ -173,7 +173,7 @@ export function GroupedSymptomSelection({
                   return (
                     <label
                       className={cn(
-                        "hover:bg-surface-subtle flex min-h-12 cursor-pointer items-start gap-3 py-3",
+                        "motion-row hover:bg-surface-subtle flex min-h-12 cursor-pointer items-start gap-3 py-3",
                         option.visual && "min-h-24 flex-wrap sm:flex-nowrap sm:items-center",
                       )}
                       htmlFor={optionId}

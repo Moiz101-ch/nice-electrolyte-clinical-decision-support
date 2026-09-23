@@ -2,6 +2,8 @@
 
 import {
   Activity,
+  ArrowRight,
+  BookOpenCheck,
   CircleCheck,
   CircleHelp,
   CircleX,
@@ -14,6 +16,8 @@ import {
   ShieldCheck,
   Stethoscope,
 } from "lucide-react";
+import type { Route } from "next";
+import Link from "next/link";
 
 import {
   ActionContent,
@@ -77,6 +81,9 @@ export function HypocalcaemiaGuardrailReview({
   const cleared = isHypocalcaemiaGuardrailClear(evaluation);
   const hasEnteredInput = Object.values(inputs).some((value) =>
     Array.isArray(value) ? value.length > 0 : value !== undefined,
+  );
+  const hasHypomagnesaemiaCause = evaluation.nextActions.some(
+    ({ actionId }) => actionId === "hypomagnesaemia-cause-treatment",
   );
 
   function update<Key extends keyof HypocalcaemiaGuardrailInputs>(
@@ -417,6 +424,29 @@ export function HypocalcaemiaGuardrailReview({
             tone="info"
           >
             <ActionList actions={evaluation.nextActions} />
+          </ResultSection>
+        ) : null}
+
+        {hasHypomagnesaemiaCause ? (
+          <ResultSection
+            dividers={false}
+            headingAs="h3"
+            icon={BookOpenCheck}
+            status="Supporting evidence only"
+            title="Hypomagnesaemia supporting guidance"
+            tone="warning"
+          >
+            <p>
+              A separate draft source is available for evidence review. Its metadata is incomplete,
+              its oral-dose wording conflicts internally, and it is not the Trust source cited by
+              this Hypocalcaemia pathway. It cannot generate a magnesium treatment instruction.
+            </p>
+            <Button asChild className="mt-4" size="sm" variant="outline">
+              <Link href={"/review/hypomagnesaemia/supporting-guidance" as Route}>
+                Review supporting-source limits
+                <ArrowRight aria-hidden="true" />
+              </Link>
+            </Button>
           </ResultSection>
         ) : null}
 

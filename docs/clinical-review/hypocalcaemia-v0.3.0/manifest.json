@@ -1,0 +1,44 @@
+{
+  "packageId": "hypocalcaemia-clinical-review-v0.3.0",
+  "packageVersion": "0.3.0",
+  "preparedOn": "2026-09-17",
+  "reviewStatus": "awaiting-clinical-review",
+  "reviewRoute": "/review/hypocalcaemia/assessment",
+  "runtimePathwayVersion": "0.3.0",
+  "definitions": [
+    {
+      "pathwayId": "hypocalcaemia-source-assessment",
+      "version": "0.1.0",
+      "status": "awaiting-clinical-review"
+    },
+    {
+      "pathwayId": "hypocalcaemia-causes-guardrails",
+      "version": "0.3.0",
+      "status": "awaiting-clinical-review"
+    },
+    {
+      "pathwayId": "hypocalcaemia-management-branches",
+      "version": "0.3.0",
+      "status": "awaiting-clinical-review"
+    }
+  ],
+  "sources": ["YSTHFT-HYPOCALCAEMIA-V4"],
+  "artifacts": {
+    "reviewDocument": "docs/clinical-review/hypocalcaemia-v0.3.0/README.md",
+    "checklist": "docs/clinical-review/hypocalcaemia-v0.3.0/review-checklist.csv",
+    "screenshots": [
+      "docs/screenshots/subtask-19-hypocalcaemia/connected-severe-management-desktop.png",
+      "docs/screenshots/subtask-19-hypocalcaemia/mild-follow-up-desktop.png",
+      "docs/screenshots/subtask-19-hypocalcaemia/rhabdomyolysis-lock-mobile.png"
+    ]
+  },
+  "testEvidence": [
+    "tests/clinical/hypocalcaemia-assessment.test.ts",
+    "tests/clinical/hypocalcaemia-guardrails.test.ts",
+    "tests/clinical/hypocalcaemia-management.test.ts",
+    "tests/clinical/hypocalcaemia-clinical-review-package.test.ts",
+    "tests/design-system/hypocalcaemia-assessment-review.test.tsx",
+    "tests/e2e/hypocalcaemia-assessment.spec.ts"
+  ],
+  "approval": null
+}

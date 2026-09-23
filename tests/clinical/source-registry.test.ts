@@ -5,17 +5,17 @@ import { clinicalSourceRegistrySchema, sourceDateSchema } from "@/src/clinical/s
 import { describe, expect, it } from "vitest";
 
 describe("clinical source registry", () => {
-  it("loads eight immutable source records grouped by clinical scope", () => {
+  it("loads nine immutable source records grouped by clinical scope", () => {
     const registry = loadClinicalSourceRegistry();
 
-    expect(registry.registryVersion).toBe("1.1.0");
-    expect(registry.auditedOn).toBe("2026-08-28");
-    expect(registry.sources).toHaveLength(8);
+    expect(registry.registryVersion).toBe("1.3.0");
+    expect(registry.auditedOn).toBe("2026-09-20");
+    expect(registry.sources).toHaveLength(9);
     expect(registry.getSourcesForScope("hyponatraemia")).toHaveLength(3);
     expect(registry.getSourcesForScope("hyperkalaemia")).toHaveLength(2);
     expect(registry.getSourcesForScope("hypocalcaemia")).toHaveLength(1);
     expect(registry.getSourcesForScope("hypomagnesaemia")).toHaveLength(1);
-    expect(registry.getSourcesForScope("dka")).toHaveLength(1);
+    expect(registry.getSourcesForScope("dka")).toHaveLength(2);
   });
 
   it("keeps every supplied source below project approval", () => {
@@ -51,12 +51,29 @@ describe("clinical source registry", () => {
     expect(getSourceCurrentness(hypomagnesaemia!, registry.auditedOn)).toBe("unknown");
   });
 
+  it("links the supporting Hypomagnesaemia source to Hypocalcaemia without merging scopes", () => {
+    const registry = loadClinicalSourceRegistry();
+    const hypocalcaemiaRelations = registry.getRelatedSources("YSTHFT-HYPOCALCAEMIA-V4");
+    const hypomagnesaemiaRelations = registry.getRelatedSources("TGICFT-HYPOMAGNESAEMIA-UNDATED");
+
+    expect(hypocalcaemiaRelations).toHaveLength(1);
+    expect(hypocalcaemiaRelations[0]).toMatchObject({
+      clinicalReviewStatus: "draft",
+      clinicalScope: "hypomagnesaemia",
+      sourceId: "TGICFT-HYPOMAGNESAEMIA-UNDATED",
+      sourceKind: "supporting-guidance",
+    });
+    expect(hypomagnesaemiaRelations).toHaveLength(1);
+    expect(hypomagnesaemiaRelations[0]?.sourceId).toBe("YSTHFT-HYPOCALCAEMIA-V4");
+    expect(registry.getRelatedSources("UNKNOWN-SOURCE")).toEqual([]);
+  });
+
   it("verifies every registered file by path, size and SHA-256", async () => {
     const registry = loadClinicalSourceRegistry();
     const verified = await verifyClinicalSourceIntegrity(registry, process.cwd());
 
-    expect(verified).toHaveLength(8);
-    expect(new Set(verified.map((source) => source.localPath)).size).toBe(8);
+    expect(verified).toHaveLength(9);
+    expect(new Set(verified.map((source) => source.localPath)).size).toBe(9);
   });
 
   it("rejects duplicate registry IDs", () => {

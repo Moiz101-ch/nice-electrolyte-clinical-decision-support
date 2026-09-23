@@ -13,14 +13,21 @@ describe("pathway-first home page", () => {
     expect(screen.getByRole("heading", { name: "Hyponatraemia" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Hyperkalaemia" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Hypocalcaemia" })).toBeInTheDocument();
-    expect(screen.getAllByText("Awaiting clinical review")).toHaveLength(3);
+    expect(screen.getAllByText("Interactive")).toHaveLength(3);
     expect(screen.getByText("Feb 2028")).toBeInTheDocument();
     expect(screen.getByText("Nov 2026")).toBeInTheDocument();
     expect(screen.getByText("Oct 2027")).toBeInTheDocument();
 
-    const pathwayButtons = screen.getAllByRole("button", { name: "Start pathway" });
-    expect(pathwayButtons).toHaveLength(3);
-    pathwayButtons.forEach((button) => expect(button).toBeDisabled());
+    for (const [name, href] of [
+      ["Hyponatraemia", "/review/hyponatraemia/assessment"],
+      ["Hyperkalaemia", "/review/hyperkalaemia/assessment"],
+      ["Hypocalcaemia", "/review/hypocalcaemia/assessment"],
+    ]) {
+      expect(screen.getByRole("link", { name: `Open ${name} assessment` })).toHaveAttribute(
+        "href",
+        href,
+      );
+    }
   });
 
   it("renders calculators, governance counts, safety, and the new navigation", () => {
@@ -30,11 +37,14 @@ describe("pathway-first home page", () => {
       screen.getByRole("heading", { name: "Clinical calculators & pathways" }),
     ).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "DKA management pathway" })).toBeInTheDocument();
-    expect(screen.getByText("Source review overdue")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Open calculator" })).toBeDisabled();
-    expect(screen.getByText("8")).toBeInTheDocument();
+    expect(screen.getByText("JBDS calculator")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Open DKA calculator" })).toHaveAttribute(
+      "href",
+      "/review/dka/current-calculator",
+    );
+    expect(screen.getByText("9")).toBeInTheDocument();
     expect(screen.getByText("0")).toBeInTheDocument();
-    expect(screen.getByText("3")).toBeInTheDocument();
+    expect(screen.getByText("Interactive workflows").parentElement).toHaveTextContent("4");
 
     expect(screen.getByRole("link", { name: "Electrolyte Pathways home" })).toBeInTheDocument();
     const primaryNavigation = screen.getByRole("navigation", { name: "Primary navigation" });

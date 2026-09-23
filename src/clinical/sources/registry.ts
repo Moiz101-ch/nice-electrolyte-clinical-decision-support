@@ -14,6 +14,7 @@ export interface ClinicalSourceRegistry {
   readonly auditedOn: string;
   readonly registryVersion: string;
   readonly sources: readonly Readonly<ClinicalSource>[];
+  getRelatedSources: (sourceId: string) => readonly Readonly<ClinicalSource>[];
   getSource: (sourceId: string) => Readonly<ClinicalSource> | undefined;
   getSourcesForScope: (scope: ClinicalScope) => readonly Readonly<ClinicalSource>[];
 }
@@ -25,6 +26,7 @@ export function loadClinicalSourceRegistry(
   const sources = parsed.sources.map(freezeSource);
   const sourcesById = new Map(sources.map((source) => [source.sourceId, source]));
   const sourcesByScope = new Map<ClinicalScope, readonly Readonly<ClinicalSource>[]>();
+  const relatedSourcesById = new Map<string, readonly Readonly<ClinicalSource>[]>();
 
   for (const source of sources) {
     sourcesByScope.set(source.clinicalScope, [
@@ -37,8 +39,16 @@ export function loadClinicalSourceRegistry(
     sourcesByScope.set(scope, Object.freeze(scopedSources));
   }
 
+  for (const source of sources) {
+    relatedSourcesById.set(
+      source.sourceId,
+      Object.freeze(source.relatedSourceIds.map((sourceId) => sourcesById.get(sourceId)!)),
+    );
+  }
+
   return Object.freeze({
     auditedOn: parsed.auditedOn,
+    getRelatedSources: (sourceId: string) => relatedSourcesById.get(sourceId) ?? [],
     getSource: (sourceId: string) => sourcesById.get(sourceId),
     getSourcesForScope: (scope: ClinicalScope) => sourcesByScope.get(scope) ?? [],
     registryVersion: parsed.registryVersion,

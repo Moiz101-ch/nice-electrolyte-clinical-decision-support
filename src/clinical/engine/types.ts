@@ -93,6 +93,36 @@ export interface PathwayDerivedValue {
   readonly value: number;
 }
 
+export interface PathwayCalculationOperandSnapshot {
+  readonly key: string | null;
+  readonly kind: "constant" | "derived-value" | "numeric-input";
+  readonly unit: string | null;
+  readonly value: number;
+}
+
+export interface PathwayCalculationResult {
+  readonly calculationId: string;
+  readonly formula: string;
+  readonly operands: readonly PathwayCalculationOperandSnapshot[];
+  readonly operation: Extract<PathwayNode, { type: "calculation" }>["operation"];
+  readonly output: {
+    readonly key: string;
+    readonly unit: string;
+    readonly unlimitedValue: number;
+    readonly value: number;
+  };
+  readonly precision: number;
+  readonly roundingMode: Extract<PathwayNode, { type: "calculation" }>["roundingMode"];
+  readonly sourceDefinedLimit: {
+    readonly applied: boolean;
+    readonly kind: "maximum" | "minimum";
+    readonly unit: string;
+    readonly value: number;
+  } | null;
+  readonly sourceReferences: readonly PathwaySourceReference[];
+  readonly title: string;
+}
+
 export interface PathwayInformationItem {
   readonly body: string;
   readonly nodeId: string;
@@ -116,6 +146,7 @@ export interface PathwayDeterministicExplanation {
 
 export interface PathwayEvaluationSnapshot {
   readonly blockReason: PathwayBlockReason | null;
+  readonly calculations: readonly PathwayCalculationResult[];
   readonly clinicalReviewStatus: PathwayDefinition["status"];
   readonly confirmedInputs: Readonly<Record<string, PathwayInputDatum>>;
   readonly currentNode: PathwayCurrentNode | null;

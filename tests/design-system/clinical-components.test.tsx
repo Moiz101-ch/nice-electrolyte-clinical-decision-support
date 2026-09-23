@@ -62,6 +62,29 @@ describe("shared clinical pathway components", () => {
     expect(screen.getByText("Result").closest("li")).toHaveAttribute("aria-current", "step");
   });
 
+  it("uses a count-aware grid and protects long progress labels from overflow", () => {
+    render(
+      <PathwayProgress
+        currentStepId="investigations"
+        steps={[
+          { id: "focus", label: "Assessment focus" },
+          { id: "calcium", label: "Calcium result" },
+          { id: "symptoms", label: "Symptoms and rate" },
+          { id: "investigations", label: "Investigations" },
+          { id: "summary", label: "Assessment summary" },
+          { id: "management", label: "Management" },
+        ]}
+      />,
+    );
+
+    const list = screen.getByRole("list");
+    const investigations = screen.getByText("Investigations");
+
+    expect(list).toHaveClass("auto-rows-fr", "sm:grid-cols-2", "lg:grid-cols-3", "2xl:grid-cols-6");
+    expect(investigations).toHaveClass("[overflow-wrap:anywhere]");
+    expect(screen.getAllByRole("listitem")).toHaveLength(6);
+  });
+
   it("uses native radio and checkbox behavior for clinical selections", async () => {
     const user = userEvent.setup();
 

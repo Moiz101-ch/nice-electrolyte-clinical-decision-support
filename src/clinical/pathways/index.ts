@@ -22,3 +22,4 @@ export {
 } from "./schema.ts";
 export * from "./hyponatraemia/index.ts";
 export * from "./hypocalcaemia/index.ts";
+export * from "./dka/index.ts";

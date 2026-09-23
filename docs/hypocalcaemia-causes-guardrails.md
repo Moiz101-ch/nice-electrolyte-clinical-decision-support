@@ -31,7 +31,8 @@ treatment display. The `hypocalcaemia-causes-guardrails` definition is version `
   administration.
 - Confirmed vitamin D deficiency as the cause exposes oral vitamin D without inventing a dose.
 - Confirmed hypomagnesaemia as the cause exposes underlying-cause treatment without inventing a
-  magnesium dose.
+  magnesium dose. It also exposes a read-only link to the separately registered supporting source;
+  the supporting document remains outside the executable pathway.
 
 ## Fail-Closed Behaviour
 

@@ -1,24 +1,21 @@
 import {
-  loadPathwayDefinition,
-  type LoadPathwayDefinitionOptions,
-} from "../pathways/definition.ts";
-import {
-  getNodeSourceReferences,
   type NumericRange,
   type PathwayDefinition,
   type PathwayNode,
   type PathwaySourceReference,
 } from "../pathways/schema.ts";
 import {
-  pathwayEvaluationRequestSchema,
   type PathwayAction,
   type PathwayBlockReason,
+  type PathwayCalculationOperandSnapshot,
+  type PathwayCalculationResult,
   type PathwayCurrentNode,
   type PathwayDerivedClassification,
   type PathwayDerivedValue,
   type PathwayEngine,
   type PathwayEscalation,
   type PathwayEvaluationIssue,
+  type PathwayEvaluationRequest,
   type PathwayEvaluationSnapshot,
   type PathwayEvaluationStatus,
   type PathwayInformationItem,
@@ -31,6 +28,7 @@ import {
 
 interface MutableEvaluationState {
   blockReason: PathwayBlockReason | null;
+  calculations: PathwayCalculationResult[];
   confirmedInputs: Record<string, PathwayInputDatum>;
   currentNode: PathwayCurrentNode | null;
   derivedClassifications: PathwayDerivedClassification[];
@@ -49,11 +47,10 @@ interface MutableEvaluationState {
   warnings: PathwayWarning[];
 }
 
-export function createPathwayEngine(
-  definitionInput: unknown,
-  options: LoadPathwayDefinitionOptions = {},
+export function createPrevalidatedPathwayEngine(
+  definitionInput: PathwayDefinition,
 ): PathwayEngine {
-  const definition = loadPathwayDefinition(definitionInput, options);
+  const definition = deepFreeze(definitionInput);
   const nodesById = new Map(definition.nodes.map((node) => [node.id, node]));
 
   return Object.freeze({
@@ -62,25 +59,148 @@ export function createPathwayEngine(
   });
 }
 
+function parseEvaluationRequest(input: unknown): {
+  issues: PathwayEvaluationIssue[];
+  request: PathwayEvaluationRequest | null;
+} {
+  const issues: PathwayEvaluationIssue[] = [];
+
+  if (!isRecord(input)) {
+    return {
+      issues: [{ field: "root", message: "Expected an evaluation request object." }],
+      request: null,
+    };
+  }
+
+  const unexpectedRequestKey = Object.keys(input).find((key) => key !== "inputs");
+  if (unexpectedRequestKey) {
+    issues.push({
+      field: unexpectedRequestKey,
+      message: "Unexpected evaluation request field.",
+    });
+  }
+
+  if (!isRecord(input.inputs)) {
+    issues.push({ field: "inputs", message: "Expected an input record." });
+    return { issues, request: null };
+  }
+
+  const normalizedInputs: Record<string, PathwayInputDatum> = {};
+  for (const [key, datum] of Object.entries(input.inputs)) {
+    const field = `inputs.${key}`;
+    if (!/^[a-z][A-Za-z0-9]*(?:\.[a-z][A-Za-z0-9]*)*$/.test(key)) {
+      issues.push({ field, message: "Input keys must use camelCase segments." });
+      continue;
+    }
+    if (!isRecord(datum) || typeof datum.kind !== "string") {
+      issues.push({ field, message: "Expected a typed input value." });
+      continue;
+    }
+
+    switch (datum.kind) {
+      case "boolean":
+        if (!hasOnlyKeys(datum, ["kind", "value"]) || typeof datum.value !== "boolean") {
+          issues.push({ field, message: "Expected a confirmed boolean input." });
+          break;
+        }
+        normalizedInputs[key] = { kind: "boolean", value: datum.value };
+        break;
+      case "multi-select": {
+        if (!hasOnlyKeys(datum, ["kind", "values"]) || !Array.isArray(datum.values)) {
+          issues.push({ field, message: "Expected a multi-select input array." });
+          break;
+        }
+        const values = datum.values.map((value) =>
+          typeof value === "string" ? value.trim() : value,
+        );
+        if (
+          values.some((value) => typeof value !== "string" || value.length === 0) ||
+          new Set(values).size !== values.length
+        ) {
+          issues.push({ field, message: "Multi-select values must be unique non-empty strings." });
+          break;
+        }
+        normalizedInputs[key] = { kind: "multi-select", values: values as string[] };
+        break;
+      }
+      case "numeric": {
+        const unit = typeof datum.unit === "string" ? datum.unit.trim() : "";
+        if (
+          !hasOnlyKeys(datum, ["kind", "unit", "value"]) ||
+          unit.length === 0 ||
+          typeof datum.value !== "number" ||
+          !Number.isFinite(datum.value)
+        ) {
+          issues.push({ field, message: "Expected a finite numeric input with a unit." });
+          break;
+        }
+        normalizedInputs[key] = { kind: "numeric", unit, value: datum.value };
+        break;
+      }
+      case "single-choice": {
+        const value = typeof datum.value === "string" ? datum.value.trim() : "";
+        if (!hasOnlyKeys(datum, ["kind", "value"]) || value.length === 0) {
+          issues.push({ field, message: "Expected one non-empty selected value." });
+          break;
+        }
+        normalizedInputs[key] = { kind: "single-choice", value };
+        break;
+      }
+      default:
+        issues.push({ field, message: "Unknown input kind." });
+    }
+  }
+
+  return {
+    issues,
+    request: issues.length === 0 ? { inputs: normalizedInputs } : null,
+  };
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function hasOnlyKeys(value: Record<string, unknown>, allowedKeys: readonly string[]): boolean {
+  return Object.keys(value).every((key) => allowedKeys.includes(key));
+}
+
+function getRuntimeNodeSourceReferences(node: PathwayNode): PathwaySourceReference[] {
+  switch (node.type) {
+    case "action-group":
+      return [
+        ...node.sourceReferences,
+        ...node.actions.flatMap((action) => action.sourceReferences),
+      ];
+    case "warning":
+      return [
+        ...node.sourceReferences,
+        ...node.warnings.flatMap((warning) => warning.sourceReferences),
+      ];
+    case "monitoring":
+    case "escalation":
+      return [...node.sourceReferences, ...node.items.flatMap((item) => item.sourceReferences)];
+    default:
+      return [...node.sourceReferences];
+  }
+}
+
 function evaluatePathway(
   definition: PathwayDefinition,
   nodesById: ReadonlyMap<string, PathwayNode>,
   requestInput: unknown,
 ): PathwayEvaluationSnapshot {
   const state = createInitialState(definition, nodesById);
-  const parsedRequest = pathwayEvaluationRequestSchema.safeParse(requestInput);
+  const parsedRequest = parseEvaluationRequest(requestInput);
 
-  if (!parsedRequest.success) {
+  if (parsedRequest.request === null) {
     state.status = "blocked";
     state.blockReason = "invalid-request";
-    state.issues = parsedRequest.error.issues.map((issue) => ({
-      field: issue.path.length === 0 ? "root" : issue.path.join("."),
-      message: issue.message,
-    }));
+    state.issues = parsedRequest.issues;
     return buildSnapshot(definition, state);
   }
 
-  const request = parsedRequest.data;
+  const request = parsedRequest.request;
   const visitedNodeIds = new Set<string>();
   let currentNodeId = definition.entryNodeId;
 
@@ -111,7 +231,7 @@ function evaluatePathway(
     }
 
     visitedNodeIds.add(node.id);
-    addSourceReferences(state, getNodeSourceReferences(node));
+    addSourceReferences(state, getRuntimeNodeSourceReferences(node));
 
     switch (node.type) {
       case "information":
@@ -366,10 +486,17 @@ function evaluatePathway(
 
       case "calculation": {
         const values: number[] = [];
+        const resolvedOperands: PathwayCalculationOperandSnapshot[] = [];
 
         for (const operand of node.operands) {
           if (operand.kind === "constant") {
             values.push(operand.value);
+            resolvedOperands.push({
+              key: null,
+              kind: "constant",
+              unit: null,
+              value: operand.value,
+            });
             continue;
           }
 
@@ -387,11 +514,22 @@ function evaluatePathway(
           }
 
           values.push(numericValue.value);
+          resolvedOperands.push({
+            key: operand.key,
+            kind: operand.kind,
+            unit: numericValue.unit,
+            value: numericValue.value,
+          });
         }
 
-        const result = calculate(values, node.operation, node.precision, node.roundingMode);
+        const unlimitedResult = calculate(
+          values,
+          node.operation,
+          node.precision,
+          node.roundingMode,
+        );
 
-        if (result === null) {
+        if (unlimitedResult === null) {
           state.trace.push(traceEntry(node, "blocked"));
           return block(
             definition,
@@ -402,7 +540,31 @@ function evaluatePathway(
           );
         }
 
+        const result = applySourceDefinedLimit(unlimitedResult, node.sourceDefinedLimit);
+
         state.derivedValues[node.outputKey] = { unit: node.unit, value: result };
+        state.calculations.push({
+          calculationId: node.id,
+          formula: node.formula,
+          operands: resolvedOperands,
+          operation: node.operation,
+          output: {
+            key: node.outputKey,
+            unit: node.unit,
+            unlimitedValue: unlimitedResult,
+            value: result,
+          },
+          precision: node.precision,
+          roundingMode: node.roundingMode,
+          sourceDefinedLimit: node.sourceDefinedLimit
+            ? {
+                ...node.sourceDefinedLimit,
+                applied: result !== unlimitedResult,
+              }
+            : null,
+          sourceReferences: node.sourceReferences,
+          title: node.title,
+        });
         state.trace.push(traceEntry(node, "advanced", node.nextNodeId));
         currentNodeId = node.nextNodeId;
         break;
@@ -451,6 +613,7 @@ function createInitialState(
 
   return {
     blockReason: null,
+    calculations: [],
     confirmedInputs: {},
     currentNode: entryNode ? toCurrentNode(entryNode) : null,
     derivedClassifications: [],
@@ -649,6 +812,17 @@ function calculate(
   return Number.isFinite(rounded) ? rounded : null;
 }
 
+function applySourceDefinedLimit(
+  value: number,
+  limit: Extract<PathwayNode, { type: "calculation" }>["sourceDefinedLimit"],
+): number {
+  if (!limit) {
+    return value;
+  }
+
+  return limit.kind === "maximum" ? Math.min(value, limit.value) : Math.max(value, limit.value);
+}
+
 function buildSnapshot(
   definition: PathwayDefinition,
   state: MutableEvaluationState,
@@ -660,6 +834,7 @@ function buildSnapshot(
   });
   const snapshot: PathwayEvaluationSnapshot = {
     blockReason: state.blockReason,
+    calculations: [...state.calculations],
     clinicalReviewStatus: definition.status,
     confirmedInputs: { ...state.confirmedInputs },
     currentNode: state.currentNode,

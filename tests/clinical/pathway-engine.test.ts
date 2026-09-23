@@ -73,6 +73,34 @@ describe("deterministic pathway engine", () => {
 
     expect(snapshot.status).toBe("completed");
     expect(snapshot.derivedValues.adjustedScore).toEqual({ unit: "points", value: 7 });
+    expect(snapshot.calculations).toEqual([
+      {
+        calculationId: "score-calculation",
+        formula: "score + 2",
+        operands: [
+          { key: "score", kind: "numeric-input", unit: "points", value: 5 },
+          { key: null, kind: "constant", unit: null, value: 2 },
+        ],
+        operation: "add",
+        output: {
+          key: "adjustedScore",
+          unit: "points",
+          unlimitedValue: 7,
+          value: 7,
+        },
+        precision: 1,
+        roundingMode: "half-away-from-zero",
+        sourceDefinedLimit: null,
+        sourceReferences: [
+          {
+            page: 1,
+            section: "Non-clinical engine test fixture",
+            sourceId: "TEST-SOURCE-001",
+          },
+        ],
+        title: "Fixture calculation",
+      },
+    ]);
     expect(snapshot.warnings[0]?.warningId).toBe("fixture-warning");
     expect(snapshot.escalations[0]?.escalationId).toBe("fixture-review");
     expect(snapshot.selectedBranches.map((branch) => branch.branchId)).toEqual([
@@ -186,6 +214,24 @@ describe("deterministic pathway engine", () => {
 
     expect(halfAway.derivedValues.adjustedScore?.value).toBe(1.4);
     expect(floor.derivedValues.adjustedScore?.value).toBe(1.3);
+  });
+
+  it("applies and reports a source-defined calculation limit", () => {
+    const fixture = buildFoundationPathway();
+    const calculation = fixture.nodes.find((node) => node.id === "score-calculation")!;
+
+    if (calculation.type !== "calculation") throw new Error("Fixture changed unexpectedly.");
+    calculation.sourceDefinedLimit = { kind: "maximum", unit: "points", value: 6 };
+
+    const snapshot = createPathwayEngine(fixture, { sources: foundationSources }).evaluate({
+      inputs: highBranchInputs(),
+    });
+
+    expect(snapshot.derivedValues.adjustedScore).toEqual({ unit: "points", value: 6 });
+    expect(snapshot.calculations[0]).toMatchObject({
+      output: { unlimitedValue: 7, value: 6 },
+      sourceDefinedLimit: { applied: true, kind: "maximum", unit: "points", value: 6 },
+    });
   });
 
   it("detects graph cycles during evaluation", () => {

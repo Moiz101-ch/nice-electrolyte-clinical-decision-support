@@ -25,9 +25,10 @@ node and graph nodes. Supported nodes are:
 - explicit completed, unsupported or clinical-review stop states.
 
 Numeric ranges always record both boundary values and whether each boundary is inclusive. Missing
-bounds are explicit `null` values. Calculations use a small operation enum and typed operands; pathway
-authors must also choose an explicit rounding mode. Pathway data cannot contain executable JavaScript
-expressions.
+bounds are explicit `null` values. Calculations use a small operation enum and typed operands;
+pathway authors must also declare a human-readable formula label, explicit rounding mode and optional
+source-defined minimum or maximum in the output unit. Pathway data cannot contain executable
+JavaScript expressions.
 
 Every node and every action, warning, monitoring item or escalation has at least one source reference
 containing a registered source ID, page and section. The loader rejects unknown sources, out-of-range
@@ -42,8 +43,9 @@ branches, a calculation error or a graph cycle.
 
 The immutable snapshot contains pathway identity and status, current node, confirmed inputs, selected
 branches, derived classifications and values, actions, warnings, monitoring, escalations, source
-references, trace entries and a deterministic explanation. React components are expected to render
-this snapshot; they must not implement clinical thresholds.
+references, trace entries and a deterministic explanation. Each calculation also records resolved
+operands, formula, unrestricted and final outputs, rounding, source limit and source references.
+React components are expected to render this snapshot; they must not implement clinical thresholds.
 
 ## Adding A Future Pathway
 

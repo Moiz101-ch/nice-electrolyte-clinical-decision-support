@@ -23,8 +23,8 @@ export function SiteHeader() {
             <ShieldCheck aria-hidden="true" className="size-4" />
             Safety
           </Link>
-          <Badge className="hidden md:inline-flex" variant="review">
-            Clinical review phase
+          <Badge className="hidden md:inline-flex" variant="info">
+            Technical testing
           </Badge>
           <Button asChild className="hidden sm:inline-flex">
             <Link href="/assessment/new">

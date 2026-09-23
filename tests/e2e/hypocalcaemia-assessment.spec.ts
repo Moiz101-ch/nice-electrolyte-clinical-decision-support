@@ -51,10 +51,12 @@ test("connects severe symptomatic Hypocalcaemia to diagnostic review", async ({ 
     .click();
   await page
     .getByRole("group", { name: /Is hypomagnesaemia clinically established as the cause/i })
-    .getByText("Not confirmed", { exact: true })
+    .getByText("Confirmed", { exact: true })
     .click();
   await page.getByLabel(/Cardiac monitoring context/).selectOption("neither");
 
+  await expect(page.getByRole("link", { name: "Review supporting-source limits" })).toBeVisible();
+  await expect(page.getByText(/cannot generate a magnesium treatment instruction/i)).toBeVisible();
   await expect(page.getByText(/Initially give 10 mL of 10% calcium gluconate/i)).toBeVisible();
   await page.getByText("Symptoms not resolved", { exact: true }).click();
   await expect(page.getByText(/repeat 10 mL of 10% calcium gluconate/i)).toBeVisible();
@@ -66,6 +68,27 @@ test("connects severe symptomatic Hypocalcaemia to diagnostic review", async ({ 
   await expect(page.getByText("YSTHFT-HYPOCALCAEMIA-V4")).toHaveCount(0);
   await expect(page.getByText(/page 1/i)).toHaveCount(0);
 
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+});
+
+test("presents Hypomagnesaemia as supporting evidence without a standalone workflow", async ({
+  page,
+}) => {
+  await page.goto("/review/hypomagnesaemia/supporting-guidance");
+
+  await expect(
+    page.getByRole("heading", { exact: true, name: "Hypomagnesaemia supporting guidance" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("note", { name: /Supporting source only - no treatment pathway/i }),
+  ).toBeVisible();
+  await expect(page.getByText(/conflicting oral-dose wording/i)).toBeVisible();
+  await expect(page.getByRole("spinbutton")).toHaveCount(0);
+  await expect(page.getByRole("radio")).toHaveCount(0);
+  await expect(page.getByRole("checkbox")).toHaveCount(0);
+  await expect(page.getByText(/10 mmol|24 mmol/i)).toHaveCount(0);
+  await expect(page.getByText("TGICFT-HYPOMAGNESAEMIA-UNDATED")).toHaveCount(0);
+  await expect(page.getByText(/page 1/i)).toHaveCount(0);
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
 });
 
@@ -149,6 +172,44 @@ test("locks correction when rhabdomyolysis expert advice is not obtained", async
 
   await expect(page.getByRole("heading", { name: "Correction locked" })).toBeVisible();
   await expect(page.getByText(/Initially give 10 mL of 10% calcium gluconate/i)).toHaveCount(0);
+});
+
+test("keeps all progress cards equal and readable at responsive widths", async ({ page }) => {
+  await page.goto("/review/hypocalcaemia/assessment");
+
+  for (const width of [390, 768, 1120, 1600]) {
+    await page.setViewportSize({ height: 900, width });
+    const layout = await page
+      .getByRole("navigation", { name: "Assessment progress" })
+      .evaluate((navigation) => {
+        const cards = [...navigation.querySelectorAll("li")];
+        const cardRects = cards.map((card) => card.getBoundingClientRect());
+        const textFits = cards.every((card) =>
+          [...card.querySelectorAll(":scope > span:last-child > span:not(.sr-only)")].every(
+            (span) => {
+              const spanRect = span.getBoundingClientRect();
+              const cardRect = card.getBoundingClientRect();
+
+              return (
+                spanRect.right <= cardRect.right + 1 && span.scrollWidth <= span.clientWidth + 1
+              );
+            },
+          ),
+        );
+
+        return {
+          cardHeights: cardRects.map(({ height }) => Math.round(height)),
+          cardsFit: cards.every((card) => card.scrollWidth <= card.clientWidth + 1),
+          documentFits: document.documentElement.scrollWidth <= window.innerWidth,
+          textFits,
+        };
+      });
+
+    expect(layout.documentFits, `document overflow at ${width}px`).toBe(true);
+    expect(layout.cardsFit, `card overflow at ${width}px`).toBe(true);
+    expect(layout.textFits, `text overflow at ${width}px`).toBe(true);
+    expect(new Set(layout.cardHeights).size, `unequal card heights at ${width}px`).toBe(1);
+  }
 });
 
 async function completeCommonGuardrails(page: Page) {

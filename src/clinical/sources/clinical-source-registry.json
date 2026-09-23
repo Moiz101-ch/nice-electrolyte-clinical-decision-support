@@ -1,6 +1,6 @@
 {
-  "registryVersion": "1.1.0",
-  "auditedOn": "2026-08-28",
+  "registryVersion": "1.3.0",
+  "auditedOn": "2026-09-20",
   "sources": [
     {
       "sourceId": "YSTHFT-HYPONATRAEMIA-EMERGENCY-V1",
@@ -213,7 +213,7 @@
         "reuse-unverified",
         "source-mismatch"
       ],
-      "relatedSourceIds": [],
+      "relatedSourceIds": ["TGICFT-HYPOMAGNESAEMIA-UNDATED"],
       "supportingReferences": [
         {
           "title": "York hypomagnesaemia diagnosis and management guidance referenced in the pathway",
@@ -266,12 +266,55 @@
         "reuse-unverified",
         "source-mismatch"
       ],
-      "relatedSourceIds": [],
+      "relatedSourceIds": ["YSTHFT-HYPOCALCAEMIA-V4"],
       "supportingReferences": [],
       "notes": [
         "No visible version, issue date, review date or approval body is recorded.",
         "The narrative and flowchart contain different oral magnesium dosing wording.",
         "This is supporting material only and is not the York guidance referenced by the hypocalcaemia source."
+      ]
+    },
+    {
+      "sourceId": "JBDS-02-DKA-MARCH-2023",
+      "sourceKind": "clinical-pathway",
+      "clinicalScope": "dka",
+      "organisation": "Joint British Diabetes Societies for Inpatient Care",
+      "title": "The Management of Diabetic Ketoacidosis in Adults",
+      "authors": [],
+      "owner": null,
+      "documentVersion": "Revised March 2023",
+      "issueDate": { "value": "2023-03", "precision": "month" },
+      "reviewDate": null,
+      "pageCount": 50,
+      "mediaType": "application/pdf",
+      "originalFileName": "JBDS_02_DKA_Guideline_March_2023.pdf",
+      "localPath": "clinical-sources/dka/JBDS_02_DKA_Guideline_March_2023.pdf",
+      "sha256": "568323C1BB8B554190162DDF0E4E605B0E14F092757FB60927A5CC5B0F164EE8",
+      "fileSizeBytes": 2474128,
+      "imageDimensions": null,
+      "provenanceStatus": "identified-source",
+      "reuseStatus": "internal-verification-only",
+      "clinicalReviewStatus": "draft",
+      "governanceFlags": ["internal-content-conflict", "reuse-unverified"],
+      "relatedSourceIds": ["YTH-DKA-V9-2019"],
+      "supportingReferences": [
+        {
+          "title": "Current JBDS 02 listing",
+          "identifier": "JBDS 02",
+          "url": "https://abcd.care/resource/current/jbds-02-management-diabetic-ketoacidosis-adults",
+          "status": "external-only"
+        },
+        {
+          "title": "Updated JBDS 02 single-page pathway",
+          "identifier": "JBDS 02 March 2023",
+          "url": "https://abcd.care/sites/default/files/resources/JBDS_02_Single_page_pathway_March_2023_updated.pdf",
+          "status": "external-only"
+        }
+      ],
+      "notes": [
+        "The JBDS listing identifies this as the current March 2023 guideline; the full PDF is retained locally for reproducible source mapping.",
+        "The main text and updated single-page pathway define resolution as ketones below 0.6 mmol/L AND venous pH above 7.3; older appendix wording in the same PDF conflicts and is not used for this calculator.",
+        "This source is kept separate from the supplied historical York DKA pathway and is not approved for clinical execution."
       ]
     },
     {

@@ -86,34 +86,50 @@ export function HypocalcaemiaManagementReview({
     () => determineHypocalcaemiaManagementBranch(assessmentInputs),
     [assessmentInputs],
   );
-  const managementInputs: HypocalcaemiaManagementInputs = {
-    ...(continuousInfusionNeed ? { continuousInfusionNeed } : {}),
-    ...(followUpCalcium.trim() === "" ? {} : { followUpAdjustedCalcium: Number(followUpCalcium) }),
-    ...(oralCalciumSelection ? { oralCalciumSelection } : {}),
-    ...(persistentMild ? { persistentMildBeyond72Hours: persistentMild } : {}),
-    ...(guardrailInputs.surgeryContext
-      ? {
-          postThyroidectomy:
-            guardrailInputs.surgeryContext === "thyroidectomy"
-              ? ("confirmed" as const)
-              : guardrailInputs.surgeryContext === "unable"
-                ? ("unable" as const)
-                : ("not-confirmed" as const),
-        }
-      : {}),
-    ...(guardrailInputs.renalContext
-      ? { infusionRenalContext: guardrailInputs.renalContext }
-      : assessmentInputs.renalFunction === "no-renal-failure"
-        ? { infusionRenalContext: "no-renal-failure" as const }
+  const managementInputs: HypocalcaemiaManagementInputs = useMemo(
+    () => ({
+      ...(continuousInfusionNeed ? { continuousInfusionNeed } : {}),
+      ...(followUpCalcium.trim() === ""
+        ? {}
+        : { followUpAdjustedCalcium: Number(followUpCalcium) }),
+      ...(oralCalciumSelection ? { oralCalciumSelection } : {}),
+      ...(persistentMild ? { persistentMildBeyond72Hours: persistentMild } : {}),
+      ...(guardrailInputs.surgeryContext
+        ? {
+            postThyroidectomy:
+              guardrailInputs.surgeryContext === "thyroidectomy"
+                ? ("confirmed" as const)
+                : guardrailInputs.surgeryContext === "unable"
+                  ? ("unable" as const)
+                  : ("not-confirmed" as const),
+          }
         : {}),
-    ...(symptomResponse ? { symptomResponse } : {}),
-  };
-  const guardrailEvaluation = evaluateHypocalcaemiaGuardrails(assessmentInputs, guardrailInputs);
+      ...(guardrailInputs.renalContext
+        ? { infusionRenalContext: guardrailInputs.renalContext }
+        : assessmentInputs.renalFunction === "no-renal-failure"
+          ? { infusionRenalContext: "no-renal-failure" as const }
+          : {}),
+      ...(symptomResponse ? { symptomResponse } : {}),
+    }),
+    [
+      assessmentInputs.renalFunction,
+      continuousInfusionNeed,
+      followUpCalcium,
+      guardrailInputs.renalContext,
+      guardrailInputs.surgeryContext,
+      oralCalciumSelection,
+      persistentMild,
+      symptomResponse,
+    ],
+  );
+  const guardrailEvaluation = useMemo(
+    () => evaluateHypocalcaemiaGuardrails(assessmentInputs, guardrailInputs),
+    [assessmentInputs, guardrailInputs],
+  );
   const guardrailsCleared = isHypocalcaemiaGuardrailClear(guardrailEvaluation);
-  const evaluation = evaluateHypocalcaemiaManagement(
-    assessmentInputs,
-    managementInputs,
-    guardrailsCleared,
+  const evaluation = useMemo(
+    () => evaluateHypocalcaemiaManagement(assessmentInputs, managementInputs, guardrailsCleared),
+    [assessmentInputs, guardrailsCleared, managementInputs],
   );
   const currentNode = evaluation.currentNode;
   const followUpError = getFollowUpError(evaluation, followUpCalcium);

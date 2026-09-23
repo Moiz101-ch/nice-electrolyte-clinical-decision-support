@@ -11,6 +11,7 @@ const eslintConfig = [
       ".venv/**",
       ".wrangler/**",
       "coverage/**",
+      "cloudflare-env.d.ts",
       "node_modules/**",
       "playwright-report/**",
       "project-input/**",

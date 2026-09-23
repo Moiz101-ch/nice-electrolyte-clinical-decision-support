@@ -30,7 +30,7 @@ export function PathwayProgress({
 
   return (
     <nav aria-label={ariaLabel}>
-      <ol className="grid gap-3 md:auto-cols-fr md:grid-flow-col">
+      <ol className={cn("grid auto-rows-fr gap-3", progressGridColumns(steps.length))}>
         {steps.map((step, index) => {
           const state = skippedSteps.has(step.id)
             ? "skipped"
@@ -44,7 +44,7 @@ export function PathwayProgress({
             <li
               aria-current={state === "current" ? "step" : undefined}
               className={cn(
-                "border-border bg-surface grid min-h-20 grid-cols-[2rem_minmax(0,1fr)] gap-3 rounded-md border p-3",
+                "motion-progress-step border-border bg-surface grid h-full min-h-28 grid-cols-[2rem_minmax(0,1fr)] items-start gap-3 rounded-md border p-3",
                 state === "current" && "border-primary bg-info-subtle",
                 state === "skipped" && "bg-surface-subtle border-dashed",
               )}
@@ -53,7 +53,7 @@ export function PathwayProgress({
               <span
                 aria-hidden="true"
                 className={cn(
-                  "border-border-strong bg-surface-subtle text-muted flex size-8 items-center justify-center rounded-full border text-xs font-bold",
+                  "motion-progress-dot border-border-strong bg-surface-subtle text-muted flex size-8 items-center justify-center rounded-full border text-xs font-bold",
                   state === "complete" && "border-success bg-success text-white",
                   state === "current" && "border-primary bg-primary text-white",
                   state === "skipped" && "border-border-strong bg-surface text-muted",
@@ -68,9 +68,11 @@ export function PathwayProgress({
                 )}
               </span>
               <span className="min-w-0">
-                <span className="text-foreground block text-sm font-semibold">{step.label}</span>
+                <span className="text-foreground block text-sm leading-5 font-semibold [overflow-wrap:anywhere]">
+                  {step.label}
+                </span>
                 {step.description ? (
-                  <span className="text-muted mt-1 block text-xs leading-5">
+                  <span className="text-muted mt-1 block text-xs leading-5 [overflow-wrap:anywhere]">
                     {step.description}
                   </span>
                 ) : null}
@@ -82,4 +84,14 @@ export function PathwayProgress({
       </ol>
     </nav>
   );
+}
+
+function progressGridColumns(stepCount: number): string {
+  if (stepCount <= 1) return "grid-cols-1";
+  if (stepCount === 2) return "sm:grid-cols-2";
+  if (stepCount === 3) return "sm:grid-cols-2 lg:grid-cols-3";
+  if (stepCount === 4) return "sm:grid-cols-2 xl:grid-cols-4";
+  if (stepCount === 5) return "sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5";
+
+  return "sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-6";
 }

@@ -37,7 +37,7 @@ export default function HypocalcaemiaAssessmentPage() {
           <Button asChild variant="secondary">
             <Link href="/assessment/new">
               <ArrowLeft aria-hidden="true" />
-              Pathway reviews
+              All workflows
             </Link>
           </Button>
         </header>

@@ -72,9 +72,16 @@ describe("Hypocalcaemia assessment review", () => {
         screen.getByRole("group", {
           name: /Is hypomagnesaemia clinically established as the cause/i,
         }),
-      ).getByRole("radio", { name: /Not confirmed/i }),
+      ).getByRole("radio", { name: /^Confirmed/i }),
     );
     await user.selectOptions(screen.getByLabelText(/Cardiac monitoring context/), "neither");
+    expect(screen.getByRole("link", { name: /Review supporting-source limits/i })).toHaveAttribute(
+      "href",
+      "/review/hypomagnesaemia/supporting-guidance",
+    );
+    expect(
+      screen.getByText(/cannot generate a magnesium treatment instruction/i),
+    ).toBeInTheDocument();
     expect(screen.getByText(/Initially give 10 mL of 10% calcium gluconate/i)).toBeInTheDocument();
     expect(
       screen.getByRole("group", { name: /Have symptoms resolved after the initial treatment/i }),

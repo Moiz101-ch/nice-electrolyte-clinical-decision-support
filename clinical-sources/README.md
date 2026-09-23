@@ -25,6 +25,7 @@ clinical data.
 | Hypocalcaemia   | `hypocalcaemia-diagnosis-management-v4-oct-24-oct-27.pdf`                         | `76A7349CE1B1A704D10E6A18B388881CBCA083553F647EB809DB533D6848B348` |
 | Hypomagnesaemia | `Hypomagnesaemia_NHS_Guidelines (1).pdf`                                          | `95EB0F9487541BCE9935210A4B8E4C36A667762CC14A5292B39E55AE3DBA5164` |
 | DKA             | `Diabetic-Ketoacidosis--DKA--in-Adults-Pathway-v9-May-19---Apr-21-1.pdf`          | `9DC7D5F7078CB2143FFF0CA7BAF59F99B9D0FD6D2E6151D55DA1B7555DC117D9` |
+| DKA             | `JBDS_02_DKA_Guideline_March_2023.pdf`                                            | `568323C1BB8B554190162DDF0E4E605B0E14F092757FB60927A5CC5B0F164EE8` |
 
 The diagrams have no visible author, organisation, date, version, approval or reuse metadata. They
 must remain unapproved supporting references until provenance and clinical ownership are confirmed.
@@ -34,8 +35,10 @@ must remain unapproved supporting references until provenance and clinical owner
 - `hyponatraemia/`: emergency management pathway and diagnostic-classification references.
 - `hyperkalaemia/`: acute adult management protocol and prescribing chart.
 - `hypocalcaemia/`: diagnosis and acute-management pathway.
-- `hypomagnesaemia/`: supporting diagnosis and management guidance.
-- `dka/`: historical adult DKA pathway subject to a source-currentness gate.
+- `hypomagnesaemia/`: draft supporting guidance linked for evidence review only; it does not drive
+  a standalone pathway or magnesium treatment instructions.
+- `dka/`: historical York pathway and separately registered current JBDS 02 guidance. The current
+  JBDS calculator is available for technical testing; it is not an active clinical pathway.
 - `supporting/`: reserved for approved supporting material that is not a primary pathway source.
 
 The complete source and repository audit is in

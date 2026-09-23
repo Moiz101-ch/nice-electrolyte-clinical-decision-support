@@ -39,9 +39,9 @@ export function MobileNavigation() {
       </Button>
       <Dialog.Root onOpenChange={setOpen} open={open}>
         <Dialog.Portal>
-          <Dialog.Overlay className="bg-foreground/30 fixed inset-0 z-50 opacity-0 backdrop-blur-[2px] transition-opacity data-[state=open]:opacity-100" />
+          <Dialog.Overlay className="motion-drawer-overlay bg-foreground/30 fixed inset-0 z-50 backdrop-blur-[2px]" />
           <Dialog.Content
-            className="border-border bg-surface fixed inset-y-0 left-0 z-50 flex w-[min(20rem,88vw)] -translate-x-full flex-col border-r shadow-xl transition-transform data-[state=open]:translate-x-0"
+            className="motion-drawer border-border bg-surface fixed inset-y-0 left-0 z-50 flex w-[min(20rem,88vw)] flex-col border-r shadow-xl"
             onCloseAutoFocus={(event) => {
               event.preventDefault();
               triggerRef.current?.focus();
@@ -63,7 +63,7 @@ export function MobileNavigation() {
               <NavigationContent />
             </div>
             <div className="border-border bg-surface-subtle text-muted border-t px-4 py-3 text-xs leading-5">
-              Pathways remain locked during clinical review.
+              Technical workflows are not for patient care.
             </div>
           </Dialog.Content>
         </Dialog.Portal>

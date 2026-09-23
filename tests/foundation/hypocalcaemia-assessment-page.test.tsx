@@ -12,7 +12,7 @@ describe("Hypocalcaemia assessment review page", () => {
       screen.getByRole("heading", { name: "Hypocalcaemia assessment and management", level: 1 }),
     ).toBeInTheDocument();
     expect(screen.getByRole("alert", { name: /Unapproved pathway preview/i })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Pathway reviews" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "All workflows" })).toHaveAttribute(
       "href",
       "/assessment/new",
     );

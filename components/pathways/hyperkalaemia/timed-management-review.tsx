@@ -189,7 +189,10 @@ export function HyperkalaemiaTimedManagementReview({
   const [salbutamolContext, setSalbutamolContext] = useState<SalbutamolContext | "">("");
   const potassium = toOptionalNumber(potassiumInput);
   const pretreatmentGlucose = toOptionalNumber(pretreatmentGlucoseInput);
-  const severityEvaluation = potassium === null ? null : evaluateHyperkalaemiaSeverity(potassium);
+  const severityEvaluation = useMemo(
+    () => (potassium === null ? null : evaluateHyperkalaemiaSeverity(potassium)),
+    [potassium],
+  );
   const evaluation = useMemo(
     () =>
       potassium === null
@@ -205,7 +208,10 @@ export function HyperkalaemiaTimedManagementReview({
           }),
     [digoxinConcern, ecgChanges, potassium, pretreatmentGlucose, salbutamolContext],
   );
-  const traceNodeIds = new Set(evaluation?.trace.map(({ nodeId }) => nodeId));
+  const traceNodeIds = useMemo(
+    () => new Set(evaluation?.trace.map(({ nodeId }) => nodeId)),
+    [evaluation],
+  );
   const requiresEcg =
     severityEvaluation?.kind === "classified" && severityEvaluation.band.severity !== "mild";
   const ecgSkipped =

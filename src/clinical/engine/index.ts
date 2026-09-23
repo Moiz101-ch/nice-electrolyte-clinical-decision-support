@@ -1,9 +1,12 @@
-export { createPathwayEngine } from "./engine.ts";
+export { createPrevalidatedPathwayEngine } from "./engine.ts";
+export { createPathwayEngine } from "./validated-engine.ts";
 export {
   pathwayEvaluationRequestSchema,
   pathwayInputDatumSchema,
   type PathwayAction,
   type PathwayBlockReason,
+  type PathwayCalculationOperandSnapshot,
+  type PathwayCalculationResult,
   type PathwayCurrentNode,
   type PathwayDerivedClassification,
   type PathwayDerivedValue,
