@@ -1,8 +1,5 @@
-import {
-  createPathwayEngine,
-  type PathwayEvaluationSnapshot,
-  type PathwayInputDatum,
-} from "../../engine/index.ts";
+import { createPrevalidatedPathwayEngine } from "../../engine/engine.ts";
+import type { PathwayEvaluationSnapshot, PathwayInputDatum } from "../../engine/types.ts";
 import type { PathwayDefinition } from "../schema.ts";
 import {
   ADJUSTED_CALCIUM_UNIT,
@@ -817,7 +814,7 @@ const pathwayDefinitionInput: PathwayDefinition = {
   version: "0.3.0",
 };
 
-const managementEngine = createPathwayEngine(pathwayDefinitionInput);
+const managementEngine = createPrevalidatedPathwayEngine(pathwayDefinitionInput);
 
 export const hypocalcaemiaManagementPathwayDefinition = managementEngine.definition;
 

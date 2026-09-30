@@ -1,6 +1,6 @@
 # Performance Hardening Audit
 
-Audit date: 23 September 2026. This work covers the active launcher pages and the four interactive
+Audit date: 27 September 2026. This work covers the active launcher pages and the four interactive
 clinical workflows. It measures a local optimized Next.js production build; local results are a
 repeatable regression signal, not a substitute for field Core Web Vitals from deployed users.
 
@@ -27,6 +27,13 @@ unrelated pathway is intentionally loaded by a launcher page.
   layout-shift-adjusted fallback.
 - Memoized repeated Hypocalcaemia management and Hyperkalaemia trace derivations so unrelated UI
   updates do not rerun the same deterministic work.
+- Split repository-owned pathway execution from definition validation. Production definitions use
+  the lightweight deterministic evaluator in the browser, while an automated test validates all 11
+  shipped definitions against the complete schema and clinical source registry.
+- Replaced the current DKA calculator's general-purpose client schema parser with a strict,
+  calculator-specific validator. It preserves required fields, nullability, numeric bounds, integer
+  checks, finite-number checks and rejection of unknown fields without shipping the schema library
+  to that route.
 - Audited production dependencies. Every remaining runtime dependency has an active import and a
   defined application purpose; no unused runtime library remains.
 

@@ -1,8 +1,5 @@
-import {
-  createPathwayEngine,
-  type PathwayEvaluationSnapshot,
-  type PathwayInputDatum,
-} from "../../engine/index.ts";
+import { createPrevalidatedPathwayEngine } from "../../engine/engine.ts";
+import type { PathwayEvaluationSnapshot, PathwayInputDatum } from "../../engine/types.ts";
 import type { NumericRange, PathwayDefinition, PathwayNode } from "../schema.ts";
 
 export const HYPOCALCAEMIA_SOURCE_ID = "YSTHFT-HYPOCALCAEMIA-V4";
@@ -613,7 +610,7 @@ const pathwayDefinitionInput: PathwayDefinition = {
   version: "0.1.0",
 };
 
-const assessmentEngine = createPathwayEngine(pathwayDefinitionInput);
+const assessmentEngine = createPrevalidatedPathwayEngine(pathwayDefinitionInput);
 
 export const hypocalcaemiaAssessmentPathwayDefinition = assessmentEngine.definition;
 

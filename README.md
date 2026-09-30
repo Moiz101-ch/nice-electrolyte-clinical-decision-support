@@ -80,6 +80,7 @@ See the [source registry](docs/clinical-source-registry.md),
 [security and privacy audit](docs/security-privacy-audit.md),
 [accessibility and responsive audit](docs/accessibility-responsive-audit.md),
 [performance hardening audit](docs/performance-hardening.md),
+[complete test-suite report](docs/complete-test-suite-report.md),
 [legacy retirement record](docs/legacy-architecture-retirement.md), and
 [repository/source audit](docs/subtask-0-repository-source-audit.md).
 
@@ -122,13 +123,18 @@ npm run sources:check
 npm run test
 npm run test:coverage
 npm run test:e2e
+npm run test:e2e:dka-preview
+npm run test:complete
 npm run build
 npm run cf:build
+npm run cf:check
+npm run test:deployment
 npm run preview
 ```
 
 Cloudflare deployment, environment-variable and rollback instructions are in
-[`docs/cloudflare-deployment.md`](docs/cloudflare-deployment.md).
+[`docs/cloudflare-deployment.md`](docs/cloudflare-deployment.md). The latest deployment evidence is
+recorded in [`docs/deployment-verification.md`](docs/deployment-verification.md).
 
 ## Safety
 

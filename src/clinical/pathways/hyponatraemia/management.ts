@@ -1,9 +1,6 @@
-import {
-  createPathwayEngine,
-  type PathwayEvaluationSnapshot,
-  type PathwayInputDatum,
-} from "../../engine/index.ts";
-import { pathwayNodeSchema, type PathwayDefinition, type PathwayNode } from "../schema.ts";
+import { createPrevalidatedPathwayEngine } from "../../engine/engine.ts";
+import type { PathwayEvaluationSnapshot, PathwayInputDatum } from "../../engine/types.ts";
+import type { PathwayDefinition, PathwayNode } from "../schema.ts";
 import {
   FOUR_HOUR_SODIUM_CHANGE_INPUT_KEY,
   ODS_RISK_INPUT_KEY,
@@ -71,9 +68,7 @@ const emergencyAddOnReference = {
   sourceId: HYPONATRAEMIA_SOURCE_ID,
 };
 
-const inheritedNodes = hyponatraemiaEmergencyPathwayDefinition.nodes.map((node) =>
-  pathwayNodeSchema.parse(node),
-);
+const inheritedNodes: PathwayNode[] = [...hyponatraemiaEmergencyPathwayDefinition.nodes];
 
 const managementNodes: PathwayNode[] = inheritedNodes.map((node): PathwayNode => {
   switch (node.id) {
@@ -326,7 +321,7 @@ const managementDefinitionInput: PathwayDefinition = {
   version: "0.7.0",
 };
 
-const managementEngine = createPathwayEngine(managementDefinitionInput);
+const managementEngine = createPrevalidatedPathwayEngine(managementDefinitionInput);
 
 export const hyponatraemiaManagementPathwayDefinition = managementEngine.definition;
 

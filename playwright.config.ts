@@ -2,7 +2,7 @@ import { defineConfig, devices, type PlaywrightTestConfig } from "@playwright/te
 
 const usesExternalServer = process.env.PLAYWRIGHT_EXTERNAL_SERVER === "1";
 const port = process.env.PLAYWRIGHT_PORT ?? "3100";
-const baseURL = `http://127.0.0.1:${port}`;
+const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? `http://127.0.0.1:${port}`;
 
 const config: PlaywrightTestConfig = {
   expect: {

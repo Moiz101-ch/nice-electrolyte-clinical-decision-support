@@ -1,8 +1,5 @@
-import {
-  createPathwayEngine,
-  type PathwayEvaluationSnapshot,
-  type PathwayInputDatum,
-} from "../../engine/index.ts";
+import { createPrevalidatedPathwayEngine } from "../../engine/engine.ts";
+import type { PathwayEvaluationSnapshot, PathwayInputDatum } from "../../engine/types.ts";
 import type { PathwayDefinition, PathwayNode } from "../schema.ts";
 import { HYPOCALCAEMIA_SOURCE_ID, type HypocalcaemiaAssessmentInputs } from "./assessment.ts";
 import {
@@ -1053,7 +1050,7 @@ const pathwayDefinitionInput: PathwayDefinition = {
   version: "0.3.0",
 };
 
-const guardrailEngine = createPathwayEngine(pathwayDefinitionInput);
+const guardrailEngine = createPrevalidatedPathwayEngine(pathwayDefinitionInput);
 
 export const hypocalcaemiaGuardrailPathwayDefinition = guardrailEngine.definition;
 

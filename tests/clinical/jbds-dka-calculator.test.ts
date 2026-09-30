@@ -1,4 +1,5 @@
 import {
+  JBDS_DKA_SOURCE_ID,
   emptyJbdsDkaInput,
   evaluateJbdsDka,
   type JbdsDkaInput,
@@ -53,6 +54,11 @@ describe("current JBDS 02 DKA calculator", () => {
     expect(evaluation.ketoneFallPerHour).toBe(0.8);
     expect(evaluation.resolved).toBe(true);
     expect(stage({}, "transition").status).toBe("complete");
+    expect(
+      evaluation.stages.every((item) =>
+        item.sourceReferences.every(({ sourceId }) => sourceId === JBDS_DKA_SOURCE_ID),
+      ),
+    ).toBe(true);
   });
 
   it("uses strict diagnosis boundaries and the known-diabetes and urine alternatives", () => {
@@ -195,5 +201,23 @@ describe("current JBDS 02 DKA calculator", () => {
     );
     expect(invalid.initialInsulinUnitsPerHour).toBe(null);
     expect(invalid.stages.every((item) => item.status === "needs-input")).toBe(true);
+  });
+
+  it("fails closed for malformed calculator input", () => {
+    const { ageYears: omittedAge, ...missingAge } = complete;
+    void omittedAge;
+
+    expect(evaluateJbdsDka(missingAge).issues.map((issue) => issue.path)).toContain("ageYears");
+    expect(
+      evaluateJbdsDka({ ...complete, unexpectedField: true }).issues.map((issue) => issue.path),
+    ).toContain("unexpectedField");
+    expect(
+      evaluateJbdsDka({ ...complete, currentKetones: Number.POSITIVE_INFINITY }).issues.map(
+        (issue) => issue.path,
+      ),
+    ).toContain("currentKetones");
+    expect(evaluateJbdsDka({ ...complete, gcs: 7.5 }).issues.map((issue) => issue.path)).toContain(
+      "gcs",
+    );
   });
 });

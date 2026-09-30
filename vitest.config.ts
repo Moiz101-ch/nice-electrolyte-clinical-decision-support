@@ -18,6 +18,12 @@ export default defineConfig({
       provider: "v8",
       reporter: ["text", "lcov"],
       reportsDirectory: "coverage",
+      thresholds: {
+        branches: 80,
+        functions: 90,
+        lines: 90,
+        statements: 90,
+      },
     },
     environment: "jsdom",
     globals: true,

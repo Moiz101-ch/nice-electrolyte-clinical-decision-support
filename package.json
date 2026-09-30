@@ -9,6 +9,7 @@
     "build": "cross-env NEXT_TELEMETRY_DISABLED=1 next build",
     "start": "cross-env NEXT_TELEMETRY_DISABLED=1 next start",
     "cf:build": "cross-env NEXT_TELEMETRY_DISABLED=1 opennextjs-cloudflare build",
+    "cf:check": "wrangler deploy --dry-run",
     "cf:typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "preview": "npm run cf:build && opennextjs-cloudflare preview",
     "deploy": "npm run cf:build && opennextjs-cloudflare deploy",
@@ -20,14 +21,17 @@
     "typecheck": "tsc --noEmit",
     "sources:check": "node --experimental-strip-types scripts/check-clinical-source-registry.ts",
     "test": "vitest run",
+    "test:complete": "node scripts/run-complete-verification.mjs",
     "pretest:a11y": "npm run build",
     "test:a11y": "node scripts/run-e2e.mjs tests/e2e/accessibility-responsive-audit.spec.ts --reporter=line",
     "pretest:performance": "npm run build",
     "test:performance": "node scripts/run-e2e.mjs tests/e2e/performance.spec.ts --reporter=line",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
+    "test:deployment": "node scripts/run-deployment-smoke.mjs",
     "pretest:e2e": "npm run build",
-    "test:e2e": "node scripts/run-e2e.mjs"
+    "test:e2e": "node scripts/run-e2e.mjs",
+    "test:e2e:dka-preview": "cross-env PLAYWRIGHT_DKA_PREVIEW=1 node scripts/run-e2e.mjs tests/e2e/dka-calculator-foundation.spec.ts tests/e2e/dka-connected-calculator.spec.ts tests/e2e/dka-source-currentness.spec.ts tests/e2e/dka-steps-five-to-ten.spec.ts tests/e2e/dka-steps-one-to-four.spec.ts --reporter=line"
   },
   "repository": {
     "type": "git",

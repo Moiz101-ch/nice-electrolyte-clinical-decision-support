@@ -1,8 +1,5 @@
-import {
-  createPathwayEngine,
-  type PathwayEvaluationSnapshot,
-  type PathwayInputDatum,
-} from "../../engine/index.ts";
+import { createPrevalidatedPathwayEngine } from "../../engine/engine.ts";
+import type { PathwayEvaluationSnapshot, PathwayInputDatum } from "../../engine/types.ts";
 import type { PathwayDefinition, PathwayNode } from "../schema.ts";
 import { FLUID_STATUS_INPUT_KEY, type HyponatraemiaFluidStatus } from "./fluid-status.ts";
 
@@ -507,7 +504,7 @@ const pathwayDefinitionInput: PathwayDefinition = {
   version: "0.4.0",
 };
 
-const classificationEngine = createPathwayEngine(pathwayDefinitionInput);
+const classificationEngine = createPrevalidatedPathwayEngine(pathwayDefinitionInput);
 
 export const hyponatraemiaOsmolalityClassificationPathwayDefinition =
   classificationEngine.definition;

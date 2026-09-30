@@ -5,6 +5,7 @@ import path from "node:path";
 const root = process.cwd();
 const port = process.env.PLAYWRIGHT_PORT ?? "3100";
 const baseUrl = `http://127.0.0.1:${port}`;
+const usesDevelopmentServer = process.env.PLAYWRIGHT_DKA_PREVIEW === "1";
 const nextCli = path.join(root, "node_modules", "next", "dist", "bin", "next");
 const playwrightCli = path.join(root, "node_modules", "@playwright", "test", "cli.js");
 
@@ -18,7 +19,7 @@ function start(command, args, options = {}) {
 }
 
 async function waitForServer(server) {
-  const deadline = Date.now() + 30_000;
+  const deadline = Date.now() + (usesDevelopmentServer ? 120_000 : 30_000);
 
   while (Date.now() < deadline) {
     if (server.exitCode !== null) {
@@ -66,7 +67,7 @@ async function stopServer(server) {
 
 const server = start(
   process.execPath,
-  [nextCli, "start", "--hostname", "127.0.0.1", "--port", port],
+  [nextCli, usesDevelopmentServer ? "dev" : "start", "--hostname", "127.0.0.1", "--port", port],
   { stdio: ["ignore", "inherit", "inherit"] },
 );
 

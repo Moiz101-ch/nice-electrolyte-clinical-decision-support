@@ -1,4 +1,5 @@
-import { createPathwayEngine, type PathwayEvaluationSnapshot } from "../../engine/index.ts";
+import { createPrevalidatedPathwayEngine } from "../../engine/engine.ts";
+import type { PathwayEvaluationSnapshot } from "../../engine/types.ts";
 import type { NumericRange, PathwayDefinition, PathwayNode } from "../schema.ts";
 
 export const HYPERKALAEMIA_SOURCE_ID = "YSTHFT-ACUTE-HYPERKALAEMIA-V1";
@@ -315,7 +316,7 @@ const pathwayDefinitionInput: PathwayDefinition = {
   version: "0.1.0",
 };
 
-const severityEngine = createPathwayEngine(pathwayDefinitionInput);
+const severityEngine = createPrevalidatedPathwayEngine(pathwayDefinitionInput);
 
 export const hyperkalaemiaSeverityPathwayDefinition = severityEngine.definition;
 

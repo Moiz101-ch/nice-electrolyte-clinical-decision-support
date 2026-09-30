@@ -47,9 +47,7 @@ interface MutableEvaluationState {
   warnings: PathwayWarning[];
 }
 
-export function createPrevalidatedPathwayEngine(
-  definitionInput: PathwayDefinition,
-): PathwayEngine {
+export function createPrevalidatedPathwayEngine(definitionInput: PathwayDefinition): PathwayEngine {
   const definition = deepFreeze(definitionInput);
   const nodesById = new Map(definition.nodes.map((node) => [node.id, node]));
 

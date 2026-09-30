@@ -1,4 +1,5 @@
-import { createPathwayEngine, type PathwayEvaluationSnapshot } from "../../engine/index.ts";
+import { createPrevalidatedPathwayEngine } from "../../engine/engine.ts";
+import type { PathwayEvaluationSnapshot } from "../../engine/types.ts";
 import type { NumericRange, PathwayDefinition, PathwayNode } from "../schema.ts";
 
 export const HYPONATRAEMIA_SOURCE_ID = "YSTHFT-HYPONATRAEMIA-EMERGENCY-V1";
@@ -150,7 +151,7 @@ const pathwayDefinitionInput: PathwayDefinition = {
   version: "0.1.0",
 };
 
-const severityEngine = createPathwayEngine(pathwayDefinitionInput);
+const severityEngine = createPrevalidatedPathwayEngine(pathwayDefinitionInput);
 
 export const hyponatraemiaSeverityPathwayDefinition = severityEngine.definition;
 

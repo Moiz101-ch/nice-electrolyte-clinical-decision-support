@@ -1,53 +1,165 @@
-import { z } from "zod";
-
 export const JBDS_DKA_SOURCE_ID = "JBDS-02-DKA-MARCH-2023";
 
-const measurement = (maximum: number) => z.number().finite().min(0).max(maximum).nullable();
-const answer = z.boolean().nullable();
+export interface JbdsDkaInput {
+  readonly ageYears: number | null;
+  readonly adultTeamFor16To17: boolean | null;
+  readonly knownDiabetes: boolean | null;
+  readonly diagnosticGlucose: number | null;
+  readonly diagnosticKetones: number | null;
+  readonly urineKetonesPlus: number | null;
+  readonly diagnosticPh: number | null;
+  readonly diagnosticBicarbonate: number | null;
+  readonly weightKg: number | null;
+  readonly systolicBp: number | null;
+  readonly repeatSystolicBp: number | null;
+  readonly potassium: number | null;
+  readonly ivAccess: boolean | null;
+  readonly fluidsStarted: boolean | null;
+  readonly pregnant: boolean | null;
+  readonly heartFailure: boolean | null;
+  readonly kidneyFailure: boolean | null;
+  readonly elderly: boolean | null;
+  readonly pulse: number | null;
+  readonly gcs: number | null;
+  readonly oxygenSaturation: number | null;
+  readonly normalOxygenBaseline: boolean | null;
+  readonly anionGap: number | null;
+  readonly takesLongActingInsulin: boolean | null;
+  readonly currentGlucose: number | null;
+  readonly previousGlucose: number | null;
+  readonly currentKetones: number | null;
+  readonly previousKetones: number | null;
+  readonly currentPh: number | null;
+  readonly currentBicarbonate: number | null;
+  readonly previousBicarbonate: number | null;
+  readonly intervalMinutes: number | null;
+  readonly urineOutputMlPerHour: number | null;
+  readonly eatingAndDrinking: boolean | null;
+  readonly scPlanConfirmed: boolean | null;
+  readonly scShortActingGiven: boolean | null;
+  readonly overlapMinutes: number | null;
+}
 
-export const jbdsDkaInputSchema = z.object({
-  ageYears: measurement(120),
-  adultTeamFor16To17: answer,
-  knownDiabetes: answer,
-  diagnosticGlucose: measurement(100),
-  diagnosticKetones: measurement(20),
-  urineKetonesPlus: measurement(4),
-  diagnosticPh: z.number().finite().min(6).max(8).nullable(),
-  diagnosticBicarbonate: measurement(60),
-  weightKg: z.number().finite().min(1).max(500).nullable(),
-  systolicBp: measurement(300),
-  repeatSystolicBp: measurement(300),
-  potassium: measurement(15),
-  ivAccess: answer,
-  fluidsStarted: answer,
-  pregnant: answer,
-  heartFailure: answer,
-  kidneyFailure: answer,
-  elderly: answer,
-  pulse: measurement(250),
-  gcs: z.number().int().min(3).max(15).nullable(),
-  oxygenSaturation: measurement(100),
-  normalOxygenBaseline: answer,
-  anionGap: measurement(60),
-  takesLongActingInsulin: answer,
-  currentGlucose: measurement(100),
-  previousGlucose: measurement(100),
-  currentKetones: measurement(20),
-  previousKetones: measurement(20),
-  currentPh: z.number().finite().min(6).max(8).nullable(),
-  currentBicarbonate: measurement(60),
-  previousBicarbonate: measurement(60),
-  intervalMinutes: z.number().finite().gt(0).max(1440).nullable(),
-  urineOutputMlPerHour: measurement(2000),
-  eatingAndDrinking: answer,
-  scPlanConfirmed: answer,
-  scShortActingGiven: answer,
-  overlapMinutes: measurement(1440),
-});
+interface NumericConstraint {
+  readonly integer?: boolean;
+  readonly maximum: number;
+  readonly minimum: number;
+  readonly minimumExclusive?: boolean;
+}
 
-export type JbdsDkaInput = z.infer<typeof jbdsDkaInputSchema>;
+interface JbdsInputIssue {
+  readonly message: string;
+  readonly path: string;
+}
+
+type NumericInputKey = {
+  [Key in keyof JbdsDkaInput]: JbdsDkaInput[Key] extends number | null ? Key : never;
+}[keyof JbdsDkaInput];
+
+const numericConstraints: Record<NumericInputKey, NumericConstraint> = {
+  ageYears: { maximum: 120, minimum: 0 },
+  diagnosticGlucose: { maximum: 100, minimum: 0 },
+  diagnosticKetones: { maximum: 20, minimum: 0 },
+  urineKetonesPlus: { maximum: 4, minimum: 0 },
+  diagnosticPh: { maximum: 8, minimum: 6 },
+  diagnosticBicarbonate: { maximum: 60, minimum: 0 },
+  weightKg: { maximum: 500, minimum: 1 },
+  systolicBp: { maximum: 300, minimum: 0 },
+  repeatSystolicBp: { maximum: 300, minimum: 0 },
+  potassium: { maximum: 15, minimum: 0 },
+  pulse: { maximum: 250, minimum: 0 },
+  gcs: { integer: true, maximum: 15, minimum: 3 },
+  oxygenSaturation: { maximum: 100, minimum: 0 },
+  anionGap: { maximum: 60, minimum: 0 },
+  currentGlucose: { maximum: 100, minimum: 0 },
+  previousGlucose: { maximum: 100, minimum: 0 },
+  currentKetones: { maximum: 20, minimum: 0 },
+  previousKetones: { maximum: 20, minimum: 0 },
+  currentPh: { maximum: 8, minimum: 6 },
+  currentBicarbonate: { maximum: 60, minimum: 0 },
+  previousBicarbonate: { maximum: 60, minimum: 0 },
+  intervalMinutes: { maximum: 1440, minimum: 0, minimumExclusive: true },
+  urineOutputMlPerHour: { maximum: 2000, minimum: 0 },
+  overlapMinutes: { maximum: 1440, minimum: 0 },
+};
+
+const booleanKeys = [
+  "adultTeamFor16To17",
+  "knownDiabetes",
+  "ivAccess",
+  "fluidsStarted",
+  "pregnant",
+  "heartFailure",
+  "kidneyFailure",
+  "elderly",
+  "normalOxygenBaseline",
+  "takesLongActingInsulin",
+  "eatingAndDrinking",
+  "scPlanConfirmed",
+  "scShortActingGiven",
+] as const satisfies readonly {
+  [Key in keyof JbdsDkaInput]: JbdsDkaInput[Key] extends boolean | null ? Key : never;
+}[keyof JbdsDkaInput][];
+
+const allowedInputKeys = new Set<string>([...Object.keys(numericConstraints), ...booleanKeys]);
+
+function parseJbdsDkaInput(
+  input: unknown,
+):
+  | { readonly data: JbdsDkaInput; readonly success: true }
+  | { readonly issues: readonly JbdsInputIssue[]; readonly success: false } {
+  if (typeof input !== "object" || input === null || Array.isArray(input)) {
+    return {
+      issues: [{ path: "root", message: "Expected a DKA calculator input object." }],
+      success: false,
+    };
+  }
+
+  const record = input as Record<string, unknown>;
+  const issues: JbdsInputIssue[] = [];
+
+  for (const key of Object.keys(record)) {
+    if (!allowedInputKeys.has(key)) {
+      issues.push({ path: key, message: "Unexpected input field." });
+    }
+  }
+
+  for (const [key, constraint] of Object.entries(numericConstraints)) {
+    const value = record[key];
+    if (value === null) continue;
+    if (typeof value !== "number" || !Number.isFinite(value)) {
+      issues.push({ path: key, message: "Expected a finite number or null." });
+      continue;
+    }
+    if (
+      value > constraint.maximum ||
+      (constraint.minimumExclusive ? value <= constraint.minimum : value < constraint.minimum)
+    ) {
+      issues.push({ path: key, message: "Measurement is outside the accepted range." });
+    } else if (constraint.integer && !Number.isInteger(value)) {
+      issues.push({ path: key, message: "Expected a whole number." });
+    }
+  }
+
+  for (const key of booleanKeys) {
+    const value = record[key];
+    if (value !== null && typeof value !== "boolean") {
+      issues.push({ path: key, message: "Expected yes, no, or unanswered." });
+    }
+  }
+
+  return issues.length > 0
+    ? { issues, success: false }
+    : { data: record as unknown as JbdsDkaInput, success: true };
+}
+
 export type JbdsStageId = "diagnosis" | "risk" | "fluids" | "insulin" | "monitoring" | "transition";
 export type JbdsStageStatus = "complete" | "needs-input" | "review" | "not-applicable";
+
+export interface JbdsSourceReference {
+  readonly location: string;
+  readonly sourceId: typeof JBDS_DKA_SOURCE_ID;
+}
 
 export interface JbdsStage {
   readonly id: JbdsStageId;
@@ -56,6 +168,7 @@ export interface JbdsStage {
   readonly summary: string;
   readonly details: readonly string[];
   readonly metrics?: readonly (readonly [string, string])[];
+  readonly sourceReferences: readonly JbdsSourceReference[];
 }
 
 export interface JbdsDkaEvaluation {
@@ -118,6 +231,30 @@ const titles: readonly [JbdsStageId, string][] = [
   ["transition", "Resolution and transition"],
 ];
 
+const sourceReference = (location: string): JbdsSourceReference =>
+  Object.freeze({ location, sourceId: JBDS_DKA_SOURCE_ID });
+
+export const JBDS_DKA_STAGE_SOURCE_REFERENCES: Readonly<
+  Record<JbdsStageId, readonly JbdsSourceReference[]>
+> = Object.freeze({
+  diagnosis: Object.freeze([sourceReference("Full guideline section 3, PDF page 10")]),
+  risk: Object.freeze([sourceReference("Full guideline severe DKA criteria, PDF page 23")]),
+  fluids: Object.freeze([
+    sourceReference("Full guideline immediate management and updated single-page pathway Box 2"),
+  ]),
+  insulin: Object.freeze([
+    sourceReference("Full guideline insulin section and updated single-page pathway Boxes 1 and 3"),
+  ]),
+  monitoring: Object.freeze([
+    sourceReference(
+      "Full guideline monitoring section and updated single-page pathway Boxes 1 and 3",
+    ),
+  ]),
+  transition: Object.freeze([
+    sourceReference("Full guideline sections D and E and updated single-page pathway Boxes 4 to 6"),
+  ]),
+});
+
 function stage(
   id: JbdsStageId,
   status: JbdsStageStatus,
@@ -131,6 +268,7 @@ function stage(
     status,
     summary,
     details,
+    sourceReferences: JBDS_DKA_STAGE_SOURCE_REFERENCES[id],
     ...(metrics ? { metrics } : {}),
   };
 }
@@ -160,15 +298,12 @@ function displayRateMagnitude(value: number): string {
     : display(magnitude);
 }
 
-export function evaluateJbdsDka(input: JbdsDkaInput): JbdsDkaEvaluation {
-  const parsed = jbdsDkaInputSchema.safeParse(input);
+export function evaluateJbdsDka(input: unknown): JbdsDkaEvaluation {
+  const parsed = parseJbdsDkaInput(input);
   if (!parsed.success) {
     return {
       valid: false,
-      issues: parsed.error.issues.map((issue) => ({
-        path: issue.path.join("."),
-        message: issue.message,
-      })),
+      issues: parsed.issues,
       stages: titles.map(([id]) =>
         stage(id, "needs-input", "Correct the invalid measurement before calculating."),
       ),

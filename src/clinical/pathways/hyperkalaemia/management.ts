@@ -1,9 +1,6 @@
-import {
-  createPathwayEngine,
-  type PathwayEvaluationSnapshot,
-  type PathwayInputDatum,
-} from "../../engine/index.ts";
-import { pathwayNodeSchema, type PathwayDefinition, type PathwayNode } from "../schema.ts";
+import { createPrevalidatedPathwayEngine } from "../../engine/engine.ts";
+import type { PathwayEvaluationSnapshot, PathwayInputDatum } from "../../engine/types.ts";
+import type { PathwayDefinition, PathwayNode } from "../schema.ts";
 import {
   ECG_CHANGES_INPUT_KEY,
   hyperkalaemiaEcgPathwayDefinition,
@@ -113,9 +110,7 @@ const causeReference = {
   sourceId: HYPERKALAEMIA_SOURCE_ID,
 };
 
-const inheritedNodes = hyperkalaemiaEcgPathwayDefinition.nodes.map((node) =>
-  pathwayNodeSchema.parse(node),
-);
+const inheritedNodes: PathwayNode[] = [...hyperkalaemiaEcgPathwayDefinition.nodes];
 
 const managementNodes: PathwayNode[] = inheritedNodes.map((node): PathwayNode => {
   switch (node.id) {
@@ -836,7 +831,7 @@ const managementDefinitionInput: PathwayDefinition = {
   version: "0.3.0",
 };
 
-const managementEngine = createPathwayEngine(managementDefinitionInput);
+const managementEngine = createPrevalidatedPathwayEngine(managementDefinitionInput);
 
 export const hyperkalaemiaTimedManagementPathwayDefinition = managementEngine.definition;
 

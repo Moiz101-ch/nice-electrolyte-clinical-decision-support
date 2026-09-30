@@ -1,9 +1,6 @@
-import {
-  createPathwayEngine,
-  type PathwayEvaluationSnapshot,
-  type PathwayInputDatum,
-} from "../../engine/index.ts";
-import { pathwayNodeSchema, type PathwayDefinition, type PathwayNode } from "../schema.ts";
+import { createPrevalidatedPathwayEngine } from "../../engine/engine.ts";
+import type { PathwayEvaluationSnapshot, PathwayInputDatum } from "../../engine/types.ts";
+import type { PathwayDefinition, PathwayNode } from "../schema.ts";
 import {
   CEREBRAL_OEDEMA_SIGNS_INPUT_KEY,
   FLUID_STATUS_INPUT_KEY,
@@ -108,9 +105,7 @@ const monitoringGateBranches: NumericBranch["branches"] = HYPONATRAEMIA_SEVERITY
   }),
 );
 
-const inheritedNodes = hyponatraemiaInitialAssessmentPathwayDefinition.nodes.map((node) =>
-  pathwayNodeSchema.parse(node),
-);
+const inheritedNodes: PathwayNode[] = [...hyponatraemiaInitialAssessmentPathwayDefinition.nodes];
 
 const emergencyNodes: PathwayNode[] = inheritedNodes.map((node) => {
   if (node.id !== "emergency-management-pending") {
@@ -391,7 +386,7 @@ const emergencyDefinitionInput: PathwayDefinition = {
   version: "0.3.0",
 };
 
-const emergencyEngine = createPathwayEngine(emergencyDefinitionInput);
+const emergencyEngine = createPrevalidatedPathwayEngine(emergencyDefinitionInput);
 
 export const hyponatraemiaEmergencyPathwayDefinition = emergencyEngine.definition;
 

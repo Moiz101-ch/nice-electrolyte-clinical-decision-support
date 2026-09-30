@@ -1,5 +1,6 @@
-import { createPathwayEngine, type PathwayInputDatum } from "../../engine/index.ts";
-import { pathwayNodeSchema, type PathwayDefinition, type PathwayNode } from "../schema.ts";
+import { createPrevalidatedPathwayEngine } from "../../engine/engine.ts";
+import type { PathwayInputDatum } from "../../engine/types.ts";
+import type { PathwayDefinition, PathwayNode } from "../schema.ts";
 import {
   HYPERKALAEMIA_SOURCE_ID,
   HYPERKALAEMIA_UKKA_SOURCE_ID,
@@ -71,7 +72,7 @@ const inheritedNodes = hyperkalaemiaSeverityPathwayDefinition.nodes
     (node) =>
       node.id !== "moderate-classification-review" && node.id !== "severe-classification-review",
   )
-  .map((node) => pathwayNodeSchema.parse(node))
+  .map((node) => node)
   .map((node): PathwayNode => {
     if (
       node.type === "action-group" &&
@@ -191,7 +192,7 @@ const pathwayDefinitionInput: PathwayDefinition = {
   version: "0.2.1",
 };
 
-const ecgEngine = createPathwayEngine(pathwayDefinitionInput);
+const ecgEngine = createPrevalidatedPathwayEngine(pathwayDefinitionInput);
 
 export const hyperkalaemiaEcgPathwayDefinition = ecgEngine.definition;
 

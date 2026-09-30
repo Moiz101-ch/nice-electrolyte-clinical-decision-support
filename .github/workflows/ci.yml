@@ -40,8 +40,8 @@ jobs:
       - name: Verify immutable clinical sources
         run: npm run sources:check
 
-      - name: Unit tests
-        run: npm run test
+      - name: Unit tests and coverage thresholds
+        run: npm run test:coverage
 
       - name: Production build
         run: npm run build
@@ -52,5 +52,14 @@ jobs:
       - name: Browser and accessibility tests
         run: npx playwright test
 
+      - name: Development-only DKA browser tests
+        run: npm run test:e2e:dka-preview
+
       - name: Cloudflare Worker build
         run: npm run cf:build
+
+      - name: Validate Cloudflare deployment package
+        run: npm run cf:check
+
+      - name: Cloudflare Worker smoke tests
+        run: npm run test:deployment
