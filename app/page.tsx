@@ -228,7 +228,7 @@ export default function Home() {
                 className="text-foreground mt-1 text-lg font-bold"
                 id="clinical-contributors-title"
               >
-                Clinical contributors
+                Clinical Contributors
               </h2>
             </div>
             <div>
