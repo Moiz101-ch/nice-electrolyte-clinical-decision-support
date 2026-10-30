@@ -216,6 +216,36 @@ export default function Home() {
           </div>
         </section>
 
+        <section
+          aria-labelledby="project-owners-title"
+          className="border-border border-t pt-7"
+          id="project-owners"
+        >
+          <div className="grid gap-5 lg:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] lg:gap-8">
+            <div>
+              <p className="text-primary text-xs font-bold uppercase">Project team</p>
+              <h2 className="text-foreground mt-1 text-lg font-bold" id="project-owners-title">
+                Project owners
+              </h2>
+            </div>
+            <div>
+              <div className="grid gap-5 sm:grid-cols-2">
+                <div className="border-border border-l-2 pl-4">
+                  <p className="text-foreground text-sm font-semibold">Dr Alina Nazir</p>
+                  <p className="text-muted mt-1 text-sm">MD, MBBS, BSc</p>
+                </div>
+                <div className="border-border border-l-2 pl-4">
+                  <p className="text-foreground text-sm font-semibold">Dr Ali Zafar</p>
+                  <p className="text-muted mt-1 text-sm">MBBS</p>
+                </div>
+              </div>
+              <p className="text-muted mt-5 text-sm leading-6">
+                Tameside &amp; Glossop Integrated Care NHS Foundation Trust
+              </p>
+            </div>
+          </div>
+        </section>
+
         <section id="about-safety">
           <Alert title="No pathway is approved for clinical use" variant="warning">
             <div className="flex items-start gap-2">

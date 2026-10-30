@@ -8,6 +8,13 @@ Interactive workflows are available for technical testing, but no pathway is app
 care. The application must not be used for diagnosis, treatment or management decisions, and no
 patient-identifiable information should be entered.
 
+## Contributors
+
+- Dr Alina Nazir, MD, MBBS, BSc
+- Dr Ali Zafar, MBBS
+
+Affiliation: Tameside & Glossop Integrated Care NHS Foundation Trust.
+
 ## Current Architecture
 
 - Original clinical attachments are preserved unchanged under `clinical-sources/`.
