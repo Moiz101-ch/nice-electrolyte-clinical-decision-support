@@ -217,15 +217,18 @@ export default function Home() {
         </section>
 
         <section
-          aria-labelledby="project-owners-title"
+          aria-labelledby="clinical-contributors-title"
           className="border-border border-t pt-7"
-          id="project-owners"
+          id="clinical-contributors"
         >
           <div className="grid gap-5 lg:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] lg:gap-8">
             <div>
-              <p className="text-primary text-xs font-bold uppercase">Project team</p>
-              <h2 className="text-foreground mt-1 text-lg font-bold" id="project-owners-title">
-                Project owners
+              <p className="text-primary text-xs font-bold uppercase">Credits</p>
+              <h2
+                className="text-foreground mt-1 text-lg font-bold"
+                id="clinical-contributors-title"
+              >
+                Clinical contributors
               </h2>
             </div>
             <div>
@@ -239,9 +242,12 @@ export default function Home() {
                   <p className="text-muted mt-1 text-sm">MBBS</p>
                 </div>
               </div>
-              <p className="text-muted mt-5 text-sm leading-6">
-                Tameside &amp; Glossop Integrated Care NHS Foundation Trust
-              </p>
+              <div className="border-border mt-5 border-t pt-4">
+                <p className="text-muted text-xs font-medium">Affiliation</p>
+                <p className="text-foreground mt-1 text-sm leading-6 font-medium">
+                  Tameside &amp; Glossop Integrated Care NHS Foundation Trust
+                </p>
+              </div>
             </div>
           </div>
         </section>
